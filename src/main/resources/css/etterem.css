@@ -1,0 +1,18 @@
+.gombok {
+    padding: 20px;
+    text-align: center;
+    float: top;
+    border-radius: 50px;
+    font-size: 40px;
+}
+.right {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+body {
+    background-color: white !important;
+}
