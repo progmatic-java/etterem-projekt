@@ -1,4 +1,5 @@
-ckage java.hu.progmatic.kozos.felhasznalo;
+package java.hu.progmatic.kozos.felhasznalo;
+
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
