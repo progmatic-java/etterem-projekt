@@ -50,6 +50,11 @@ public class RendelesController {
     if (!bindingResult.hasErrors()) {
       asztalId = asztalService.getIdByAsztalSzam(asztalId);
       command.setAsztalId(asztalId);
+      if (rendelesService.rendelesTartalmazzaATermeket(command)) {
+        rendelesService.mennyisegNovelese(asztalId, command.getEtteremTermekId());
+        model.addAttribute("tableViewDto", asztalService.getTableViewDto(asztalId));
+        return rendelesek();
+      }
       rendelesService.create(command);
       model.addAttribute("tableViewDto", asztalService.getTableViewDto(asztalId));
       refreshAllItem(model);
@@ -64,8 +69,20 @@ public class RendelesController {
       @PathVariable String termekNeve,
       Model model
   ) {
+    rendelesService.mennyisegNovelese(asztalId, termekNeve);
     TableViewDto dto = asztalService.getTableViewDto(asztalId);
-    asztalService.mennyisegNovelese(asztalId, termekNeve);
+    model.addAttribute("tableViewDto", dto);
+    return "etterem/termek_fooldal";
+  }
+
+  @PostMapping("/etterem/asztal/{asztalId}/mennyisegCsokkentese/{termekNeve}")
+  public String mennyisegCsokkentese(
+      @PathVariable Integer asztalId,
+      @PathVariable String termekNeve,
+      Model model
+  ) {
+    rendelesService.mennyisegCsokkentese(asztalId, termekNeve);
+    TableViewDto dto = asztalService.getTableViewDto(asztalId);
     model.addAttribute("tableViewDto", dto);
     return "etterem/termek_fooldal";
   }

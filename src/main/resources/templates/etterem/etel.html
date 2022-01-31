@@ -47,26 +47,27 @@
             <thead>
             <tr>
                 <th scope="col">Név</th>
-                <th scope="col">Ár</th>
                 <th scope="col">Mennyiség</th>
                 <th scope="col"></th>
                 <th scope="col"></th>
             </tr>
             </thead>
             <tbody>
-            <tr th:each="item : ${allItem}">
-                <td th:text="${item.nev}">Név</td>
-                <td th:text="${item.ar}">100</td>
+            <tr th:each="item : ${tableViewDto.getRendelesDtoList()}">
+                <td th:text="${item.etteremTermekNev}">Név</td>
+                <td th:text="${item.mennyiseg}">1</td>
                 <td>
-                    <form style="text-align: right" th:action="@{'/etterem/leltar/{id}'(id=${item.id})}"
-                          method="get">
+                    <form style="text-align: right"
+                          th:action="@{'/etterem/asztal/{asztalId}/mennyisegNovelese/{termekNeve}'(asztalId=${tableViewDto.id}, termekNeve=${item.getEtteremTermekNev()})}"
+                          method="post">
                         <input type="submit" class="btn btn-success edit-btn" value="+"/>
                     </form>
                 </td>
                 <td>
-                    <form style="text-align: right" th:action="@{'/etterem/leltar/delete/{id}'(id=${item.id})}"
+                    <form style="text-align: right"
+                          th:action="@{'/etterem/asztal/{asztalId}/mennyisegCsokkentese/{termekNeve}'(asztalId=${tableViewDto.id}, termekNeve=${item.getEtteremTermekNev()})}"
                           method="post">
-                        <input type="submit" class="btn btn-danger" value="-"/>
+                        <input type="submit" class="btn btn-danger edit-btn" value="-"/>
                     </form>
                 </td>
             </tr>
