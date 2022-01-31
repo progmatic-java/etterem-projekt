@@ -1,12 +1,12 @@
 package java.hu.progmatic.kozos.etterem.szamla;
 
-import hu.progmatic.kozos.etterem.asztal.Asztal;
-import hu.progmatic.kozos.etterem.asztal.AsztalService;
-import hu.progmatic.kozos.etterem.rendeles.Rendeles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.hu.progmatic.kozos.etterem.asztal.Asztal;
+import java.hu.progmatic.kozos.etterem.asztal.AsztalService;
+import java.hu.progmatic.kozos.etterem.rendeles.Rendeles;
 import java.util.List;
 
 @Service

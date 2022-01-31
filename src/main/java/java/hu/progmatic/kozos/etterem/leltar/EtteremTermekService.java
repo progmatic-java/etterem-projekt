@@ -1,15 +1,17 @@
 package java.hu.progmatic.kozos.etterem.leltar;
 
-import hu.progmatic.kozos.etterem.szamla.SzamlaRepository;
+
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.hu.progmatic.kozos.etterem.szamla.SzamlaRepository;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static hu.progmatic.kozos.etterem.leltar.Tipus.*;
+import static java.hu.progmatic.kozos.etterem.leltar.Tipus.*;
+
 
 @Service
 @Transactional

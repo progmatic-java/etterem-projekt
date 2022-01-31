@@ -1,10 +1,11 @@
 package java.hu.progmatic.kozos.etterem.rendeles;
 
-import hu.progmatic.kozos.etterem.asztal.Asztal;
-import hu.progmatic.kozos.etterem.leltar.EtteremTermek;
+
 import lombok.*;
 
 import javax.persistence.*;
+import java.hu.progmatic.kozos.etterem.asztal.Asztal;
+import java.hu.progmatic.kozos.etterem.leltar.EtteremTermek;
 
 @Entity
 @Getter

@@ -1,11 +1,13 @@
 package java.hu.progmatic.kozos.etterem.asztal;
 
-import hu.progmatic.kozos.etterem.rendeles.RendelesService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+
+import java.hu.progmatic.kozos.etterem.rendeles.RendelesService;
 
 @Controller
 public class AsztalController {

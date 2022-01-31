@@ -1,15 +1,16 @@
 package java.hu.progmatic.kozos.etterem.rendeles;
 
-import hu.progmatic.kozos.etterem.asztal.Asztal;
-import hu.progmatic.kozos.etterem.asztal.AsztalService;
-import hu.progmatic.kozos.etterem.leltar.EtteremTermek;
-import hu.progmatic.kozos.etterem.leltar.EtteremTermekDto;
-import hu.progmatic.kozos.etterem.leltar.EtteremTermekService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
+import java.hu.progmatic.kozos.etterem.asztal.Asztal;
+import java.hu.progmatic.kozos.etterem.asztal.AsztalService;
+import java.hu.progmatic.kozos.etterem.leltar.EtteremTermek;
+import java.hu.progmatic.kozos.etterem.leltar.EtteremTermekDto;
+import java.hu.progmatic.kozos.etterem.leltar.EtteremTermekService;
 import java.util.ArrayList;
 import java.util.List;
 

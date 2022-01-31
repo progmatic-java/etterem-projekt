@@ -1,8 +1,9 @@
 package java.hu.progmatic.kozos.felhasznalo;
 
 
-import hu.progmatic.kozos.etterem.biztonsag.EtteremFelhasznaloTipus;
 
+
+import java.hu.progmatic.kozos.etterem.biztonsag.EtteremFelhasznaloTipus;
 import java.util.Arrays;
 
 public enum UserType {

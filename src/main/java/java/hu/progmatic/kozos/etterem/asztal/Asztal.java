@@ -1,11 +1,12 @@
 package java.hu.progmatic.kozos.etterem.asztal;
 
-import hu.progmatic.kozos.etterem.rendeles.Rendeles;
-import hu.progmatic.kozos.etterem.szamla.Szamla;
+
 import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import java.hu.progmatic.kozos.etterem.rendeles.Rendeles;
+import java.hu.progmatic.kozos.etterem.szamla.Szamla;
 import java.util.ArrayList;
 import java.util.List;
 
