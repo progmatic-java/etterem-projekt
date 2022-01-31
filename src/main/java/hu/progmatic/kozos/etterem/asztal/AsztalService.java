@@ -1,5 +1,6 @@
 package hu.progmatic.kozos.etterem.asztal;
 
+import hu.progmatic.kozos.etterem.rendeles.Rendeles;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -69,11 +70,20 @@ public class AsztalService implements InitializingBean {
                 .build()
         )
         .toList();
-
     return TableViewDto.builder()
         .id(asztal.getId())
         .nev(asztal.getNev())
         .rendelesDtoList(rendelesek)
         .build();
+  }
+
+  public void mennyisegNovelese(Integer asztalId, String termekNeve) {
+    Asztal asztal = asztalRepository.getById(asztalId);
+    List<Rendeles> rendelesek = asztal.getRendelesek();
+    Rendeles novelendoRendeles = rendelesek.stream()
+        .filter(rendeles -> rendeles.getEtteremTermek().getNev().equals(termekNeve))
+        .findFirst()
+        .orElseThrow();
+    novelendoRendeles.setMennyiseg(novelendoRendeles.getMennyiseg() + 1);
   }
 }
