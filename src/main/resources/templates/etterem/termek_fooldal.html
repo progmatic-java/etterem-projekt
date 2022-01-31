@@ -66,13 +66,13 @@
                 <td>
                     <form style="text-align: right" th:action="@{'/etterem/leltar/{id}'(id=${item.id})}"
                           method="get">
-                        <input type="submit" class="btn btn-success edit-btn" value="Módosít"/>
+                        <input type="submit" class="btn btn-success edit-btn" value="+"/>
                     </form>
                 </td>
                 <td>
                     <form style="text-align: right" th:action="@{'/etterem/leltar/delete/{id}'(id=${item.id})}"
                           method="post">
-                        <input type="submit" class="btn btn-danger" value="Töröl"/>
+                        <input type="submit" class="btn btn-danger" value="-"/>
                     </form>
                 </td>
             </tr>
