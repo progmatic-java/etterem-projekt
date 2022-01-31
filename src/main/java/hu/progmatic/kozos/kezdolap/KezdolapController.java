@@ -7,6 +7,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class KezdolapController {
   @RequestMapping("/")
   public String kezdolap() {
-    return "index";
+    return "etterem/belepes";
   }
 }
