@@ -1,4 +1,4 @@
-package hu.progmatic.etterem.etterem;
+package hu.progmatic.kozos.etterem;
 
 import hu.progmatic.kozos.etterem.leltar.EtteremTermek;
 import hu.progmatic.kozos.etterem.leltar.EtteremTermekDto;

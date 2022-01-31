@@ -1,4 +1,4 @@
-package hu.progmatic.etterem.felhasznalo;
+package hu.progmatic.kozos.felhasznalo;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;

@@ -1,6 +1,5 @@
-package hu.progmatic.etterem.etterem.biztonsag;
+package hu.progmatic.kozos.etterem.biztonsag;
 
-import hu.progmatic.kozos.etterem.biztonsag.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

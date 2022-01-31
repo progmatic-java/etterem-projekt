@@ -1,12 +1,12 @@
-package hu.progmatic.etterem.etterem;
+package hu.progmatic.kozos.etterem;
 
 import hu.progmatic.kozos.etterem.asztal.AsztalService;
 import hu.progmatic.kozos.etterem.asztal.TableViewDto;
 import hu.progmatic.kozos.etterem.leltar.EtteremTermek;
 import hu.progmatic.kozos.etterem.leltar.EtteremTermekService;
 import hu.progmatic.kozos.etterem.rendeles.CreateRendelesCommand;
-import hu.progmatic.kozos.etterem.rendeles.Rendeles;
 import hu.progmatic.kozos.etterem.rendeles.RendelesService;
+import hu.progmatic.kozos.etterem.rendeles.Rendeles;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

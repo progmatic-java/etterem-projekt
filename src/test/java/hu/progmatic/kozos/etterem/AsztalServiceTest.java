@@ -1,4 +1,4 @@
-package hu.progmatic.etterem.etterem;
+package hu.progmatic.kozos.etterem;
 
 import hu.progmatic.kozos.etterem.asztal.AsztalService;
 import org.junit.jupiter.api.Test;
