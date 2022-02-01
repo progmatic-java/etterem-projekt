@@ -89,12 +89,11 @@ public class RendelesService {
         .filter(rendeles -> rendeles.getEtteremTermek().getNev().equals(termekNeve))
         .findFirst()
         .orElseThrow();
-    if (aktualisRendeles.getMennyiseg() == 1) {
+    aktualisRendeles.setMennyiseg(aktualisRendeles.getMennyiseg() - 1);
+    if (aktualisRendeles.getMennyiseg() == 0) {
       asztal.getRendelesek().remove(aktualisRendeles);
       rendelesRepository.delete(aktualisRendeles);
-      return;
     }
-    aktualisRendeles.setMennyiseg(aktualisRendeles.getMennyiseg() - 1);
   }
 
   public boolean rendelesTartalmazzaATermeket(CreateRendelesCommand command) {

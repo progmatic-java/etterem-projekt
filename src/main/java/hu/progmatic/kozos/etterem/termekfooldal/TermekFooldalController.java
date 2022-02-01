@@ -91,8 +91,8 @@ public class TermekFooldalController {
       @PathVariable Tipus tipus,
       Model model
   ) {
-    TableViewDto dto = asztalService.getTableViewDto(asztalId, tipus);
     rendelesService.mennyisegNovelese(asztalId, termekNeve);
+    TableViewDto dto = asztalService.getTableViewDto(asztalId, tipus);
     model.addAttribute("tableViewDto", dto);
     model.addAttribute("filteredByTipus", etteremTermekService.findAllByTipus(tipus));
     return "etterem/termek_fooldal";
@@ -105,8 +105,8 @@ public class TermekFooldalController {
       @PathVariable Tipus tipus,
       Model model
   ) {
-    TableViewDto dto = asztalService.getTableViewDto(asztalId, tipus);
     rendelesService.mennyisegCsokkentese(asztalId, termekNeve);
+    TableViewDto dto = asztalService.getTableViewDto(asztalId, tipus);
     model.addAttribute("tableViewDto", dto);
     model.addAttribute("filteredByTipus", etteremTermekService.findAllByTipus(tipus));
     return "etterem/termek_fooldal";
