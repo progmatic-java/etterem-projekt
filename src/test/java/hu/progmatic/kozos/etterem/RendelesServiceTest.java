@@ -4,6 +4,7 @@ import hu.progmatic.kozos.etterem.asztal.AsztalService;
 import hu.progmatic.kozos.etterem.asztal.TableViewDto;
 import hu.progmatic.kozos.etterem.leltar.EtteremTermek;
 import hu.progmatic.kozos.etterem.leltar.EtteremTermekService;
+import hu.progmatic.kozos.etterem.leltar.Tipus;
 import hu.progmatic.kozos.etterem.rendeles.CreateRendelesCommand;
 import hu.progmatic.kozos.etterem.rendeles.RendelesService;
 import hu.progmatic.kozos.etterem.rendeles.Rendeles;
@@ -42,7 +43,7 @@ class RendelesServiceTest {
         .mennyiseg(2)
         .build();
     tesztOrder = rendelesService.create(command);
-    TableViewDto dto = asztalService.getTableViewDto(tesztAsztalId);
+    TableViewDto dto = asztalService.getTableViewDto(tesztAsztalId, Tipus.UDITO);
     assertEquals("1. asztal", dto.getNev());
     assertEquals(tesztAsztalId, dto.getId());
     assertThat(dto.getRendelesDtoList()).hasSize(1);

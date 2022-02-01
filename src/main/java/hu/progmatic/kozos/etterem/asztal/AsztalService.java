@@ -3,6 +3,7 @@ package hu.progmatic.kozos.etterem.asztal;
 import hu.progmatic.kozos.etterem.leltar.Tipus;
 import hu.progmatic.kozos.etterem.rendeles.Rendeles;
 import hu.progmatic.kozos.etterem.rendeles.RendelesRepository;
+import hu.progmatic.kozos.etterem.termekfooldal.AsztalFeluletTipus;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -60,37 +61,9 @@ public class AsztalService implements InitializingBean {
     return getIdByNev(asztalNev);
   }
 
-  public TableViewDto getTableViewDto(Integer asztalId) {
-    Asztal asztal = asztalRepository.getById(asztalId);
-    List<TableViewDto.RendelesDto> rendelesek = asztal.getRendelesek()
-        .stream()
-        .map(
-            rendeles -> TableViewDto.RendelesDto.builder()
-                .mennyiseg(rendeles.getMennyiseg())
-                .rendelesId(rendeles.getId())
-                .etteremTermekNev(rendeles.getEtteremTermek().getNev())
-                .build()
-        )
-        .toList();
-    return TableViewDto.builder()
-        .id(asztal.getId())
-        .nev(asztal.getNev())
-        .rendelesDtoList(rendelesek)
-        .build();
-  }
-
   public TableViewDto getTableViewDto(Integer asztalId, Tipus tipus) {
     Asztal asztal = asztalRepository.getById(asztalId);
-    List<TableViewDto.RendelesDto> rendelesek = asztal.getRendelesek()
-        .stream()
-        .map(
-            rendeles -> TableViewDto.RendelesDto.builder()
-                .mennyiseg(rendeles.getMennyiseg())
-                .rendelesId(rendeles.getId())
-                .etteremTermekNev(rendeles.getEtteremTermek().getNev())
-                .build()
-        )
-        .toList();
+    List<TableViewDto.RendelesDto> rendelesek = getRendelesek(asztal);
     return TableViewDto.builder()
         .id(asztal.getId())
         .nev(asztal.getNev())
@@ -98,4 +71,41 @@ public class AsztalService implements InitializingBean {
         .termekTipus(tipus)
         .build();
   }
+
+  public TableViewDto getTableViewDto(Integer asztalId, AsztalFeluletTipus asztalFeluletTipus) {
+    Asztal asztal = asztalRepository.getById(asztalId);
+    List<TableViewDto.RendelesDto> rendelesek = getRendelesek(asztal);
+    return TableViewDto.builder()
+        .id(asztal.getId())
+        .nev(asztal.getNev())
+        .rendelesDtoList(rendelesek)
+        .asztalFeluletTipus(asztalFeluletTipus)
+        .build();
+  }
+
+  public TableViewDto getTableViewDto(Integer asztalId, Tipus tipus, AsztalFeluletTipus asztalFeluletTipus) {
+    Asztal asztal = asztalRepository.getById(asztalId);
+    List<TableViewDto.RendelesDto> rendelesek = getRendelesek(asztal);
+    return TableViewDto.builder()
+        .id(asztal.getId())
+        .nev(asztal.getNev())
+        .rendelesDtoList(rendelesek)
+        .termekTipus(tipus)
+        .asztalFeluletTipus(asztalFeluletTipus)
+        .build();
+  }
+
+  private List<TableViewDto.RendelesDto> getRendelesek(Asztal asztal) {
+    return asztal.getRendelesek()
+        .stream()
+        .map(
+            rendeles -> TableViewDto.RendelesDto.builder()
+                .mennyiseg(rendeles.getMennyiseg())
+                .rendelesId(rendeles.getId())
+                .etteremTermekNev(rendeles.getEtteremTermek().getNev())
+                .build()
+        )
+        .toList();
+  }
+
 }

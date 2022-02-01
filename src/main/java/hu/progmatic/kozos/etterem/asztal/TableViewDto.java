@@ -1,6 +1,7 @@
 package hu.progmatic.kozos.etterem.asztal;
 
 import hu.progmatic.kozos.etterem.leltar.Tipus;
+import hu.progmatic.kozos.etterem.termekfooldal.AsztalFeluletTipus;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
@@ -22,6 +23,7 @@ public class TableViewDto implements Serializable {
   @Builder.Default
   private final List<RendelesDto> rendelesDtoList = new ArrayList<>();
   private Tipus termekTipus;
+  private AsztalFeluletTipus asztalFeluletTipus;
 
   @Builder
   @Data

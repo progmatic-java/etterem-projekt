@@ -54,7 +54,7 @@ class AsztalControllerTest {
     mockMvc.perform(
             MockMvcRequestBuilders.get("/etterem/asztal/2/ital?")
         ).andExpect(status().isOk())
-        .andExpect(content().string(containsString("RÖVIDITALOK")));
+        .andExpect(content().string(containsString("RÖVIDITAL")));
   }
 
   @Test
