@@ -53,8 +53,6 @@
                 <th scope="col"></th>
                 <th scope="col"></th>
             </tr>
-            </thead>
-            <thead>
             <tr>
                 <th scope="col">Név</th>
                 <th scope="col">Mennyiség</th>
@@ -68,7 +66,14 @@
                 <td th:text="${item.getMennyiseg()}">1</td>
                 <td>
                     <form style="text-align: right"
+                          th:if="${tableViewDto.termekTipus != null}"
                           th:action="@{'/etterem/asztal/{asztalId}/mennyisegNovelese/{termekNeve}/{tipus}'(asztalId=${tableViewDto.id}, termekNeve=${item.getEtteremTermekNev()}, tipus=${tableViewDto.termekTipus})}"
+                          method="post">
+                        <input type="submit" class="btn btn-success edit-btn" value="+"/>
+                    </form>
+                    <form style="text-align: right"
+                          th:if="${tableViewDto.termekTipus == null}"
+                          th:action="@{'/etterem/asztal/{asztalId}/mennyisegNovelese/{termekNeve}'(asztalId=${tableViewDto.id}, termekNeve=${item.getEtteremTermekNev()})}"
                           method="post">
                         <input type="submit" class="btn btn-success edit-btn" value="+"/>
                     </form>

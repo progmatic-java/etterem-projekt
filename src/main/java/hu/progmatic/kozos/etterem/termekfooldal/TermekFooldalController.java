@@ -85,7 +85,7 @@ public class TermekFooldalController {
   }
 
   @PostMapping("/etterem/asztal/{asztalId}/mennyisegNovelese/{termekNeve}/{tipus}")
-  public String mennyisegNovelese(
+  public String mennyisegNoveleseTipusOldalon(
       @PathVariable Integer asztalId,
       @PathVariable String termekNeve,
       @PathVariable Tipus tipus,
@@ -98,8 +98,20 @@ public class TermekFooldalController {
     return "etterem/termek_fooldal";
   }
 
+  @PostMapping("/etterem/asztal/{asztalId}/mennyisegNovelese/{termekNeve}")
+  public String mennyisegNoveleseKezdolapon(
+      @PathVariable Integer asztalId,
+      @PathVariable String termekNeve,
+      Model model
+  ) {
+    rendelesService.mennyisegNovelese(asztalId, termekNeve);
+    TableViewDto dto = asztalService.getTableViewDto(asztalId);
+    model.addAttribute("tableViewDto", dto);
+    return "etterem/termek_fooldal";
+  }
+
   @PostMapping("/etterem/asztal/{asztalId}/mennyisegCsokkentese/{termekNeve}/{tipus}")
-  public String mennyisegCsokkentese(
+  public String mennyisegCsokkenteseTipusOldalon(
       @PathVariable Integer asztalId,
       @PathVariable String termekNeve,
       @PathVariable Tipus tipus,
@@ -109,6 +121,18 @@ public class TermekFooldalController {
     TableViewDto dto = asztalService.getTableViewDto(asztalId, tipus);
     model.addAttribute("tableViewDto", dto);
     model.addAttribute("filteredByTipus", etteremTermekService.findAllByTipus(tipus));
+    return "etterem/termek_fooldal";
+  }
+
+  @PostMapping("etterem/asztal/{asztalId}/mennyisegCsokkentese/{termekNeve}")
+  public String mennyisegCsokkenteseKezdolapon(
+      @PathVariable Integer asztalId,
+      @PathVariable String termekNeve,
+      Model model
+  ) {
+    rendelesService.mennyisegCsokkentese(asztalId, termekNeve);
+    TableViewDto dto = asztalService.getTableViewDto(asztalId);
+    model.addAttribute("tableViewDto", dto);
     return "etterem/termek_fooldal";
   }
 

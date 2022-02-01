@@ -23,6 +23,7 @@ class RendelesServiceTest {
   AsztalService asztalService;
   @Autowired
   EtteremTermekService etteremTermekService;
+
   private Integer tesztAsztalId;
   private EtteremTermek tesztEtteremTermek;
   private Rendeles tesztOrder;
@@ -31,7 +32,6 @@ class RendelesServiceTest {
   void setUp() {
     tesztAsztalId = asztalService.getIdByNev("1. asztal");
     tesztEtteremTermek = etteremTermekService.getByName("Paradicsom leves");
-
   }
 
   @Test
@@ -50,5 +50,10 @@ class RendelesServiceTest {
     assertEquals("Paradicsom leves", order.getEtteremTermekNev());
     assertEquals(2, order.getMennyiseg());
     assertEquals(tesztOrder.getId(), order.getRendelesId());
+  }
+
+  @Test
+  void mennyisegHozzaadasaTest() {
+
   }
 }
