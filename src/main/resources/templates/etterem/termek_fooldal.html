@@ -64,14 +64,14 @@
                 <td th:text="${item.getMennyiseg()}">1</td>
                 <td>
                     <form style="text-align: right"
-                          th:action="@{'/etterem/asztal/{asztalId}/mennyisegNovelese/{termekNeve}'(asztalId=${tableViewDto.id}, termekNeve=${item.getEtteremTermekNev()})}"
+                          th:action="@{'/etterem/asztal/{asztalId}/mennyisegNovelese/{termekNeve}/{tipus}'(asztalId=${tableViewDto.id}, termekNeve=${item.getEtteremTermekNev()}, tipus=${tableViewDto.termekTipus})}"
                           method="post">
                         <input type="submit" class="btn btn-success edit-btn" value="+"/>
                     </form>
                 </td>
                 <td>
                     <form style="text-align: right"
-                          th:action="@{'/etterem/asztal/{asztalId}/mennyisegCsokkentese/{termekNeve}'(asztalId=${tableViewDto.id}, termekNeve=${item.getEtteremTermekNev()})}"
+                          th:action="@{'/etterem/asztal/{asztalId}/mennyisegCsokkentese/{termekNeve}/{tipus}'(asztalId=${tableViewDto.id}, termekNeve=${item.getEtteremTermekNev()}, tipus=${tableViewDto.termekTipus})}"
                           method="post">
                         <input type="submit" class="btn btn-danger edit-btn" value="-"/>
                     </form>
@@ -87,8 +87,6 @@
                 <th scope="col">Név</th>
                 <th scope="col">Ár</th>
                 <th scope="col"></th>
-                <th scope="col">Mennyiség</th>
-
             </tr>
             </thead>
             <tbody>

@@ -53,7 +53,7 @@ public class TermekFooldalController {
         "filteredByTipus",
         etteremTermekService.findAllByTipus(tipus)
     );
-    model.addAttribute("tableViewDto", asztalService.getTableViewDto(asztalId));
+    model.addAttribute("tableViewDto", asztalService.getTableViewDto(asztalId, tipus));
     return "etterem/termek_fooldal";
   }
 
@@ -67,6 +67,11 @@ public class TermekFooldalController {
     if (!bindingResult.hasErrors()) {
       asztalId = asztalService.getIdByAsztalSzam(asztalId);
       command.setAsztalId(asztalId);
+      if (rendelesService.rendelesTartalmazzaATermeket(command)) {
+        rendelesService.mennyisegNovelese(asztalId, command.getEtteremTermekId());
+        model.addAttribute("tableViewDto", asztalService.getTableViewDto(asztalId, tipus));
+        return "etterem/termek_fooldal";
+      }
       rendelesService.create(command);
       model.addAttribute("tableViewDto", asztalService.getTableViewDto(asztalId));
       refreshAllItem(model);
@@ -76,6 +81,34 @@ public class TermekFooldalController {
         "filteredByTipus",
         etteremTermekService.findAllByTipus(tipus)
     );
+    return "etterem/termek_fooldal";
+  }
+
+  @PostMapping("/etterem/asztal/{asztalId}/mennyisegNovelese/{termekNeve}/{tipus}")
+  public String mennyisegNovelese(
+      @PathVariable Integer asztalId,
+      @PathVariable String termekNeve,
+      @PathVariable Tipus tipus,
+      Model model
+  ) {
+    TableViewDto dto = asztalService.getTableViewDto(asztalId, tipus);
+    rendelesService.mennyisegNovelese(asztalId, termekNeve);
+    model.addAttribute("tableViewDto", dto);
+    model.addAttribute("filteredByTipus", etteremTermekService.findAllByTipus(tipus));
+    return "etterem/termek_fooldal";
+  }
+
+  @PostMapping("/etterem/asztal/{asztalId}/mennyisegCsokkentese/{termekNeve}/{tipus}")
+  public String mennyisegCsokkentese(
+      @PathVariable Integer asztalId,
+      @PathVariable String termekNeve,
+      @PathVariable Tipus tipus,
+      Model model
+  ) {
+    TableViewDto dto = asztalService.getTableViewDto(asztalId);
+    rendelesService.mennyisegCsokkentese(asztalId, termekNeve);
+    model.addAttribute("tableViewDto", dto);
+    model.addAttribute("filteredByTipus", etteremTermekService.findAllByTipus(tipus));
     return "etterem/termek_fooldal";
   }
 

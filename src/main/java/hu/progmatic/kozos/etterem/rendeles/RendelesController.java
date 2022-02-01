@@ -19,8 +19,6 @@ import java.util.List;
 
 @Controller
 public class RendelesController {
-  @Autowired
-  private AsztalService asztalService;
 
   @GetMapping("/etterem/asztal/{asztalId}/rendeles")
   public String rendelesList(Model model) {
@@ -36,18 +34,6 @@ public class RendelesController {
     model.addAttribute("asztalId", asztalId);
     model.addAttribute("rendelesItems", rendelesItems());
     return "/etterem/rendeles";
-  }
-
-  @PostMapping("/etterem/asztal/{asztalId}/mennyisegNovelese/{termekNeve}")
-  public String mennyisegNovelese(
-      @PathVariable Integer asztalId,
-      @PathVariable String termekNeve,
-      Model model
-  ) {
-    TableViewDto dto = asztalService.getTableViewDto(asztalId);
-    asztalService.mennyisegNovelese(asztalId, termekNeve);
-    model.addAttribute("tableViewDto", dto);
-    return "etterem/termek_fooldal";
   }
 
   @ModelAttribute("rendelesItems")
