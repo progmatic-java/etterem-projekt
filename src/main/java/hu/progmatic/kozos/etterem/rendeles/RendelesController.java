@@ -20,10 +20,7 @@ import java.util.List;
 @Controller
 public class RendelesController {
   @Autowired
-  private RendelesService rendelesService;
-  @Autowired
   private AsztalService asztalService;
-
 
   @GetMapping("/etterem/asztal/{asztalId}/rendeles")
   public String rendelesList(Model model) {
@@ -39,23 +36,6 @@ public class RendelesController {
     model.addAttribute("asztalId", asztalId);
     model.addAttribute("rendelesItems", rendelesItems());
     return "/etterem/rendeles";
-  }
-
-  @PostMapping("/etterem/asztal/{asztalId}/rendeles")
-  public String createOrder(
-      @PathVariable Integer asztalId,
-      @ModelAttribute("createRendelesCommand") @Valid CreateRendelesCommand command,
-      BindingResult bindingResult,
-      Model model) {
-    if (!bindingResult.hasErrors()) {
-      asztalId = asztalService.getIdByAsztalSzam(asztalId);
-      command.setAsztalId(asztalId);
-      rendelesService.create(command);
-      model.addAttribute("tableViewDto", asztalService.getTableViewDto(asztalId));
-      refreshAllItem(model);
-      clearFormItem(model);
-    }
-    return rendelesek();
   }
 
   @PostMapping("/etterem/asztal/{asztalId}/mennyisegNovelese/{termekNeve}")
@@ -83,13 +63,5 @@ public class RendelesController {
   @ModelAttribute("tableViewDto")
   public TableViewDto tableViewDto() {
     return TableViewDto.builder().build();
-  }
-
-  private void clearFormItem(Model model) {
-    model.addAttribute("formItem", formItem());
-  }
-
-  private void refreshAllItem(Model model) {
-    model.addAttribute("rendelesItems", rendelesItems());
   }
 }
