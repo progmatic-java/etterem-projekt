@@ -28,7 +28,7 @@
     <tr th:each="item : ${allItem}">
         <th scope="row" th:text="${item.id}">0</th>
         <td th:text="${item.nev}">Név</td>
-        <td th:text="${item.nev}">100</td>
+        <td th:text="${item.ar} + ' Ft'">100</td>
         <td th:text="${item.tipus}">Tipus</td>
         <td>
             <form style="text-align: right" th:action="@{'/etterem/leltar/{id}'(id=${item.id})}" method="get">
