@@ -37,6 +37,7 @@ public class RendelesService {
                 .etteremTermek(etteremTermek)
                 .mennyiseg(command.getMennyiseg())
                 .build();
+        asztal.getRendelesek().add(rendeles);
         return rendelesRepository.save(rendeles);
     }
 
