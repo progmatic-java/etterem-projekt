@@ -90,7 +90,7 @@
                     </form>
                     <form style="text-align: right"
                           th:if="${tableViewDto.termekTipus == null}"
-                          th:action="@{'etterem/asztal/{asztalId}/mennyisegCsokkenteseKezdolapon/{asztalFeluletTipus}/{termekNeve}'
+                          th:action="@{'/etterem/asztal/{asztalId}/mennyisegCsokkenteseKezdolapon/{asztalFeluletTipus}/{termekNeve}'
                           (asztalId=${tableViewDto.id}, asztalFeluletTipus=${tableViewDto.asztalFeluletTipus}, termekNeve=${item.getEtteremTermekNev()})}"
                           method="post">
                         <input type="submit" class="btn btn-danger edit-btn" value="-"/>

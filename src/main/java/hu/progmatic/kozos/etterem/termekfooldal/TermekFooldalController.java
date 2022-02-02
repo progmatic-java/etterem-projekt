@@ -101,26 +101,12 @@ public class TermekFooldalController {
     return "etterem/termek_fooldal";
   }
 
-  @PostMapping("/etterem/asztal/{asztalId}/mennyisegNoveleseKezdolapon/{asztalFeluletTipus}/{termekNeve}")
-  public String mennyisegNoveleseKezdolapon(
-      @PathVariable Integer asztalId,
-      @PathVariable String termekNeve,
-      @PathVariable AsztalFeluletTipus asztalFeluletTipus,
-      Model model
-  ) {
-    rendelesService.mennyisegNovelese(asztalId, termekNeve);
-    TableViewDto dto = asztalService.getTableViewDto(asztalId,asztalFeluletTipus);
-    model.addAttribute("tableViewDto", dto);
-    getGombDtoList(asztalId, asztalFeluletTipus, model);
-    return "etterem/termek_fooldal";
-  }
-
   @PostMapping("/etterem/asztal/{asztalId}/mennyisegCsokkenteseTipusOldalon/{termekNeve}/{tipus}")
   public String mennyisegCsokkenteseTipusOldalon(
-      @PathVariable Integer asztalId,
-      @PathVariable String termekNeve,
-      @PathVariable Tipus tipus,
-      Model model
+          @PathVariable Integer asztalId,
+          @PathVariable String termekNeve,
+          @PathVariable Tipus tipus,
+          Model model
   ) {
     rendelesService.mennyisegCsokkentese(asztalId, termekNeve);
     TableViewDto dto = asztalService.getTableViewDto(asztalId, tipus);
@@ -131,13 +117,27 @@ public class TermekFooldalController {
 
   @PostMapping("etterem/asztal/{asztalId}/mennyisegCsokkenteseKezdolapon/{asztalFeluletTipus}/{termekNeve}")
   public String mennyisegCsokkenteseKezdolapon(
+          @PathVariable Integer asztalId,
+          @PathVariable String termekNeve,
+          @PathVariable AsztalFeluletTipus asztalFeluletTipus,
+          Model model
+  ) {
+    rendelesService.mennyisegCsokkentese(asztalId, termekNeve);
+    TableViewDto dto = asztalService.getTableViewDto(asztalId, asztalFeluletTipus);
+    model.addAttribute("tableViewDto", dto);
+    getGombDtoList(asztalId, asztalFeluletTipus, model);
+    return "etterem/termek_fooldal";
+  }
+
+  @PostMapping("/etterem/asztal/{asztalId}/mennyisegNoveleseKezdolapon/{asztalFeluletTipus}/{termekNeve}")
+  public String mennyisegNoveleseKezdolapon(
       @PathVariable Integer asztalId,
       @PathVariable String termekNeve,
       @PathVariable AsztalFeluletTipus asztalFeluletTipus,
       Model model
   ) {
-    rendelesService.mennyisegCsokkentese(asztalId, termekNeve);
-    TableViewDto dto = asztalService.getTableViewDto(asztalId, asztalFeluletTipus);
+    rendelesService.mennyisegNovelese(asztalId, termekNeve);
+    TableViewDto dto = asztalService.getTableViewDto(asztalId,asztalFeluletTipus);
     model.addAttribute("tableViewDto", dto);
     getGombDtoList(asztalId, asztalFeluletTipus, model);
     return "etterem/termek_fooldal";
