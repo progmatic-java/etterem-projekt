@@ -71,7 +71,7 @@ public class TermekFooldalController {
       asztalId = asztalService.getIdByAsztalSzam(asztalId);
       command.setAsztalId(asztalId);
       if (rendelesService.rendelesTartalmazzaATermeket(command)) {
-        rendelesService.mennyisegNovelese(asztalId, command.getEtteremTermekId());
+        rendelesService.mennyisegNoveleseById(asztalId, command.getEtteremTermekId());
         model.addAttribute("filteredByTipus", etteremTermekService.findAllByTipus(tipus));
         model.addAttribute("tableViewDto", asztalService.getTableViewDto(asztalId, tipus, asztalFeluletTipus));
         refreshAllItem(model);
@@ -94,7 +94,7 @@ public class TermekFooldalController {
       @PathVariable Tipus tipus,
       Model model
   ) {
-    rendelesService.mennyisegNovelese(asztalId, termekNeve);
+    rendelesService.mennyisegNoveleseByNev(asztalId, termekNeve);
     TableViewDto dto = asztalService.getTableViewDto(asztalId, tipus);
     model.addAttribute("tableViewDto", dto);
     model.addAttribute("filteredByTipus", etteremTermekService.findAllByTipus(tipus));
@@ -108,7 +108,7 @@ public class TermekFooldalController {
       @PathVariable AsztalFeluletTipus asztalFeluletTipus,
       Model model
   ) {
-    rendelesService.mennyisegNovelese(asztalId, termekNeve);
+    rendelesService.mennyisegNoveleseById(asztalId, etteremTermekService.getByName(termekNeve).getId());
     TableViewDto dto = asztalService.getTableViewDto(asztalId,asztalFeluletTipus);
     model.addAttribute("tableViewDto", dto);
     getGombDtoList(asztalId, asztalFeluletTipus, model);
@@ -129,7 +129,7 @@ public class TermekFooldalController {
     return "etterem/termek_fooldal";
   }
 
-  @PostMapping("etterem/asztal/{asztalId}/mennyisegCsokkenteseKezdolapon/{asztalFeluletTipus}/{termekNeve}")
+  @PostMapping("/etterem/asztal/{asztalId}/mennyisegCsokkenteseKezdolapon/{asztalFeluletTipus}/{termekNeve}")
   public String mennyisegCsokkenteseKezdolapon(
       @PathVariable Integer asztalId,
       @PathVariable String termekNeve,

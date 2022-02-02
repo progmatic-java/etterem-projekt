@@ -65,7 +65,7 @@ public class RendelesService {
     return etteremTermekDtoList;
   }
 
-  public void mennyisegNovelese(Integer asztalId, String termekNeve) {
+  public void mennyisegNoveleseByNev(Integer asztalId, String termekNeve) {
     Asztal asztal = asztalRepository.getById(asztalId);
     Rendeles aktualisRendeles = asztal.getRendelesek().stream()
         .filter(rendeles -> rendeles.getEtteremTermek().getNev().equals(termekNeve))
@@ -74,7 +74,7 @@ public class RendelesService {
     aktualisRendeles.setMennyiseg(aktualisRendeles.getMennyiseg() + 1);
   }
 
-  public void mennyisegNovelese(Integer asztalId, Integer termekId) {
+  public void mennyisegNoveleseById(Integer asztalId, Integer termekId) {
     Asztal asztal = asztalRepository.getById(asztalId);
     Rendeles aktualisRendeles = asztal.getRendelesek().stream()
         .filter(rendeles -> Objects.equals(rendeles.getEtteremTermek().getId(), termekId))
