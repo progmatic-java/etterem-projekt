@@ -115,7 +115,7 @@ public class TermekFooldalController {
     return "etterem/termek_fooldal";
   }
 
-  @PostMapping("etterem/asztal/{asztalId}/mennyisegCsokkenteseKezdolapon/{asztalFeluletTipus}/{termekNeve}")
+  @PostMapping("/etterem/asztal/{asztalId}/mennyisegCsokkenteseKezdolapon/{asztalFeluletTipus}/{termekNeve}")
   public String mennyisegCsokkenteseKezdolapon(
           @PathVariable Integer asztalId,
           @PathVariable String termekNeve,
