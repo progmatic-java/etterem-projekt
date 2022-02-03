@@ -1,6 +1,5 @@
 package hu.progmatic.kozos.etterem.szamla;
 
-import hu.progmatic.kozos.etterem.rendeles.RendelesDto;
 import hu.progmatic.kozos.etterem.rendeles.RendelesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,14 +10,12 @@ import hu.progmatic.kozos.etterem.asztal.Asztal;
 import hu.progmatic.kozos.etterem.asztal.AsztalService;
 import hu.progmatic.kozos.etterem.rendeles.Rendeles;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 @Transactional
 public class SzamlaService {
-
-    @Autowired
-    private RendelesService rendelesService;
     @Autowired
     private SzamlaRepository szamlaRepository;
     @Autowired
@@ -28,32 +25,23 @@ public class SzamlaService {
         return szamlaRepository.save(szamla);
     }
 
-    public Szamla getById(Integer id) {
-        return szamlaRepository.getById(id);
-    }
-
     public void delete(Integer id) {
         szamlaRepository.deleteById(id);
     }
 
-    public void saveAll(List<Szamla> szamlaList) {
-        szamlaRepository.saveAllAndFlush(szamlaList);
-    }
-
-    public Szamla createSzamlaForAsztal(Integer asztalId) {
+    public SzamlaDto createSzamlaForAsztal(Integer asztalId) {
         Asztal asztal = asztalService.getById(asztalId);
         Szamla szamla = Szamla.builder()
                 .asztal(asztal)
                 .build();
         asztal.setSzamla(szamla);
-        return szamlaRepository.save(szamla);
+        szamlaRepository.save(szamla);
+        return szamlaDtoBuilder(szamla);
+    }
+    public void szamlaAdd(Szamla szamla, Rendeles rendeles){
+        szamla.getAsztal().getRendelesek().add(rendeles);
     }
 
-    public void update(Integer id, List<Rendeles> etteremTermekek, Asztal asztal) {
-        Szamla entity = szamlaRepository.getById(id);
-        entity.setEtteremTermekek(etteremTermekek);
-        entity.setAsztal(asztal);
-    }
     public Szamla findSzamlaByAsztalId(Integer asztalId){
         return szamlaRepository.findByAsztal_Id(asztalId);
     }
@@ -62,17 +50,34 @@ public class SzamlaService {
         return SzamlaDto.builder()
                 .id(szamla.getId())
                 .asztalId(szamla.getAsztal().getId())
-                .rendelesek(rendelesService.rendelesDtoList(szamla.getAsztal().getRendelesek()))
+                .szamlaTetelek(szamlaDtoList(szamla.getAsztal().getRendelesek()))
                 .build();
     }
 
-    public Double getVegosszeg(SzamlaDto dto){
-        Double osszeg=0.0;
-        List<RendelesDto> rendelesek= dto.getRendelesek();
-        for(RendelesDto rendeles: rendelesek){
-            osszeg+=rendeles.getTermekAr()*rendeles.getMennyiseg()*1.15;
+    public Integer getVegosszeg(SzamlaDto dto){
+        Integer osszeg=0;
+        List<SzamlaTetelDto> rendelesek= dto.getSzamlaTetelek();
+        for(SzamlaTetelDto rendeles: rendelesek){
+            osszeg+=rendeles.getTermekAr()*rendeles.getMennyiseg();
         }
-        return osszeg;
+        Integer szerviz= osszeg/100*15;
+        return osszeg+szerviz;
+    }
+
+    public SzamlaTetelDto szamlaDtoBuilder(Rendeles rendeles){
+        return SzamlaTetelDto.builder()
+                .asztalId(rendeles.getAsztal().getId())
+                .termekAr(rendeles.getEtteremTermek().getAr())
+                .mennyiseg(rendeles.getMennyiseg())
+                .termekNev(rendeles.getEtteremTermek().getNev())
+                .build();
+    }
+    public List<SzamlaTetelDto> szamlaDtoList(List<Rendeles> rendelesek){
+        List<SzamlaTetelDto> rendelesekDto=new ArrayList<>();
+        for(Rendeles rendeles: rendelesek){
+            rendelesekDto.add(szamlaDtoBuilder(rendeles));
+        }
+        return rendelesekDto;
     }
 
 }

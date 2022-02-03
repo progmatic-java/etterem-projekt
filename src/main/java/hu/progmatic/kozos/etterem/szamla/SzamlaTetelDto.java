@@ -1,4 +1,4 @@
-package hu.progmatic.kozos.etterem.rendeles;
+package hu.progmatic.kozos.etterem.szamla;
 
 
 import lombok.Builder;
@@ -8,10 +8,11 @@ import java.io.Serializable;
 
 @Data
 @Builder
-public class RendelesDto implements Serializable{
+public class SzamlaTetelDto implements Serializable{
     private Integer id;
     private Integer asztalId;
     private String termekNev;
-    private Integer mennyiseg;
     private Integer termekAr;
+    private Integer mennyiseg;
+    private Boolean fizetve;
 }

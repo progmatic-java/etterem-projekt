@@ -1,6 +1,5 @@
 package hu.progmatic.kozos.etterem.szamla;
 
-import hu.progmatic.kozos.etterem.rendeles.RendelesDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -36,7 +35,7 @@ public class SzamlaController {
         Szamla szamla = szamlaService.findSzamlaByAsztalId(asztalId);
         SzamlaDto dto = szamlaService.szamlaDtoBuilder(szamla);
         model.addAttribute("rendelesDto", dto);
-        model.addAttribute("allRendeles", dto.getRendelesek());
+        model.addAttribute("allRendeles", dto.getSzamlaTetelek());
         return "etterem/asztal/szamla";
     }
 
@@ -46,7 +45,7 @@ public class SzamlaController {
     }
 
     @ModelAttribute("allRendeles")
-    List<RendelesDto> allRendeles() {
+    List<SzamlaTetelDto> allRendeles() {
         return List.of();
     }
 }

@@ -1,7 +1,6 @@
 package hu.progmatic.kozos.etterem.rendeles;
 
 
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import hu.progmatic.kozos.etterem.asztal.Asztal;
 import hu.progmatic.kozos.etterem.asztal.AsztalRepository;
 import hu.progmatic.kozos.etterem.asztal.AsztalService;
@@ -110,22 +109,6 @@ public class RendelesService {
 
     public List<Rendeles> findAllByAsztal(Asztal asztal) {
         return rendelesRepository.findAllByAsztal(asztal);
-    }
-
-    public RendelesDto rendelesDtoBuilder(Rendeles rendeles){
-        return RendelesDto.builder()
-                .asztalId(rendeles.getAsztal().getId())
-                .termekAr(rendeles.getEtteremTermek().getAr())
-                .mennyiseg(rendeles.getMennyiseg())
-                .termekNev(rendeles.getEtteremTermek().getNev())
-                .build();
-    }
-    public List<RendelesDto> rendelesDtoList(List<Rendeles> rendelesek){
-        List<RendelesDto> rendelesekDto=new ArrayList<>();
-        for(Rendeles rendeles: rendelesek){
-            rendelesekDto.add(rendelesDtoBuilder(rendeles));
-        }
-        return rendelesekDto;
     }
 
 }

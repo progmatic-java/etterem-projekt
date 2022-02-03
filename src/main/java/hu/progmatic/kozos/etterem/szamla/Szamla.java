@@ -19,9 +19,6 @@ public class Szamla {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     Integer id;
-    @OneToMany(cascade = CascadeType.ALL)
-    @Builder.Default
-    List<Rendeles> etteremTermekek =new ArrayList<>();
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn
     Asztal asztal;
