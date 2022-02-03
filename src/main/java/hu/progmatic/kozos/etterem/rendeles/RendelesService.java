@@ -112,4 +112,20 @@ public class RendelesService {
         return rendelesRepository.findAllByAsztal(asztal);
     }
 
+    public RendelesDto rendelesDtoBuilder(Rendeles rendeles){
+        return RendelesDto.builder()
+                .asztalId(rendeles.getAsztal().getId())
+                .termekAr(rendeles.getEtteremTermek().getAr())
+                .mennyiseg(rendeles.getMennyiseg())
+                .termekNev(rendeles.getEtteremTermek().getNev())
+                .build();
+    }
+    public List<RendelesDto> rendelesDtoList(List<Rendeles> rendelesek){
+        List<RendelesDto> rendelesekDto=new ArrayList<>();
+        for(Rendeles rendeles: rendelesek){
+            rendelesekDto.add(rendelesDtoBuilder(rendeles));
+        }
+        return rendelesekDto;
+    }
+
 }
