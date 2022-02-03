@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <title>Termék főoldal</title>
-    <link href="etterem.css" rel="stylesheet"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- Bootstrap CSS -->
@@ -67,15 +66,17 @@
                 <td>
                     <form style="text-align: right"
                           th:if="${tableViewDto.termekTipus != null}"
-                          th:action="@{'/etterem/asztal/{asztalId}/mennyisegNoveleseTipusOldalon/{termekNeve}/{tipus}'
-                          (asztalId=${tableViewDto.id}, termekNeve=${item.getEtteremTermekNev()}, tipus=${tableViewDto.termekTipus})}"
+                          th:action="@{'/etterem/asztal/{asztalId}/mennyisegNoveleseTipusOldalon/{asztalFeluletTipus}/{tipus}/{termekNeve}'
+                          (asztalId=${tableViewDto.id}, asztalFeluletTipus=${tableViewDto.asztalFeluletTipus},
+                           tipus=${tableViewDto.termekTipus}, termekNeve=${item.getEtteremTermekNev()})}"
                           method="post">
                         <input type="submit" class="btn btn-success edit-btn" value="+"/>
                     </form>
                     <form style="text-align: right"
                           th:if="${tableViewDto.termekTipus == null}"
                           th:action="@{'/etterem/asztal/{asztalId}/mennyisegNoveleseKezdolapon/{asztalFeluletTipus}/{termekNeve}'
-                          (asztalId=${tableViewDto.id}, asztalFeluletTipus=${tableViewDto.asztalFeluletTipus}, termekNeve=${item.getEtteremTermekNev()})}"
+                          (asztalId=${tableViewDto.id}, asztalFeluletTipus=${tableViewDto.asztalFeluletTipus},
+                           termekNeve=${item.getEtteremTermekNev()})}"
                           method="post">
                         <input type="submit" class="btn btn-success edit-btn" value="+"/>
                     </form>
@@ -83,15 +84,17 @@
                 <td>
                     <form style="text-align: right"
                           th:if="${tableViewDto.termekTipus != null}"
-                          th:action="@{'/etterem/asztal/{asztalId}/mennyisegCsokkenteseTipusOldalon/{termekNeve}/{tipus}'
-                          (asztalId=${tableViewDto.id}, termekNeve=${item.getEtteremTermekNev()}, tipus=${tableViewDto.termekTipus})}"
+                          th:action="@{'/etterem/asztal/{asztalId}/mennyisegCsokkenteseTipusOldalon/{asztalFeluletTipus}/{tipus}/{termekNeve}'
+                          (asztalId=${tableViewDto.id}, asztalFeluletTipus=${tableViewDto.asztalFeluletTipus},
+                           tipus=${tableViewDto.termekTipus}, termekNeve=${item.getEtteremTermekNev()})}"
                           method="post">
                         <input type="submit" class="btn btn-danger edit-btn" value="-"/>
                     </form>
                     <form style="text-align: right"
                           th:if="${tableViewDto.termekTipus == null}"
                           th:action="@{'/etterem/asztal/{asztalId}/mennyisegCsokkenteseKezdolapon/{asztalFeluletTipus}/{termekNeve}'
-                          (asztalId=${tableViewDto.id}, asztalFeluletTipus=${tableViewDto.asztalFeluletTipus}, termekNeve=${item.getEtteremTermekNev()})}"
+                          (asztalId=${tableViewDto.id}, asztalFeluletTipus=${tableViewDto.asztalFeluletTipus},
+                           termekNeve=${item.getEtteremTermekNev()})}"
                           method="post">
                         <input type="submit" class="btn btn-danger edit-btn" value="-"/>
                     </form>
