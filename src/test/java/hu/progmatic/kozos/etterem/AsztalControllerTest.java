@@ -1,7 +1,6 @@
 package hu.progmatic.kozos.etterem;
 
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -10,11 +9,6 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -52,7 +46,7 @@ class AsztalControllerTest {
   @DisplayName("Ital oldal megjelenik")
   void italok() throws Exception {
     mockMvc.perform(
-            MockMvcRequestBuilders.get("/etterem/asztal/2/ital?")
+            MockMvcRequestBuilders.get("/etterem/asztal/2/ITAL?")
         ).andExpect(status().isOk())
         .andExpect(content().string(containsString("RÖVIDITAL")));
   }
@@ -70,7 +64,7 @@ class AsztalControllerTest {
   @DisplayName("Termék hozzáadása a rendeléshez")
   void hozzadas() throws Exception {
     mockMvc.perform(
-            post("/etterem/asztal/2/tipus/LEVES")
+            post("/etterem/asztal/1/ETEL/tipus/LEVES")
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                 .content("etteremTermekId=10&mennyiseg=1")
         ).andDo(print()).andExpect(status().isOk())
