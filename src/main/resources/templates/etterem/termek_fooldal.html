@@ -62,7 +62,7 @@
             <tbody>
             <tr th:each="item : ${tableViewDto.getRendelesDtoList()}">
                 <td th:text="${item.getEtteremTermekNev()}">Name</td>
-                <td th:text="${item.getMennyiseg()}">1</td>
+                <td th:text="${item.getMennyiseg()}" style="text-align: center">1</td>
                 <td>
                     <form style="text-align: right"
                           th:if="${tableViewDto.termekTipus != null}"
@@ -113,22 +113,21 @@
             <thead>
             <tr>
                 <th scope="col">Név</th>
-                <th scope="col">Ár</th>
+                <th scope="col" style="text-align: center">Ár</th>
                 <th scope="col"></th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="item : ${filteredByTipus}">
                 <td th:text="${item.nev}">Név</td>
-                <td th:text="${item.ar}">100</td>
+                <td th:text="${item.ar} + ' Ft'">100</td>
                 <td>
                     <form
                             style="text-align: right"
                             th:action="@{'/etterem/asztal/{asztalId}/{asztalFeluletTipus}/tipus/{tipus}'
                             (asztalId=${asztalId}, asztalFeluletTipus=${tableViewDto.asztalFeluletTipus}, tipus=${item.tipus})}"
                             method="post"
-                            th:object="${createRendelesCommand}"
-                    >
+                            th:object="${createRendelesCommand}">
                         <input type="hidden" name="etteremTermekId" th:value="${item.id}">
                         <input type="hidden" name="mennyiseg" th:value="1">
                         <input type="submit" class="btn btn-success edit-btn" style="position: relative" value="Hozzáad"/>
