@@ -31,7 +31,7 @@
     </tr>
     </tbody>
 </table>
-<form th:action="@{/etterem/asztal}">
+<form th:action="@{'/etterem/asztal/{asztalId}/KEZDOLAP' (asztalId=${szamlaDto.getAsztalDto().getId()})}">
     <div id="exitbutton" class="position-relative" style="text-align: center">
         <button class="btn btn-primary btn-lg" type="submit">VISSZA</button>
     </div>

@@ -16,44 +16,44 @@ import java.util.List;
 @Service
 @Transactional
 public class SzamlaService {
-    @Autowired
-    private SzamlaRepository szamlaRepository;
-    @Autowired
-    private AsztalService asztalService;
+  @Autowired
+  private SzamlaRepository szamlaRepository;
+  @Autowired
+  private AsztalService asztalService;
 
-    public Szamla create(Szamla szamla) {
-        return szamlaRepository.save(szamla);
-    }
+  public Szamla create(Szamla szamla) {
+    return szamlaRepository.save(szamla);
+  }
 
-    public void delete(Integer id) {
-        szamlaRepository.deleteById(id);
-    }
+  public void delete(Integer id) {
+    szamlaRepository.deleteById(id);
+  }
 
-    public SzamlaDto createSzamlaForAsztal(Integer asztalId) {
-        Asztal asztal = asztalService.getById(asztalId);
-        Szamla szamla = Szamla.builder()
-                .asztal(asztal)
-                .build();
-        asztal.setSzamla(szamla);
-        szamlaRepository.save(szamla);
-        return szamlaDtoBuilder(szamla);
-    }
+  public SzamlaDto createSzamlaForAsztal(Integer asztalId) {
+    Asztal asztal = asztalService.getById(asztalId);
+    Szamla szamla = Szamla.builder()
+        .asztal(asztal)
+        .build();
+    asztal.setSzamla(szamla);
+    szamlaRepository.save(szamla);
+    return szamlaDtoBuilder(szamla);
+  }
 
-    public Szamla findSzamlaByAsztalId(Integer asztalId){
-        return szamlaRepository.findByAsztal_Id(asztalId);
-    }
+  public Szamla findSzamlaByAsztalId(Integer asztalId) {
+    return szamlaRepository.findByAsztal_Id(asztalId);
+  }
 
-    public SzamlaDto szamlaDtoBuilder(Szamla szamla) {
-        return SzamlaDto.builder()
-                .id(szamla.getId())
-                .asztalDto(asztalService.buildAsztalDto(szamla.getAsztal()))
-                .vegosszeg(getVegosszeg(szamla))
-                .build();
-    }
+  public SzamlaDto szamlaDtoBuilder(Szamla szamla) {
+    return SzamlaDto.builder()
+        .id(szamla.getId())
+        .asztalDto(asztalService.buildAsztalDto(szamla.getAsztal()))
+        .vegosszeg(getVegosszeg(szamla))
+        .build();
+  }
 
-    private Integer getVegosszeg(Szamla szamla) {
-        return szamla.getAsztal().getRendelesek().stream()
-            .mapToInt(rendeles -> rendeles.getMennyiseg() * rendeles.getEtteremTermek().getAr())
-            .sum() / 100 * 115;
-    }
+  private Integer getVegosszeg(Szamla szamla) {
+    return szamla.getAsztal().getRendelesek().stream()
+        .mapToInt(rendeles -> rendeles.getMennyiseg() * rendeles.getEtteremTermek().getAr())
+        .sum() / 100 * 115;
+  }
 }
