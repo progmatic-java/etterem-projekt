@@ -54,6 +54,6 @@ public class SzamlaService {
     private Integer getVegosszeg(Szamla szamla) {
         return szamla.getAsztal().getRendelesek().stream()
             .mapToInt(rendeles -> rendeles.getMennyiseg() * rendeles.getEtteremTermek().getAr())
-            .sum();
+            .sum() / 100 * 115;
     }
 }
