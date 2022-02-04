@@ -175,8 +175,7 @@ public class TermekFooldalController {
     } else {
       gombok = List.of(
           new GombDto("ÉTEL", "/etterem/asztal/" + asztalId + "/" + AsztalFeluletTipus.ETEL.name()),
-          new GombDto("ITAL", "/etterem/asztal/" + asztalId + "/" + AsztalFeluletTipus.ITAL.name()),
-          new GombDto("SZÁMLA", "/etterem/asztal/" + asztalId + "/szamla")
+          new GombDto("ITAL", "/etterem/asztal/" + asztalId + "/" + AsztalFeluletTipus.ITAL.name())
       );
     }
     model.addAttribute(

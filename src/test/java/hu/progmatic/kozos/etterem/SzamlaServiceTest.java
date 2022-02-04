@@ -5,6 +5,7 @@ import hu.progmatic.kozos.etterem.asztal.Asztal;
 import hu.progmatic.kozos.etterem.asztal.AsztalService;
 import hu.progmatic.kozos.etterem.leltar.EtteremTermek;
 import hu.progmatic.kozos.etterem.rendeles.Rendeles;
+import hu.progmatic.kozos.etterem.rendeles.RendelesService;
 import hu.progmatic.kozos.etterem.szamla.Szamla;
 import hu.progmatic.kozos.etterem.szamla.SzamlaDto;
 import hu.progmatic.kozos.etterem.szamla.SzamlaService;
@@ -28,6 +29,7 @@ class SzamlaServiceTest {
   @BeforeEach
   void setUp() {
     tesztAsztalId = asztalService.getIdByNev("1. asztal");
+    service.createSzamlaForAsztal(tesztAsztalId);
   }
 
   @Test
@@ -39,7 +41,6 @@ class SzamlaServiceTest {
 
   @Test
   void findSzamlaByAsztalIdTest() {
-    service.createSzamlaForAsztal(tesztAsztalId);
     SzamlaDto dto = service.szamlaDtoBuilder(service.findSzamlaByAsztalId(tesztAsztalId));
     assertNotNull(dto.getId());
     assertEquals("1. asztal", dto.getAsztalDto().getNev());

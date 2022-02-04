@@ -11,4 +11,5 @@ import java.io.Serializable;
 public class SzamlaDto implements Serializable{
     private Integer id;
     private AsztalDto asztalDto;
+    private Integer vegosszeg;
 }

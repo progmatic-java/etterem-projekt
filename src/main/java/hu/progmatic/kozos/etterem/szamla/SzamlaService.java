@@ -47,6 +47,13 @@ public class SzamlaService {
         return SzamlaDto.builder()
                 .id(szamla.getId())
                 .asztalDto(asztalService.buildAsztalDto(szamla.getAsztal()))
+                .vegosszeg(getVegosszeg(szamla))
                 .build();
+    }
+
+    private Integer getVegosszeg(Szamla szamla) {
+        return szamla.getAsztal().getRendelesek().stream()
+            .mapToInt(rendeles -> rendeles.getMennyiseg() * rendeles.getEtteremTermek().getAr())
+            .sum();
     }
 }

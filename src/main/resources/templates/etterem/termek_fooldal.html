@@ -96,7 +96,8 @@
             </tr>
             </tbody>
         </table>
-        <form th:action="@{'/etterem/asztal/{asztalId}/szamla' (asztalId=${tableViewDto.id})}">
+        <form th:if="${!tableViewDto.getRendelesDtoList().isEmpty()}"
+              th:action="@{'/etterem/asztal/{asztalId}/szamla' (asztalId=${tableViewDto.id})}">
             <div id="szamlabutton" class="position-relative" style="text-align: center">
                 <button class="btn btn-primary btn-lg" type="submit">SZÁMLA</button>
             </div>
