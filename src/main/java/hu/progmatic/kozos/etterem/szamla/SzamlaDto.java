@@ -1,15 +1,19 @@
 package hu.progmatic.kozos.etterem.szamla;
 
+import hu.progmatic.kozos.etterem.asztal.AsztalDto;
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.io.Serializable;
-import java.util.List;
 
 @Data
+@Getter
+@Setter
 @Builder
 public class SzamlaDto implements Serializable{
     private Integer id;
-    private Integer asztalId;
-    private List<SzamlaTetelDto> szamlaTetelek;
+    private AsztalDto asztalDto;
+    private Integer vegosszeg;
 }

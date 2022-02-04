@@ -7,6 +7,7 @@ import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import hu.progmatic.kozos.etterem.rendeles.Rendeles;
+import org.hibernate.annotations.Fetch;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +26,6 @@ public class Asztal {
     private String nev;
     @OneToOne(cascade = CascadeType.ALL)
     private Szamla szamla;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "asztal")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "asztal", fetch = FetchType.EAGER)
     private List<Rendeles> rendelesek = new ArrayList<>();
 }
