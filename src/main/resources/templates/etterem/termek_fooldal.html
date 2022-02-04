@@ -33,6 +33,20 @@
             left: 50%;
             -ms-transform: translate(-50%, -50%);
         }
+        @media screen and (max-width: 600px) {
+            .item-button{
+                width: 100%;
+            }
+            .right{
+                left: 16px;
+            }
+            .right, .left, .item-button{
+                position: relative;
+            }
+            .left{
+                margin-bottom: 20px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -40,7 +54,7 @@
         integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
         crossorigin="anonymous"></script>
 <div class="container">
-    <div class="left">
+    <div class="left" >
         <table class="table table-dark table-striped">
             <thead>
             <tr>
