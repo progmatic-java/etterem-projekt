@@ -24,6 +24,8 @@ public class TableViewDto implements Serializable {
   private final List<RendelesDto> rendelesDtoList = new ArrayList<>();
   private Tipus termekTipus;
   private AsztalFeluletTipus asztalFeluletTipus;
+  private String visszaGombLink;
+
 
   @Builder
   @Data

@@ -40,6 +40,11 @@ public class TermekFooldalController {
       Model model) {
     TableViewDto dto = asztalService.getTableViewDto(asztalId, asztalFeluletTipus);
     model.addAttribute("tableViewDto", dto);
+      if (asztalFeluletTipus == AsztalFeluletTipus.ITAL || asztalFeluletTipus == AsztalFeluletTipus.ETEL) {
+          dto.setVisszaGombLink("/etterem/asztal/" + asztalId + "/KEZDOLAP");
+      } else if (asztalFeluletTipus == AsztalFeluletTipus.KEZDOLAP) {
+          dto.setVisszaGombLink("/etterem/asztal/");
+      }
     getGombDtoList(asztalId, asztalFeluletTipus, model);
     return "etterem/termek_fooldal";
   }
@@ -55,8 +60,10 @@ public class TermekFooldalController {
         "filteredByTipus",
         etteremTermekService.findAllByTipus(tipus)
     );
-    model.addAttribute("tableViewDto", asztalService.getTableViewDto(asztalId, tipus, asztalFeluletTipus));
-    return "etterem/termek_fooldal";
+      TableViewDto dto = asztalService.getTableViewDto(asztalId, tipus, asztalFeluletTipus);
+      model.addAttribute("tableViewDto", dto);
+      dto.setVisszaGombLink("/etterem/asztal/" + asztalId + "/" + asztalFeluletTipus.name());
+      return "etterem/termek_fooldal";
   }
 
   @PostMapping("/etterem/asztal/{asztalId}/{asztalFeluletTipus}/tipus/{tipus}")
@@ -99,7 +106,7 @@ public class TermekFooldalController {
     TableViewDto dto = asztalService.getTableViewDto(asztalId, tipus, asztalFeluletTipus);
     model.addAttribute("tableViewDto", dto);
     model.addAttribute("filteredByTipus", etteremTermekService.findAllByTipus(tipus));
-    return "etterem/termek_fooldal";
+      return "redirect:/etterem/asztal/" + asztalId + "/" + asztalFeluletTipus.name() + "/tipus/" + tipus;
   }
 
   @PostMapping("/etterem/asztal/{asztalId}/mennyisegCsokkenteseTipusOldalon/{asztalFeluletTipus}/{tipus}/{termekNeve}")
@@ -114,7 +121,7 @@ public class TermekFooldalController {
     TableViewDto dto = asztalService.getTableViewDto(asztalId, tipus, asztalFeluletTipus);
     model.addAttribute("tableViewDto", dto);
     model.addAttribute("filteredByTipus", etteremTermekService.findAllByTipus(tipus));
-    return "etterem/termek_fooldal";
+      return "redirect:/etterem/asztal/" + asztalId + "/" + asztalFeluletTipus.name() + "/tipus/" + tipus;
   }
 
   @PostMapping("/etterem/asztal/{asztalId}/mennyisegCsokkenteseKezdolapon/{asztalFeluletTipus}/{termekNeve}")
@@ -128,7 +135,7 @@ public class TermekFooldalController {
     TableViewDto dto = asztalService.getTableViewDto(asztalId, asztalFeluletTipus);
     model.addAttribute("tableViewDto", dto);
     getGombDtoList(asztalId, asztalFeluletTipus, model);
-    return "etterem/termek_fooldal";
+      return "redirect:/etterem/asztal/" + asztalId + "/" + asztalFeluletTipus.name();
   }
 
   @PostMapping("/etterem/asztal/{asztalId}/mennyisegNoveleseKezdolapon/{asztalFeluletTipus}/{termekNeve}")
@@ -142,7 +149,7 @@ public class TermekFooldalController {
     TableViewDto dto = asztalService.getTableViewDto(asztalId, asztalFeluletTipus);
     model.addAttribute("tableViewDto", dto);
     getGombDtoList(asztalId, asztalFeluletTipus, model);
-    return "etterem/termek_fooldal";
+      return "redirect:/etterem/asztal/" + asztalId + "/" + asztalFeluletTipus.name();
   }
 
   private void getGombDtoList(Integer asztalId, AsztalFeluletTipus tipus, Model model) {
