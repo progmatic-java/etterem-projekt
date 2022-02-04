@@ -38,9 +38,6 @@ public class SzamlaService {
         szamlaRepository.save(szamla);
         return szamlaDtoBuilder(szamla);
     }
-    public void szamlaAdd(Szamla szamla, Rendeles rendeles){
-        szamla.getAsztal().getRendelesek().add(rendeles);
-    }
 
     public Szamla findSzamlaByAsztalId(Integer asztalId){
         return szamlaRepository.findByAsztal_Id(asztalId);
@@ -49,35 +46,7 @@ public class SzamlaService {
     public SzamlaDto szamlaDtoBuilder(Szamla szamla) {
         return SzamlaDto.builder()
                 .id(szamla.getId())
-                .asztalId(szamla.getAsztal().getId())
-                .szamlaTetelek(szamlaDtoList(szamla.getAsztal().getRendelesek()))
+                .asztalDto(asztalService.buildAsztalDto(szamla.getAsztal()))
                 .build();
     }
-
-    public Integer getVegosszeg(SzamlaDto dto){
-        Integer osszeg=0;
-        List<SzamlaTetelDto> rendelesek= dto.getSzamlaTetelek();
-        for(SzamlaTetelDto rendeles: rendelesek){
-            osszeg+=rendeles.getTermekAr()*rendeles.getMennyiseg();
-        }
-        Integer szerviz= osszeg/100*15;
-        return osszeg+szerviz;
-    }
-
-    public SzamlaTetelDto szamlaDtoBuilder(Rendeles rendeles){
-        return SzamlaTetelDto.builder()
-                .asztalId(rendeles.getAsztal().getId())
-                .termekAr(rendeles.getEtteremTermek().getAr())
-                .mennyiseg(rendeles.getMennyiseg())
-                .termekNev(rendeles.getEtteremTermek().getNev())
-                .build();
-    }
-    public List<SzamlaTetelDto> szamlaDtoList(List<Rendeles> rendelesek){
-        List<SzamlaTetelDto> rendelesekDto=new ArrayList<>();
-        for(Rendeles rendeles: rendelesek){
-            rendelesekDto.add(szamlaDtoBuilder(rendeles));
-        }
-        return rendelesekDto;
-    }
-
 }

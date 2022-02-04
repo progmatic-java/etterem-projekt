@@ -24,7 +24,6 @@ class SzamlaServiceTest {
   @Autowired
   private AsztalService asztalService;
   private Integer tesztAsztalId;
-  private Rendeles rendeles;
 
   @BeforeEach
   void setUp() {
@@ -35,16 +34,14 @@ class SzamlaServiceTest {
   void createAndRead() {
     SzamlaDto szamla = service.createSzamlaForAsztal(tesztAsztalId);
     assertNotNull(szamla.getId());
-    assertEquals("1. asztal", asztalService.getById(szamla.getAsztalId()).getNev());
+    assertEquals("1. asztal", szamla.getAsztalDto().getNev());
   }
 
   @Test
-  void szamlaAdd(){
-    Szamla szamla = service.findSzamlaByAsztalId(tesztAsztalId);
-    SzamlaDto dto = service.createSzamlaForAsztal(tesztAsztalId);
+  void findSzamlaByAsztalIdTest() {
+    service.createSzamlaForAsztal(tesztAsztalId);
+    SzamlaDto dto = service.szamlaDtoBuilder(service.findSzamlaByAsztalId(tesztAsztalId));
     assertNotNull(dto.getId());
-    assertThat(dto.getSzamlaTetelek().size()==0);
+    assertEquals("1. asztal", dto.getAsztalDto().getNev());
   }
-
-
 }

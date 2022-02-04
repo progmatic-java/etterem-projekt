@@ -7,6 +7,7 @@ import hu.progmatic.kozos.etterem.asztal.AsztalService;
 import hu.progmatic.kozos.etterem.leltar.EtteremTermek;
 import hu.progmatic.kozos.etterem.leltar.EtteremTermekDto;
 import hu.progmatic.kozos.etterem.leltar.EtteremTermekService;
+import hu.progmatic.kozos.etterem.szamla.SzamlaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +20,8 @@ import java.util.Objects;
 @Service
 @Transactional
 public class RendelesService {
+    @Autowired
+    private SzamlaService szamlaService;
     @Autowired
     private RendelesRepository rendelesRepository;
     @Autowired
@@ -37,15 +40,14 @@ public class RendelesService {
                 .mennyiseg(command.getMennyiseg())
                 .build();
         asztal.getRendelesek().add(rendeles);
+        if (asztal.getSzamla() == null) {
+            szamlaService.createSzamlaForAsztal(asztal.getId());
+        }
         return rendelesRepository.save(rendeles);
     }
 
     public void delete(Integer rendelesId) {
         rendelesRepository.delete(rendelesRepository.getById(rendelesId));
-    }
-
-    public Rendeles empty() {
-        return new Rendeles();
     }
 
     public List<EtteremTermekDto> findAll() {
@@ -57,7 +59,6 @@ public class RendelesService {
                             .id(rendeles.getId())
                             .nev(rendeles.getEtteremTermek().getNev())
                             .ar(rendeles.getEtteremTermek().getAr())
-                            .mennyiseg(rendeles.getMennyiseg())
                             .build()
             );
         }

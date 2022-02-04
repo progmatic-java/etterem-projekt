@@ -146,7 +146,7 @@ public class TermekFooldalController {
   }
 
   private void getGombDtoList(Integer asztalId, AsztalFeluletTipus tipus, Model model) {
-    List<GombDto> gombok = new ArrayList<>();
+    List<GombDto> gombok;
     if (tipus == AsztalFeluletTipus.ETEL) {
       gombok = List.of(
           new GombDto("LEVES", "/etterem/asztal/" + asztalId + "/" + tipus + "/tipus/" + Tipus.LEVES.name()),

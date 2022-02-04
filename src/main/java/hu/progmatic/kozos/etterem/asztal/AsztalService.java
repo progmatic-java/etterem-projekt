@@ -1,7 +1,9 @@
 package hu.progmatic.kozos.etterem.asztal;
 
+import hu.progmatic.kozos.etterem.leltar.EtteremTermekDto;
 import hu.progmatic.kozos.etterem.leltar.Tipus;
 import hu.progmatic.kozos.etterem.rendeles.Rendeles;
+import hu.progmatic.kozos.etterem.rendeles.RendelesDto;
 import hu.progmatic.kozos.etterem.rendeles.RendelesRepository;
 import hu.progmatic.kozos.etterem.termekfooldal.AsztalFeluletTipus;
 import org.springframework.beans.factory.InitializingBean;
@@ -29,20 +31,12 @@ public class AsztalService implements InitializingBean {
   @Autowired
   private AsztalRepository asztalRepository;
 
-  public Asztal save(Asztal table) {
-    return asztalRepository.saveAndFlush(table);
-  }
-
   public Asztal getById(Integer id) {
     return asztalRepository.getById(id);
   }
 
   public void delete(Integer id) {
     asztalRepository.deleteById(id);
-  }
-
-  public void saveAll(List<Asztal> tableList) {
-    asztalRepository.saveAllAndFlush(tableList);
   }
 
   @Override
@@ -59,6 +53,24 @@ public class AsztalService implements InitializingBean {
   public Integer getIdByAsztalSzam(Integer asztalSzam) {
     String asztalNev = asztalSzam + ". asztal";
     return getIdByNev(asztalNev);
+  }
+
+  public AsztalDto buildAsztalDto(Asztal asztal) {
+    return AsztalDto.builder()
+        .id(asztal.getId())
+        .nev(asztal.getNev())
+        .rendelesDtoLista(asztal.getRendelesek().stream()
+            .map(rendeles -> RendelesDto.builder()
+                .id(rendeles.getId())
+                .mennyiseg(rendeles.getMennyiseg())
+                .etteremTermekDto(EtteremTermekDto.builder()
+                    .id(rendeles.getEtteremTermek().getId())
+                    .nev(rendeles.getEtteremTermek().getNev())
+                    .ar(rendeles.getEtteremTermek().getAr())
+                    .build())
+                .build())
+            .toList())
+        .build();
   }
 
   public TableViewDto getTableViewDto(Integer asztalId, Tipus tipus) {

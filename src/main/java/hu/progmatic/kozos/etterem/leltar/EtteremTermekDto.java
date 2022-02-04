@@ -11,5 +11,4 @@ public class EtteremTermekDto implements Serializable {
   private final Integer id;
   private final String nev;
   private final Integer ar;
-  private final Integer mennyiseg;
 }

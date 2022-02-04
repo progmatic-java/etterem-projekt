@@ -15,14 +15,13 @@
         <th scope="col">Ár</th>
         <th scope="col">Mennyiség</th>
         <th scope="col"></th>
-        <th scope="col"></th>
     </tr>
     </thead>
     <tbody>
-    <tr th:each="aru : ${allRendeles}">
-        <td th:text="${aru.termekNev}">Név</td>
-        <td th:text="${aru.termekAr}">100</td>
-        <td th:text="${aru.mennyiseg}">100</td>
+    <tr th:each="aru : ${szamlaDto.getAsztalDto().getRendelesDtoLista()}">
+        <td th:text="${aru.getEtteremTermekDto().nev}">Név</td>
+        <td th:text="${aru.mennyiseg}">1</td>
+        <td th:text="${aru.getEtteremTermekDto().getAr() * aru.mennyiseg} + ' Ft'">100 Ft</td>
     </tr>
     </tbody>
 </table>
