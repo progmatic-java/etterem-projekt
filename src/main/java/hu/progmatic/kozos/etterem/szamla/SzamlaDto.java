@@ -16,4 +16,7 @@ public class SzamlaDto implements Serializable{
     private Integer id;
     private AsztalDto asztalDto;
     private Integer vegosszeg;
+    private boolean isSplit;
+    @Builder.Default
+    private SzamlaSplitDto szamlaSplitDto = SzamlaSplitDto.builder().build();
 }

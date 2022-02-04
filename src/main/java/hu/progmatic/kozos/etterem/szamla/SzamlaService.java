@@ -1,5 +1,7 @@
 package hu.progmatic.kozos.etterem.szamla;
 
+import hu.progmatic.kozos.etterem.leltar.EtteremTermek;
+import hu.progmatic.kozos.etterem.leltar.EtteremTermekService;
 import hu.progmatic.kozos.etterem.rendeles.RendelesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,6 +14,7 @@ import hu.progmatic.kozos.etterem.rendeles.Rendeles;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @Transactional
@@ -55,5 +58,16 @@ public class SzamlaService {
     return szamla.getAsztal().getRendelesek().stream()
         .mapToInt(rendeles -> rendeles.getMennyiseg() * rendeles.getEtteremTermek().getAr())
         .sum() / 100 * 115;
+  }
+
+  public void addToSzamlaSplit(Integer asztalId, Integer termekId) {
+    SzamlaDto szamlaDto = szamlaDtoBuilder(findSzamlaByAsztalId(asztalId));
+    szamlaDto.getSzamlaSplitDto()
+        .getRendelesek()
+        .add(szamlaDto.getAsztalDto()
+            .getRendelesDtoLista().stream()
+            .filter(rendelesDto -> Objects.equals(rendelesDto.getEtteremTermekDto().getId(), termekId))
+            .findFirst()
+            .orElseThrow());
   }
 }

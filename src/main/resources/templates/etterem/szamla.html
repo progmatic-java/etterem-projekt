@@ -15,6 +15,7 @@
         <th scope="col" style="text-align: center">Mennyiség</th>
         <th scope="col" style="text-align: right">Ár</th>
         <th scope="col"></th>
+        <th scope="col"></th>
     </tr>
     </thead>
     <tbody>
@@ -22,12 +23,61 @@
         <td th:text="${aru.getEtteremTermekDto().nev}" style="text-align: left">Név</td>
         <td th:text="${aru.mennyiseg}" style="text-align: center">1</td>
         <td th:text="${aru.getEtteremTermekDto().getAr() * aru.mennyiseg} + ' Ft'" style="text-align: right">100 Ft</td>
+        <td>
+            <form th:action="@{'/etterem/asztal/{asztalId}/addToSzamlaSplit/{termekId}'
+             (asztalId=${szamlaDto.getAsztalDto.getId()}, termekId=${aru.getEtteremTermekDto().getId()})}"
+            method="post">
+                <div class="position-relative" style="text-align: center">
+                    <button class="btn btn-primary btn-lg" type="submit">+</button>
+                </div>
+            </form>
+        </td>
     </tr>
     <tr>
         <td>15% szervízdíjat számolunk fel.</td>
     </tr>
     <tr>
         <td th:text="'Végösszeg: ' + ${szamlaDto.getVegosszeg()} + ' Ft'">100 Ft</td>
+    </tr>
+    <tr>
+        <td>
+            <form th:action="@{'/etterem/asztal/{asztalId}/splitSzamla' (asztalId=${szamlaDto.getAsztalDto().getId()})}">
+                <div class="position-relative" style="text-align: center">
+                    <button class="btn btn-primary btn-lg" type="submit">SPLIT</button>
+                </div>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<table th:if="${szamlaDto.isSplit() == true}" class="table table-dark table-striped">
+    <thead>
+    <tr>
+        <th scope="col" style="text-align: left">Név</th>
+        <th scope="col" style="text-align: center">Mennyiség</th>
+        <th scope="col" style="text-align: right">Ár</th>
+        <th scope="col"></th>
+        <th scope="col"></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="aru : ${szamlaDto.getSzamlaSplitDto().getRendelesek()}">
+        <td th:text="${aru.getEtteremTermekDto().nev}" style="text-align: left">Név</td>
+        <td th:text="${aru.mennyiseg}" style="text-align: center">1</td>
+        <td th:text="${aru.getEtteremTermekDto().getAr() * aru.mennyiseg} + ' Ft'" style="text-align: right">100 Ft</td>
+        <td>
+            <form th:action="@{'/etterem/asztal/{asztalId}/removeFromSzamlaSplit' (asztalId=${szamlaDto.getAsztalDto.getId()})}">
+                <div class="position-relative" style="text-align: center">
+                    <button class="btn btn-primary btn-lg" type="submit">-</button>
+                </div>
+            </form>
+        </td>
+    </tr>
+    <tr>
+        <td>15% szervízdíjat számolunk fel.</td>
+    </tr>
+    <tr>
+        <td th:text="'Végösszeg: ' + ${szamlaDto.getSzamlaSplitDto().getVegosszeg()} + ' Ft'">100 Ft</td>
     </tr>
     </tbody>
 </table>

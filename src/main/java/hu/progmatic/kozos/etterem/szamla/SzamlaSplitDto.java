@@ -1,8 +1,9 @@
-package hu.progmatic.kozos.etterem.asztal;
+package hu.progmatic.kozos.etterem.szamla;
 
 import hu.progmatic.kozos.etterem.rendeles.RendelesDto;
 import lombok.*;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,9 +13,10 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class AsztalDto {
+public class SzamlaSplitDto implements Serializable {
   private Integer id;
-  private String nev;
   @Builder.Default
-  private List<RendelesDto> rendelesDtoLista = new ArrayList<>();
+  private List<RendelesDto> rendelesek = new ArrayList<>();
+  @Builder.Default
+  private Integer vegosszeg = 0;
 }
