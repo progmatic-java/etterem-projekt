@@ -111,7 +111,7 @@
             <input type="text"
                    class="form-control"
                    placeholder="Ár"
-                   pattern="[0-9]{10}"
+                   pattern="\d+"
                    th:field="*{ar}"
                    th:classappend="${#fields.hasErrors('ar')} ? 'is-invalid' : 'is-valid'"/>
             <div class="invalid-feedback"
