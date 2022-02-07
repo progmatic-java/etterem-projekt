@@ -55,9 +55,9 @@ class AsztalControllerTest {
   @DisplayName("Számla oldal megjelenik")
   void szamla() throws Exception {
     mockMvc.perform(
-            MockMvcRequestBuilders.get("/etterem/asztal/2/szamla?")
+            MockMvcRequestBuilders.get("/etterem/asztal/6/szamla?")
         ).andExpect(status().isOk())
-        .andExpect(content().string(containsString("Név")));
+        .andExpect(content().string(containsString("Számla")));
   }
 
   @Test

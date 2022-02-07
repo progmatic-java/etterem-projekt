@@ -7,8 +7,8 @@
           integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <title>Leltár</title>
     <style>
-        table {
-            width: auto;
+        table, th, td {
+            border: 2px solid white;
         }
 
         @media screen and (max-width: 600px) {
@@ -41,30 +41,30 @@
         integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
         crossorigin="anonymous"></script>
 <div style="overflow-x:auto;">
-    <table class="table table-dark table-striped">
+    <table class="table table-white table-striped">
         <thead>
         <tr>
-            <th scope="col">Id</th>
-            <th scope="col">Név</th>
-            <th scope="col">Ár</th>
-            <th scope="col">Tipus</th>
+            <th scope="col" style="text-align: center">Id</th>
+            <th scope="col" style="text-align: center">Név</th>
+            <th scope="col" style="text-align: center">Ár</th>
+            <th scope="col" style="text-align: center">Tipus</th>
             <th scope="col"></th>
             <th scope="col"></th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="item : ${allItem}">
-            <th scope="row" th:text="${item.id}">0</th>
-            <td th:text="${item.nev}">Név</td>
-            <td th:text="${item.ar} + ' Ft'">100</td>
-            <td th:text="${item.tipus}">Tipus</td>
+            <th scope="row" th:text="${item.id}" style="text-align: center">0</th>
+            <td th:text="${item.nev}" style="text-align: center">Név</td>
+            <td th:text="${item.ar} + ' Ft'" style="text-align: center">100</td>
+            <td th:text="${item.tipus}" style="text-align: center">Tipus</td>
             <td>
-                <form style="text-align: right" th:action="@{'/etterem/leltar/{id}'(id=${item.id})}" method="get">
+                <form style="text-align: center" th:action="@{'/etterem/leltar/{id}'(id=${item.id})}" method="get">
                     <input type="submit" class="btn btn-success edit-btn" value="Módosít"/>
                 </form>
             </td>
             <td>
-                <form style="text-align: right" th:action="@{'/etterem/leltar/delete/{id}'(id=${item.id})}"
+                <form style="text-align: center" th:action="@{'/etterem/leltar/delete/{id}'(id=${item.id})}"
                       method="post">
                     <input type="submit" class="btn btn-danger" value="Töröl"/>
                 </form>
@@ -73,7 +73,7 @@
         </tbody>
     </table>
 </div>
->
+
 <h3 th:if="${formItem.id == null}">Termék hozzáadása</h3>
 <h3 th:if="${formItem.id != null}">Termék módosítása</h3>
 <form th:action="@{'/etterem/leltar/{id}' (id=${formItem.id})}"
@@ -111,6 +111,7 @@
             <input type="text"
                    class="form-control"
                    placeholder="Ár"
+                   pattern="\d+"
                    th:field="*{ar}"
                    th:classappend="${#fields.hasErrors('ar')} ? 'is-invalid' : 'is-valid'"/>
             <div class="invalid-feedback"
