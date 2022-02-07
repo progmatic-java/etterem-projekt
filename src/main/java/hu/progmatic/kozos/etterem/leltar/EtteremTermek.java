@@ -17,8 +17,9 @@ public class EtteremTermek {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
-    @NotEmpty
+    @NotEmpty(message = "név nem lehet üres!")
     private String nev;
+
     @NotNull
     @Min(0)
     private Integer ar;
