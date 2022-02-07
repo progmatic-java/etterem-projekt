@@ -89,17 +89,6 @@ public class EtteremTermekService implements InitializingBean {
     return etteremTermekRepository.findAllByTipus(tipus);
   }
 
-  public List<EtteremTermekDto> findAllByTipusDto(Tipus tipus) {
-    List<EtteremTermek> allTermekByTipus = findAllByTipus(tipus);
-    return allTermekByTipus.stream()
-        .map(item -> getDto(item.getId()))
-        .collect(Collectors.toList());
-  }
-
-  public EtteremTermek empty() {
-    return new EtteremTermek();
-  }
-
   @Override
   public void afterPropertiesSet() {
     if (etteremTermekRepository.count() == 0) {

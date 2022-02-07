@@ -1,6 +1,5 @@
 package hu.progmatic.kozos.etterem.rendeles;
 
-
 import hu.progmatic.kozos.etterem.asztal.Asztal;
 import hu.progmatic.kozos.etterem.asztal.AsztalRepository;
 import hu.progmatic.kozos.etterem.asztal.AsztalService;
@@ -42,6 +41,8 @@ public class RendelesService {
     asztal.getRendelesek().add(rendeles);
     if (asztal.getSzamla() == null) {
       szamlaService.createSzamlaForAsztal(asztal.getId());
+    } else {
+      szamlaService.szamlaFrissitese(asztal.getId());
     }
     return rendelesRepository.save(rendeles);
   }

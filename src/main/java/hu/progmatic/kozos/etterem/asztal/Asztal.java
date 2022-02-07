@@ -24,7 +24,7 @@ public class Asztal {
     private Integer id;
     @NotEmpty
     private String nev;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "asztal")
     private Szamla szamla;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "asztal", fetch = FetchType.EAGER)
     private List<Rendeles> rendelesek = new ArrayList<>();

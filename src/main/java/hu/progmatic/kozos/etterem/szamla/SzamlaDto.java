@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.util.List;
 
 @Data
 @Getter
@@ -14,9 +15,9 @@ import java.io.Serializable;
 @Builder
 public class SzamlaDto implements Serializable{
     private Integer id;
-    private AsztalDto asztalDto;
+    private Integer asztalId;
     private Integer vegosszeg;
-    private boolean isSplit;
-    @Builder.Default
-    private SzamlaSplitDto szamlaSplitDto = SzamlaSplitDto.builder().build();
+    private Integer fizetettVegosszeg;
+    private boolean split;
+    private List<SzamlaTetelDto> tetelek;
 }

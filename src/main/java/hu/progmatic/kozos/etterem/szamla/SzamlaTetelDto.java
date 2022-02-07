@@ -4,8 +4,6 @@ import hu.progmatic.kozos.etterem.rendeles.RendelesDto;
 import lombok.*;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 @Data
 @Getter
@@ -13,10 +11,9 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class SzamlaSplitDto implements Serializable {
+public class SzamlaTetelDto implements Serializable {
   private Integer id;
+  private RendelesDto rendelesDto;
   @Builder.Default
-  private List<RendelesDto> rendelesek = new ArrayList<>();
-  @Builder.Default
-  private Integer vegosszeg = 0;
+  private Integer fizetettMennyiseg = 0;
 }

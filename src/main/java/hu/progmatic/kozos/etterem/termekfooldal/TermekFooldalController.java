@@ -1,6 +1,5 @@
 package hu.progmatic.kozos.etterem.termekfooldal;
 
-
 import hu.progmatic.kozos.etterem.asztal.AsztalService;
 import hu.progmatic.kozos.etterem.asztal.TableViewDto;
 import hu.progmatic.kozos.etterem.leltar.EtteremTermek;
@@ -11,7 +10,6 @@ import hu.progmatic.kozos.etterem.rendeles.CreateRendelesCommand;
 import hu.progmatic.kozos.etterem.rendeles.Rendeles;
 import hu.progmatic.kozos.etterem.rendeles.RendelesService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;

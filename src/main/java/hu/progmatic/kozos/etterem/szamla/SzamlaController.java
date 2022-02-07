@@ -29,8 +29,8 @@ public class SzamlaController {
       @PathVariable Integer asztalId,
       Model model
   ) {
+    szamlaService.splitSzamla(szamlaService.findSzamlaByAsztalId(asztalId));
     SzamlaDto dto = szamlaService.szamlaDtoBuilder(szamlaService.findSzamlaByAsztalId(asztalId));
-    dto.setSplit(true);
     model.addAttribute("szamlaDto", dto);
     return "etterem/szamla";
   }
@@ -38,11 +38,10 @@ public class SzamlaController {
   @PostMapping("/etterem/asztal/{asztalId}/addToSzamlaSplit/{termekId}")
   public String addToSzamlaSplit(
       @PathVariable Integer asztalId,
-      @PathVariable Integer termekId,
-      Model model
+      @PathVariable Integer termekId
   ) {
     szamlaService.addToSzamlaSplit(asztalId, termekId);
-    return "etterem/szamla";
+    return "redirect:/etterem/asztal/" + asztalId + "/szamla";
   }
 
   @ModelAttribute("szamlaDto")

@@ -10,6 +10,7 @@ import hu.progmatic.kozos.etterem.szamla.Szamla;
 import hu.progmatic.kozos.etterem.szamla.SzamlaDto;
 import hu.progmatic.kozos.etterem.szamla.SzamlaService;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -32,17 +33,4 @@ class SzamlaServiceTest {
     service.createSzamlaForAsztal(tesztAsztalId);
   }
 
-  @Test
-  void createAndRead() {
-    SzamlaDto szamla = service.createSzamlaForAsztal(tesztAsztalId);
-    assertNotNull(szamla.getId());
-    assertEquals("1. asztal", szamla.getAsztalDto().getNev());
-  }
-
-  @Test
-  void findSzamlaByAsztalIdTest() {
-    SzamlaDto dto = service.szamlaDtoBuilder(service.findSzamlaByAsztalId(tesztAsztalId));
-    assertNotNull(dto.getId());
-    assertEquals("1. asztal", dto.getAsztalDto().getNev());
-  }
 }
