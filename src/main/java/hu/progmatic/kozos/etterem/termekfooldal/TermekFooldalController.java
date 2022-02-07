@@ -70,27 +70,17 @@ public class TermekFooldalController {
       @PathVariable Integer asztalId,
       @PathVariable Tipus tipus,
       @PathVariable AsztalFeluletTipus asztalFeluletTipus,
-      @ModelAttribute("createRendelesCommand") @Valid CreateRendelesCommand command,
-      BindingResult bindingResult,
-      Model model) {
-    if (!bindingResult.hasErrors()) {
-      asztalId = asztalService.getIdByAsztalSzam(asztalId);
-      command.setAsztalId(asztalId);
-      if (rendelesService.rendelesTartalmazzaATermeket(command)) {
-        rendelesService.mennyisegNovelese(asztalId, command.getEtteremTermekId());
-        model.addAttribute("filteredByTipus", etteremTermekService.findAllByTipus(tipus));
-        model.addAttribute("tableViewDto", asztalService.getTableViewDto(asztalId, tipus, asztalFeluletTipus));
-        refreshAllItem(model);
-        clearFormItem(model);
-        return "etterem/termek_fooldal";
-      }
+      @ModelAttribute("createRendelesCommand") @Valid CreateRendelesCommand command) {
+    asztalId = asztalService.getIdByAsztalSzam(asztalId);
+    command.setAsztalId(asztalId);
+    if (rendelesService.rendelesTartalmazzaATermeket(command)) {
+      rendelesService.mennyisegNovelese(asztalId, command.getEtteremTermekId());
+    } else {
       rendelesService.create(command);
-      model.addAttribute("tableViewDto", asztalService.getTableViewDto(asztalId, tipus, asztalFeluletTipus));
-      refreshAllItem(model);
-      clearFormItem(model);
-    }
-    model.addAttribute("filteredByTipus", etteremTermekService.findAllByTipus(tipus));
-    return "etterem/termek_fooldal";
+
+  }
+
+    return "redirect:/etterem/asztal/" + asztalId + "/" + asztalFeluletTipus.name() + "/tipus/" + tipus;
   }
 
   @PostMapping("/etterem/asztal/{asztalId}/mennyisegNoveleseTipusOldalon/{asztalFeluletTipus}/{tipus}/{termekNeve}")
