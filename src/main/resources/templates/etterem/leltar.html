@@ -59,12 +59,12 @@
             <td th:text="${item.ar} + ' Ft'" style="text-align: center">100</td>
             <td th:text="${item.tipus}" style="text-align: center">Tipus</td>
             <td>
-                <form style="text-align: right" th:action="@{'/etterem/leltar/{id}'(id=${item.id})}" method="get">
+                <form style="text-align: center" th:action="@{'/etterem/leltar/{id}'(id=${item.id})}" method="get">
                     <input type="submit" class="btn btn-success edit-btn" value="Módosít"/>
                 </form>
             </td>
             <td>
-                <form style="text-align: right" th:action="@{'/etterem/leltar/delete/{id}'(id=${item.id})}"
+                <form style="text-align: center" th:action="@{'/etterem/leltar/delete/{id}'(id=${item.id})}"
                       method="post">
                     <input type="submit" class="btn btn-danger" value="Töröl"/>
                 </form>
