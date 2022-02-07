@@ -73,7 +73,7 @@
         </tbody>
     </table>
 </div>
->
+
 <h3 th:if="${formItem.id == null}">Termék hozzáadása</h3>
 <h3 th:if="${formItem.id != null}">Termék módosítása</h3>
 <form th:action="@{'/etterem/leltar/{id}' (id=${formItem.id})}"
@@ -111,6 +111,7 @@
             <input type="text"
                    class="form-control"
                    placeholder="Ár"
+                   pattern="[0-9]{10}"
                    th:field="*{ar}"
                    th:classappend="${#fields.hasErrors('ar')} ? 'is-invalid' : 'is-valid'"/>
             <div class="invalid-feedback"

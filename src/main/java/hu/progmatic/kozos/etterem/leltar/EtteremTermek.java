@@ -17,10 +17,10 @@ public class EtteremTermek {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
-    @NotEmpty(message = "név nem lehet üres!")
+    @NotEmpty(message = "Név nem lehet üres!")
     private String nev;
 
-    @NotNull
+    @NotNull(message = "Nagyobbnak kell lennie, mint nulla")
     @Min(0)
     private Integer ar;
     @NotNull
