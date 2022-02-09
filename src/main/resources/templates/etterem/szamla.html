@@ -67,7 +67,7 @@
         <td></td>
     </tr>
     <tr>
-        <td>
+        <td colspan="4" style="text-align: center">
             <form th:action="@{'/etterem/asztal/{asztalId}/splitSzamla' (asztalId=${szamlaDto.getAsztalId()})}"
                   th:if="${!szamlaDto.isSplit()}">
                 <div class="position-relative" style="text-align: center">
@@ -84,13 +84,15 @@
     </tr>
     </tbody>
 </table>
-<table th:if="${szamlaDto.isSplit() == true}" class="table table-dark table-striped">
-    <thead>
+<table th:if="${szamlaDto.isSplit() == true}" class="table table-white table-striped">
+    <thead class="table-header" style="color: white">
+    <tr>
+        <th scope="col" style="text-align: center; font-size: x-large" colspan="4">SZÁMLA / 1</th>
+    </tr>
     <tr>
         <th scope="col" style="text-align: left">Név</th>
         <th scope="col" style="text-align: center">Mennyiség</th>
         <th scope="col" style="text-align: right">Ár</th>
-        <th scope="col"></th>
         <th scope="col"></th>
     </tr>
     </thead>
@@ -112,10 +114,22 @@
         </td>
     </tr>
     <tr>
-        <td>15% szervízdíjat számolunk fel.</td>
+        <td></td>
+        <td></td>
+        <td th:text="'VÉGÖSSZEG: ' + ${szamlaDto.getFizetettVegosszeg()} / 115 * 100 + ' Ft'" style="text-align: right">100 Ft</td>
+        <td></td>
     </tr>
     <tr>
-        <td th:text="'Végösszeg: ' + ${szamlaDto.getFizetettVegosszeg()} + ' Ft'">100 Ft</td>
+        <td>A számla végösszege 15% szervízdíjat tartalmaz.</td>
+        <td></td>
+        <td th:text="'SZERVÍZDÍJ: ' + (${szamlaDto.getFizetettVegosszeg()} - ${szamlaDto.getFizetettVegosszeg()} / 1.15)+ ' Ft'" style="text-align: right">100 Ft</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td></td>
+        <td></td>
+        <td th:text="'FIZETENDŐ ÖSSZEG: ' + ${szamlaDto.getFizetettVegosszeg()} + ' Ft'" style="text-align: right; font-weight: bold; font-size: large">100 Ft</td>
+        <td></td>
     </tr>
     </tbody>
 </table>
