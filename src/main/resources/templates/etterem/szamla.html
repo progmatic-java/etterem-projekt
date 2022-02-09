@@ -69,7 +69,8 @@
         <td th:text="${aru.getFizetettMennyiseg()}" style="text-align: center">1</td>
         <td th:text="${aru.getRendelesDto().getEtteremTermekDto().getAr() * aru.getFizetettMennyiseg()} + ' Ft'" style="text-align: right">100 Ft</td>
         <td>
-            <form th:action="@{'/etterem/asztal/{asztalId}/removeFromSzamlaSplit' (asztalId=${szamlaDto.getAsztalId()})}">
+            <form th:action="@{'/etterem/asztal/{asztalId}/removeFromSzamlaSplit/{termekId}'
+            (asztalId=${szamlaDto.getAsztalId()}, termekId=${aru.getRendelesDto().getEtteremTermekDto().getId()})}" method="post">
                 <div class="position-relative" style="text-align: center">
                     <button class="btn btn-primary btn-lg" type="submit">-</button>
                 </div>

@@ -116,4 +116,13 @@ public class SzamlaService {
     szamlaTetel.setFizetettMennyiseg(szamlaTetel.getFizetettMennyiseg() + 1);
     szamlaTetel.getRendeles().setMennyiseg(szamlaTetel.getRendeles().getMennyiseg() - 1);
   }
+  public void removeFromSzamlaSplit(Integer asztalId, Integer termekId) {
+    Szamla szamla = findSzamlaByAsztalId(asztalId);
+    SzamlaTetel szamlaTetel = szamla.getTetelek().stream()
+            .filter(tetel -> tetel.getRendeles().getEtteremTermek().getId() == termekId)
+            .findFirst()
+            .orElseThrow();
+    szamlaTetel.setFizetettMennyiseg(szamlaTetel.getFizetettMennyiseg() - 1);
+    szamlaTetel.getRendeles().setMennyiseg(szamlaTetel.getRendeles().getMennyiseg() + 1);
+  }
 }

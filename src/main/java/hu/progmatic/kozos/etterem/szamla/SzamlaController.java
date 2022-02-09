@@ -43,6 +43,14 @@ public class SzamlaController {
     szamlaService.addToSzamlaSplit(asztalId, termekId);
     return "redirect:/etterem/asztal/" + asztalId + "/szamla";
   }
+  @PostMapping("/etterem/asztal/{asztalId}/removeFromSzamlaSplit/{termekId}")
+  public String removeFromSzamlaSplit(
+          @PathVariable Integer asztalId,
+          @PathVariable Integer termekId
+  ) {
+    szamlaService.removeFromSzamlaSplit(asztalId, termekId);
+    return "redirect:/etterem/asztal/" + asztalId + "/szamla";
+  }
 
   @ModelAttribute("szamlaDto")
   SzamlaDto szamlaDto() {
