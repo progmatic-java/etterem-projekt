@@ -105,8 +105,9 @@
             style="text-align: right">100 Ft
         </td>
         <td>
-            <form th:action="@{'/etterem/asztal/{asztalId}/removeFromSzamlaSplit/{termekId}'
-            (asztalId=${szamlaDto.getAsztalId()}, termekId=${aru.getRendelesDto().getEtteremTermekDto().getId()})}" method="post">
+            <form th:if="${szamlaDto.isSplit()}" th:action="@{'/etterem/asztal/{asztalId}/removeFromSzamlaSplit/{termekId}'
+            (asztalId=${szamlaDto.getAsztalId()}, termekId=${aru.getRendelesDto().getEtteremTermekDto().getId()})}"
+                  method="post">
                 <div class="position-relative" style="text-align: center">
                     <button class="btn btn-primary btn-lg" type="submit">-</button>
                 </div>
