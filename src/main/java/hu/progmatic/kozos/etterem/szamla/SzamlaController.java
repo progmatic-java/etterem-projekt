@@ -24,7 +24,7 @@ public class SzamlaController {
     return "etterem/szamla";
   }
 
-  @GetMapping("/etterem/asztal/{asztalId}/splitSzamla")
+  @PostMapping("/etterem/asztal/{asztalId}/splitSzamla")
   public String splitSzamla(
       @PathVariable Integer asztalId,
       Model model
@@ -35,7 +35,7 @@ public class SzamlaController {
     return "etterem/szamla";
   }
 
-  @GetMapping("etterem/asztal/{asztalId}/cancelSplit")
+  @PostMapping("etterem/asztal/{asztalId}/cancelSplit")
   public String cancelSplit(
       @PathVariable Integer asztalId,
       Model model
@@ -54,12 +54,21 @@ public class SzamlaController {
     szamlaService.addToSzamlaSplit(asztalId, termekId);
     return "redirect:/etterem/asztal/" + asztalId + "/szamla";
   }
+
   @PostMapping("/etterem/asztal/{asztalId}/removeFromSzamlaSplit/{termekId}")
   public String removeFromSzamlaSplit(
-          @PathVariable Integer asztalId,
-          @PathVariable Integer termekId
+      @PathVariable Integer asztalId,
+      @PathVariable Integer termekId
   ) {
     szamlaService.removeFromSzamlaSplit(asztalId, termekId);
+    return "redirect:/etterem/asztal/" + asztalId + "/szamla";
+  }
+
+  @PostMapping("etterem/asztal/{asztalId}/splitSzamlaFizetese")
+  public String splitSzamlaFizetes(
+      @PathVariable Integer asztalId
+  ) {
+    szamlaService.kulonSzamlaFizetese(asztalId);
     return "redirect:/etterem/asztal/" + asztalId + "/szamla";
   }
 
