@@ -148,7 +148,8 @@ public class TermekFooldalController {
           new GombDto("SERTÉSÉTEL", "/etterem/asztal/" + asztalId + "/" + tipus + "/tipus/" + Tipus.SERTESETEL.name()),
           new GombDto("HALÉTEL", "/etterem/asztal/" + asztalId + "/" + tipus + "/tipus/" + Tipus.HALETEL.name()),
           new GombDto("MARHA", "/etterem/asztal/" + asztalId + "/" + tipus + "/tipus/" + Tipus.MARHAETEL.name()),
-          new GombDto("DESSZERT", "/etterem/asztal/" + asztalId + "/" + tipus + "/tipus/" + Tipus.DESSZERT.name())
+          new GombDto("DESSZERT", "/etterem/asztal/" + asztalId + "/" + tipus + "/tipus/" + Tipus.DESSZERT.name()),
+          new GombDto("EXTRA", "/etterem/asztal/" + asztalId + "/" + tipus + "/tipus/" + Tipus.EXTRA.name())
       );
     } else if (tipus == AsztalFeluletTipus.ITAL) {
       gombok = List.of(
@@ -157,7 +158,8 @@ public class TermekFooldalController {
           new GombDto("KOKTÉL", "/etterem/asztal/" + asztalId + "/" + tipus + "/tipus/" + Tipus.KOKTEL.name()),
           new GombDto("ÜDÍTŐ", "/etterem/asztal/" + asztalId + "/" + tipus + "/tipus/" + Tipus.UDITO.name()),
           new GombDto("FORRÓ ITAL", "/etterem/asztal/" + asztalId + "/" + tipus + "/tipus/" + Tipus.FORROITAL.name()),
-          new GombDto("KÁVÉ", "/etterem/asztal/" + asztalId + "/" + tipus + "/tipus/" + Tipus.KAVE.name())
+          new GombDto("KÁVÉ", "/etterem/asztal/" + asztalId + "/" + tipus + "/tipus/" + Tipus.KAVE.name()),
+          new GombDto("EXTRA", "/etterem/asztal/" + asztalId + "/" + tipus + "/tipus/" + Tipus.EXTRA.name())
       );
     } else {
       gombok = List.of(

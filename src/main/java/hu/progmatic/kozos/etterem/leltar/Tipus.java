@@ -12,5 +12,6 @@ public enum Tipus {
     KOKTEL,
     UDITO,
     FORROITAL,
-    KAVE
+    KAVE,
+    EXTRA
 }

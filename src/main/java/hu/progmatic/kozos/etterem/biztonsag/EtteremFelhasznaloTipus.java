@@ -5,7 +5,6 @@ import java.util.Arrays;
 
 public enum EtteremFelhasznaloTipus {
     ADMIN(Jogosultsag.USER_WRITE_ROLE, Jogosultsag.USER_READ_ROLE, Jogosultsag.USER_DELETE_ROLE, Jogosultsag.USER_ADD_ITEM_TO_INVENTORY_ROLE),
-    MANAGER(Jogosultsag.USER_WRITE_ROLE, Jogosultsag.USER_READ_ROLE, Jogosultsag.USER_DELETE_ROLE, Jogosultsag.USER_ADD_ITEM_TO_INVENTORY_ROLE),
     WAITER(Jogosultsag.USER_READ_ROLE, Jogosultsag.USER_WRITE_ROLE);
     private final String[] jogosultsagok;
 

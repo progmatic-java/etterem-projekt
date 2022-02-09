@@ -57,7 +57,7 @@ public class EtteremFelhasznaloService implements InitializingBean {
     public void afterPropertiesSet() {
         if (findAll().isEmpty()) {
             add(new EtteremUjFelhasznaloCommand("1111", "1111", EtteremFelhasznaloTipus.ADMIN));
-            add(new EtteremUjFelhasznaloCommand("2222", "2222", EtteremFelhasznaloTipus.MANAGER));
+
             add(new EtteremUjFelhasznaloCommand("3333", "3333", EtteremFelhasznaloTipus.WAITER));
         }
     }
