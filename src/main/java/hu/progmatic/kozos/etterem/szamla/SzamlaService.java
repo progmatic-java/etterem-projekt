@@ -1,22 +1,15 @@
 package hu.progmatic.kozos.etterem.szamla;
 
-import hu.progmatic.kozos.etterem.leltar.EtteremTermek;
 import hu.progmatic.kozos.etterem.leltar.EtteremTermekDto;
-import hu.progmatic.kozos.etterem.leltar.EtteremTermekService;
 import hu.progmatic.kozos.etterem.rendeles.RendelesDto;
-import hu.progmatic.kozos.etterem.rendeles.RendelesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import javax.transaction.Transactional;
-
 import hu.progmatic.kozos.etterem.asztal.Asztal;
 import hu.progmatic.kozos.etterem.asztal.AsztalService;
-import hu.progmatic.kozos.etterem.rendeles.Rendeles;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
+
 
 @Service
 @Transactional
@@ -36,6 +29,9 @@ public class SzamlaService {
 
   public void createSzamlaForAsztal(Integer asztalId) {
     Asztal asztal = asztalService.getById(asztalId);
+    if(asztal.getSzamla() != null){
+       szamlaRepository.deleteById(asztal.getSzamla().getId());
+    }
     Szamla szamla = Szamla.builder()
         .asztal(asztal)
         .build();
