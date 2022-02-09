@@ -40,13 +40,13 @@ public class SzamlaService {
     Szamla szamla = Szamla.builder()
         .asztal(asztal)
         .build();
-    setTetelek(asztal, szamla);
+    setTetelek(szamla);
     asztal.setSzamla(szamla);
     szamlaRepository.save(szamla);
   }
 
-  private void setTetelek(Asztal asztal, Szamla szamla) {
-    szamla.setTetelek(asztal.getRendelesek().stream()
+  private void setTetelek(Szamla szamla) {
+    szamla.setTetelek(szamla.getAsztal().getRendelesek().stream()
         .map(rendeles -> SzamlaTetel.builder()
             .rendeles(rendeles)
             .fizetettMennyiseg(0)
@@ -106,8 +106,9 @@ public class SzamlaService {
     szamla.setSplit(true);
   }
 
-  public void cancelSplit(Szamla szamla) {
-    szamla.setSplit(false);
+  public void cancelSplit(Integer asztalId) {
+    createSzamlaForAsztal(asztalId);
+    asztalService.getById(asztalId).getSzamla().setSplit(false);
   }
 
   public void addToSzamlaSplit(Integer asztalId, Integer termekId) {
@@ -128,5 +129,14 @@ public class SzamlaService {
         .orElseThrow();
     asztal.getSzamla().getTetelek().remove(szamlaTetel);
     szamlaTetelRepository.delete(szamlaTetel);
+  }
+  public void removeFromSzamlaSplit(Integer asztalId, Integer termekId) {
+    Szamla szamla = findSzamlaByAsztalId(asztalId);
+    SzamlaTetel szamlaTetel = szamla.getTetelek().stream()
+            .filter(tetel -> tetel.getRendeles().getEtteremTermek().getId() == termekId)
+            .findFirst()
+            .orElseThrow();
+    szamlaTetel.setFizetettMennyiseg(szamlaTetel.getFizetettMennyiseg() - 1);
+    szamlaTetel.getRendeles().setMennyiseg(szamlaTetel.getRendeles().getMennyiseg() + 1);
   }
 }
