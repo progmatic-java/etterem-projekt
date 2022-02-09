@@ -3,6 +3,7 @@ package hu.progmatic.kozos.etterem.szamla;
 import hu.progmatic.kozos.etterem.leltar.EtteremTermekDto;
 import hu.progmatic.kozos.etterem.rendeles.Rendeles;
 import hu.progmatic.kozos.etterem.rendeles.RendelesDto;
+import hu.progmatic.kozos.etterem.rendeles.RendelesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +12,7 @@ import javax.transaction.Transactional;
 import hu.progmatic.kozos.etterem.asztal.Asztal;
 import hu.progmatic.kozos.etterem.asztal.AsztalService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -23,6 +25,8 @@ public class SzamlaService {
   private AsztalService asztalService;
   @Autowired
   private SzamlaTetelRepository szamlaTetelRepository;
+  @Autowired
+  private RendelesRepository rendelesRepository;
 
   public Szamla create(Szamla szamla) {
     return szamlaRepository.save(szamla);
@@ -139,5 +143,28 @@ public class SzamlaService {
         .orElseThrow();
     asztal.getSzamla().getTetelek().remove(szamlaTetel);
     szamlaTetelRepository.delete(szamlaTetel);
+  }
+
+  public void kulonSzamlaFizetese(Integer asztalId) {
+    List<SzamlaTetel> eltavolitandoTetelek = new ArrayList<>();
+    List<Rendeles> eltavolitandoRendelesek = new ArrayList<>();
+    Asztal asztal = asztalService.getById(asztalId);
+    for (SzamlaTetel tetel : asztal.getSzamla().getTetelek()) {
+      for (Rendeles rendeles : asztal.getRendelesek()) {
+        if (tetel.getRendeles().getEtteremTermek().equals(rendeles.getEtteremTermek())) {
+          rendeles.setMennyiseg(rendeles.getMennyiseg() - tetel.getFizetettMennyiseg());
+          tetel.setFizetettMennyiseg(0);
+        }
+        if (rendeles.getMennyiseg() == 0) {
+          eltavolitandoTetelek.add(tetel);
+          eltavolitandoRendelesek.add(rendeles);
+        }
+      }
+    }
+    asztal.getSzamla().getTetelek().removeAll(eltavolitandoTetelek);
+    asztal.getRendelesek().removeAll(eltavolitandoRendelesek);
+    szamlaTetelRepository.deleteAll(eltavolitandoTetelek);
+    rendelesRepository.deleteAll(eltavolitandoRendelesek);
+    asztal.getSzamla().setSplit(false);
   }
 }
