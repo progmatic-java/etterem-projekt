@@ -21,24 +21,25 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 class TermekFooldalControllerTest {
 
-    @Autowired
-    private MockMvc mockMvc;
-@DisplayName("Termék főoldal megjlenik")
-    @Test
-    void termekIndex() throws Exception {
-      mockMvc.perform(
-              MockMvcRequestBuilders.get("/etterem/asztal/3/KEZDOLAP")
+  @Autowired
+  private MockMvc mockMvc;
 
-      ).andExpect(status().isOk())
-              .andExpect(content().string(containsString("ÉTEL")));
-    }
+  @DisplayName("Termék főoldal megjlenik")
+  @Test
+  void termekIndex() throws Exception {
+    mockMvc.perform(
+            MockMvcRequestBuilders.get("/etterem/asztal/3/KEZDOLAP")
 
-    @DisplayName("Levesből típus főoldalra")
-    @Test
-    void levesbolTipusra() throws Exception{
+        ).andExpect(status().isOk())
+        .andExpect(content().string(containsString("ÉTEL")));
+  }
+
+  @DisplayName("Levesből típus főoldalra")
+  @Test
+  void levesbolTipusra() throws Exception {
     mockMvc.perform(
             MockMvcRequestBuilders.get("/etterem/asztal/3/ETEL?")
-    ) .andExpect(status().isOk())
-            .andExpect(content().string(containsString("LEVES")));
-    }
+        ).andExpect(status().isOk())
+        .andExpect(content().string(containsString("LEVES")));
+  }
 }

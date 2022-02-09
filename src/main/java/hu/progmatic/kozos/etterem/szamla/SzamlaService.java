@@ -1,13 +1,16 @@
 package hu.progmatic.kozos.etterem.szamla;
 
 import hu.progmatic.kozos.etterem.leltar.EtteremTermekDto;
+import hu.progmatic.kozos.etterem.rendeles.Rendeles;
 import hu.progmatic.kozos.etterem.rendeles.RendelesDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import javax.transaction.Transactional;
+
 import hu.progmatic.kozos.etterem.asztal.Asztal;
 import hu.progmatic.kozos.etterem.asztal.AsztalService;
-import java.util.ArrayList;
+
 import java.util.List;
 
 
@@ -18,6 +21,8 @@ public class SzamlaService {
   private SzamlaRepository szamlaRepository;
   @Autowired
   private AsztalService asztalService;
+  @Autowired
+  private SzamlaTetelRepository szamlaTetelRepository;
 
   public Szamla create(Szamla szamla) {
     return szamlaRepository.save(szamla);
@@ -29,30 +34,23 @@ public class SzamlaService {
 
   public void createSzamlaForAsztal(Integer asztalId) {
     Asztal asztal = asztalService.getById(asztalId);
-    if(asztal.getSzamla() != null){
-       szamlaRepository.deleteById(asztal.getSzamla().getId());
+    if (asztal.getSzamla() != null) {
+      szamlaRepository.deleteById(asztal.getSzamla().getId());
     }
     Szamla szamla = Szamla.builder()
         .asztal(asztal)
         .build();
-    setTetelek(asztal, szamla);
+    setTetelek(szamla);
     asztal.setSzamla(szamla);
     szamlaRepository.save(szamla);
   }
 
-  public void szamlaFrissitese(Integer asztalId) {
-    Asztal asztal = asztalService.getById(asztalId);
-    Szamla szamla = asztal.getSzamla();
-    szamla.setTetelek(new ArrayList<>());
-    asztal.setSzamla(szamla);
-    setTetelek(asztal, szamla);
-  }
-
-  private void setTetelek(Asztal asztal, Szamla szamla) {
-    szamla.setTetelek(asztal.getRendelesek().stream()
+  private void setTetelek(Szamla szamla) {
+    szamla.setTetelek(szamla.getAsztal().getRendelesek().stream()
         .map(rendeles -> SzamlaTetel.builder()
             .rendeles(rendeles)
             .fizetettMennyiseg(0)
+            .nemFizetettMennyiseg(rendeles.getMennyiseg())
             .szamla(szamla)
             .build())
         .toList());
@@ -87,13 +85,14 @@ public class SzamlaService {
                 .mennyiseg(tetel.getRendeles().getMennyiseg())
                 .build())
             .fizetettMennyiseg(tetel.getFizetettMennyiseg())
+            .nemFizetettMennyiseg(tetel.getNemFizetettMennyiseg())
             .build())
         .toList();
   }
 
   private Integer getVegosszeg(Szamla szamla) {
     return szamla.getTetelek().stream()
-        .mapToInt(tetel -> tetel.getRendeles().getEtteremTermek().getAr() * (tetel.getRendeles().getMennyiseg()))
+        .mapToInt(tetel -> tetel.getRendeles().getEtteremTermek().getAr() * tetel.getNemFizetettMennyiseg())
         .sum() / 100 * 115;
   }
 
@@ -103,8 +102,13 @@ public class SzamlaService {
         .sum() / 100 * 115;
   }
 
-  public void splitSzamla (Szamla szamla) {
+  public void splitSzamla(Szamla szamla) {
     szamla.setSplit(true);
+  }
+
+  public void cancelSplit(Integer asztalId) {
+    createSzamlaForAsztal(asztalId);
+    asztalService.getById(asztalId).getSzamla().setSplit(false);
   }
 
   public void addToSzamlaSplit(Integer asztalId, Integer termekId) {
@@ -114,6 +118,26 @@ public class SzamlaService {
         .findFirst()
         .orElseThrow();
     szamlaTetel.setFizetettMennyiseg(szamlaTetel.getFizetettMennyiseg() + 1);
-    szamlaTetel.getRendeles().setMennyiseg(szamlaTetel.getRendeles().getMennyiseg() - 1);
+    szamlaTetel.setNemFizetettMennyiseg(szamlaTetel.getNemFizetettMennyiseg() - 1);
+  }
+
+  public void removeFromSzamlaSplit(Integer asztalId, Integer termekId) {
+    Szamla szamla = findSzamlaByAsztalId(asztalId);
+    SzamlaTetel szamlaTetel = szamla.getTetelek().stream()
+        .filter(tetel -> tetel.getRendeles().getEtteremTermek().getId() == termekId)
+        .findFirst()
+        .orElseThrow();
+    szamlaTetel.setFizetettMennyiseg(szamlaTetel.getFizetettMennyiseg() - 1);
+    szamlaTetel.setNemFizetettMennyiseg(szamlaTetel.getNemFizetettMennyiseg() + 1);
+  }
+
+  public void szamlaTetelEltavolitasa(Integer asztalId, Rendeles rendeles) {
+    Asztal asztal = asztalService.getById(asztalId);
+    SzamlaTetel szamlaTetel = asztal.getSzamla().getTetelek().stream()
+        .filter(tetel -> tetel.getRendeles().equals(rendeles))
+        .findFirst()
+        .orElseThrow();
+    asztal.getSzamla().getTetelek().remove(szamlaTetel);
+    szamlaTetelRepository.delete(szamlaTetel);
   }
 }

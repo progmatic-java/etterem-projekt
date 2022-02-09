@@ -1,6 +1,5 @@
 package hu.progmatic.kozos.etterem.szamla;
 
-import hu.progmatic.kozos.etterem.asztal.AsztalDto;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
