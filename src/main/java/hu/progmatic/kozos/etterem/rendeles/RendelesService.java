@@ -39,11 +39,7 @@ public class RendelesService {
         .mennyiseg(command.getMennyiseg())
         .build();
     asztal.getRendelesek().add(rendeles);
-    if (asztal.getSzamla() == null) {
       szamlaService.createSzamlaForAsztal(asztal.getId());
-    } else {
-      szamlaService.szamlaFrissitese(asztal.getId());
-    }
     return rendelesRepository.save(rendeles);
   }
 
