@@ -56,7 +56,13 @@ public class FelhasznaloService implements InitializingBean {
   public void afterPropertiesSet() {
     if (findAll().isEmpty()) {
       add(new UjFelhasznaloCommand("admin", "adminpass", UserType.ADMIN));
-      add(new UjFelhasznaloCommand("user", "user", UserType.FELSZOLGALO));
+      add(new UjFelhasznaloCommand("bence", "bence", UserType.ADMIN));
+      add(new UjFelhasznaloCommand("benji", "benji", UserType.ADMIN));
+      add(new UjFelhasznaloCommand("attila", "attila", UserType.ADMIN));
+      add(new UjFelhasznaloCommand("olivér", "olivér", UserType.ADMIN));
+      add(new UjFelhasznaloCommand("dávid", "dávid", UserType.ADMIN));
+      add(new UjFelhasznaloCommand("miska", "miska", UserType.ADMIN));
+      add(new UjFelhasznaloCommand("felszolgáló", "felszolgáló", UserType.FELSZOLGALO));
     }
   }
 
