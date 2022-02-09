@@ -14,6 +14,7 @@ import java.io.Serializable;
 public class SzamlaTetelDto implements Serializable {
   private Integer id;
   private RendelesDto rendelesDto;
+  private Integer nemFizetettMennyiseg;
   @Builder.Default
   private Integer fizetettMennyiseg = 0;
 }

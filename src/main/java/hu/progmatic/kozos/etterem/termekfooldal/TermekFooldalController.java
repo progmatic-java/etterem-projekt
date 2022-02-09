@@ -75,9 +75,7 @@ public class TermekFooldalController {
       rendelesService.mennyisegNovelese(asztalId, command.getEtteremTermekId());
     } else {
       rendelesService.create(command);
-
   }
-
     return "redirect:/etterem/asztal/" + asztalId + "/" + asztalFeluletTipus.name() + "/tipus/" + tipus;
   }
 
