@@ -39,7 +39,7 @@ public class RendelesService {
         .mennyiseg(command.getMennyiseg())
         .build();
     asztal.getRendelesek().add(rendeles);
-      szamlaService.createSzamlaForAsztal(asztal.getId());
+    szamlaService.createSzamlaForAsztal(asztal.getId());
     return rendelesRepository.save(rendeles);
   }
 
@@ -69,6 +69,7 @@ public class RendelesService {
         .findFirst()
         .orElseThrow();
     aktualisRendeles.setMennyiseg(aktualisRendeles.getMennyiseg() + 1);
+    szamlaService.createSzamlaForAsztal(asztalId);
   }
 
   public void mennyisegNovelese(Integer asztalId, Integer termekId) {
@@ -78,6 +79,7 @@ public class RendelesService {
         .findFirst()
         .orElseThrow();
     aktualisRendeles.setMennyiseg(aktualisRendeles.getMennyiseg() + 1);
+    szamlaService.createSzamlaForAsztal(asztalId);
   }
 
   public void mennyisegCsokkentese(Integer asztalId, String termekNeve) {
@@ -88,9 +90,11 @@ public class RendelesService {
         .orElseThrow();
     aktualisRendeles.setMennyiseg(aktualisRendeles.getMennyiseg() - 1);
     if (aktualisRendeles.getMennyiseg() == 0) {
+      szamlaService.szamlaTetelEltavolitasa(asztalId, aktualisRendeles);
       asztal.getRendelesek().remove(aktualisRendeles);
       rendelesRepository.delete(aktualisRendeles);
     }
+    szamlaService.createSzamlaForAsztal(asztalId);
   }
 
   public boolean rendelesTartalmazzaATermeket(CreateRendelesCommand command) {
