@@ -40,7 +40,7 @@ public class SzamlaController {
       @PathVariable Integer asztalId,
       Model model
   ) {
-    szamlaService.cancelSplit(szamlaService.findSzamlaByAsztalId(asztalId));
+    szamlaService.cancelSplit(asztalId);
     SzamlaDto dto = szamlaService.szamlaDtoBuilder(szamlaService.findSzamlaByAsztalId(asztalId));
     model.addAttribute("szamlaDto", dto);
     return "etterem/szamla";
