@@ -19,7 +19,7 @@
         crossorigin="anonymous"></script>
 <table class="table table-white table-striped">
     <thead class="table-header" style="color: white">
-    <tr><th scope="col" colspan="4"><h2>SZÁMLA</h2></tr>
+    <tr><th scope="col" colspan="4" style="text-align: center"><h2>SZÁMLA</h2></tr>
     <tr>
         <th scope="col" style="text-align: left">Név</th>
         <th scope="col" style="text-align: center">Mennyiség</th>
@@ -40,19 +40,32 @@
              (asztalId=${szamlaDto.getAsztalId()}, termekId=${aru.getRendelesDto().getEtteremTermekDto().getId()})}"
                   method="post">
                 <div class="position-relative" style="text-align: center">
-                    <button class="btn btn-primary btn-lg" type="submit">+</button>
+                    <button class="btn btn-primary btn-lg" type="submit">-</button>
                 </div>
             </form>
         </td>
     </tr>
     <tr>
-        <td>15% szervízdíjat számolunk fel.</td>
+        <td></td>
+        <td></td>
+        <td th:text="'VÉGÖSSZEG: ' + ${szamlaDto.getVegosszeg()} / 115 * 100 + ' Ft'" style="text-align: right">100 Ft</td>
+        <td></td>
+    </tr>
+
+    <tr>
+        <td>A számla végösszege 15% szervízdíjat tartalmaz.</td>
+        <td></td>
+        <td th:text="'SZERVÍZDÍJ: ' + (${szamlaDto.getVegosszeg()} - ${szamlaDto.getVegosszeg()} / 1.15) + ' Ft'" style="text-align: right">100 Ft</td>
+        <td></td>
     </tr>
     <tr>
-        <td th:text="'Végösszeg: ' + ${szamlaDto.getVegosszeg()} + ' Ft'">100 Ft</td>
+        <td></td>
+        <td></td>
+        <td th:text="'FIZETENDŐ ÖSSZEG: ' + ${szamlaDto.getVegosszeg()} + ' Ft'" style="text-align: right">100 Ft</td>
+        <td></td>
     </tr>
     <tr>
-        <td>
+        <td colspan="4" style="text-align: center">
             <form th:action="@{'/etterem/asztal/{asztalId}/splitSzamla' (asztalId=${szamlaDto.getAsztalId()})}">
                 <div class="position-relative" style="text-align: center">
                     <button class="btn btn-primary btn-lg" type="submit">SPLIT</button>
