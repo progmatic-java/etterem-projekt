@@ -22,4 +22,6 @@ public class SzamlaTetel {
   private Rendeles rendeles;
   @NotNull
   private Integer fizetettMennyiseg;
+  @NotNull
+  private Integer nemFizetettMennyiseg;
 }

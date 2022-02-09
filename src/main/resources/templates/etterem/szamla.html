@@ -21,14 +21,16 @@
     </thead>
     <tbody>
     <tr th:each="aru : ${szamlaDto.getTetelek()}"
-        th:if="${aru.getRendelesDto().getMennyiseg() > 0}">
+        th:if="${aru.getNemFizetettMennyiseg() > 0}">
         <td th:text="${aru.getRendelesDto().getEtteremTermekDto().getNev()}" style="text-align: left">Név</td>
-        <td th:text="${aru.getRendelesDto().getMennyiseg()}" style="text-align: center">1</td>
-        <td th:text="${aru.getRendelesDto().getEtteremTermekDto().getAr() * aru.getRendelesDto().getMennyiseg()} + ' Ft'" style="text-align: right">100 Ft</td>
+        <td th:text="${aru.getNemFizetettMennyiseg()}" style="text-align: center">1</td>
+        <td th:text="${aru.getRendelesDto().getEtteremTermekDto().getAr() * aru.getNemFizetettMennyiseg()} + ' Ft'"
+            style="text-align: right">100 Ft
+        </td>
         <td>
-            <form th:action="@{'/etterem/asztal/{asztalId}/addToSzamlaSplit/{termekId}'
-             (asztalId=${szamlaDto.getAsztalId()}, termekId=${aru.getRendelesDto().getEtteremTermekDto().getId()})}"
-            method="post">
+            <form th:if="${szamlaDto.isSplit()}" th:action="@{'/etterem/asztal/{asztalId}/addToSzamlaSplit/{termekId}'
+            (asztalId=${szamlaDto.getAsztalId()}, termekId=${aru.getRendelesDto().getEtteremTermekDto().getId()})}"
+                  method="post">
                 <div class="position-relative" style="text-align: center">
                     <button class="btn btn-primary btn-lg" type="submit">+</button>
                 </div>
@@ -43,9 +45,16 @@
     </tr>
     <tr>
         <td>
-            <form th:action="@{'/etterem/asztal/{asztalId}/splitSzamla' (asztalId=${szamlaDto.getAsztalId()})}">
+            <form th:action="@{'/etterem/asztal/{asztalId}/splitSzamla' (asztalId=${szamlaDto.getAsztalId()})}"
+                  th:if="${!szamlaDto.isSplit()}">
                 <div class="position-relative" style="text-align: center">
                     <button class="btn btn-primary btn-lg" type="submit">SPLIT</button>
+                </div>
+            </form>
+            <form th:action="@{'/etterem/asztal/{asztalId}/cancelSplit' (asztalId=${szamlaDto.getAsztalId()})}"
+                  th:if="${szamlaDto.isSplit()}">
+                <div class="position-relative" style="text-align: center">
+                    <button class="btn btn-primary btn-lg" type="submit">CANCEL SPLIT</button>
                 </div>
             </form>
         </td>
@@ -67,7 +76,9 @@
         th:if="${aru.getFizetettMennyiseg() > 0}">
         <td th:text="${aru.getRendelesDto().getEtteremTermekDto().nev}" style="text-align: left">Név</td>
         <td th:text="${aru.getFizetettMennyiseg()}" style="text-align: center">1</td>
-        <td th:text="${aru.getRendelesDto().getEtteremTermekDto().getAr() * aru.getFizetettMennyiseg()} + ' Ft'" style="text-align: right">100 Ft</td>
+        <td th:text="${aru.getRendelesDto().getEtteremTermekDto().getAr() * aru.getFizetettMennyiseg()} + ' Ft'"
+            style="text-align: right">100 Ft
+        </td>
         <td>
             <form th:action="@{'/etterem/asztal/{asztalId}/removeFromSzamlaSplit/{termekId}'
             (asztalId=${szamlaDto.getAsztalId()}, termekId=${aru.getRendelesDto().getEtteremTermekDto().getId()})}" method="post">
@@ -85,7 +96,8 @@
     </tr>
     </tbody>
 </table>
-<form th:action="@{'/etterem/asztal/{asztalId}/KEZDOLAP' (asztalId=${szamlaDto.getAsztalId()})}">
+<form th:action="@{'/etterem/asztal/{asztalId}/KEZDOLAP' (asztalId=${szamlaDto.getAsztalId()})}"
+      th:if="${!szamlaDto.isSplit()}">
     <div id="exitbutton" class="position-relative" style="text-align: center">
         <button class="btn btn-primary btn-lg" type="submit">VISSZA</button>
     </div>

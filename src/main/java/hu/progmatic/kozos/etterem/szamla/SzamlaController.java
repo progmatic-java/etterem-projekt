@@ -35,6 +35,17 @@ public class SzamlaController {
     return "etterem/szamla";
   }
 
+  @GetMapping("etterem/asztal/{asztalId}/cancelSplit")
+  public String cancelSplit(
+      @PathVariable Integer asztalId,
+      Model model
+  ) {
+    szamlaService.cancelSplit(szamlaService.findSzamlaByAsztalId(asztalId));
+    SzamlaDto dto = szamlaService.szamlaDtoBuilder(szamlaService.findSzamlaByAsztalId(asztalId));
+    model.addAttribute("szamlaDto", dto);
+    return "etterem/szamla";
+  }
+
   @PostMapping("/etterem/asztal/{asztalId}/addToSzamlaSplit/{termekId}")
   public String addToSzamlaSplit(
       @PathVariable Integer asztalId,
