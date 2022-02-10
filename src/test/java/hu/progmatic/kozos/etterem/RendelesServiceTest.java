@@ -32,7 +32,7 @@ class RendelesServiceTest {
 
   @BeforeEach
   void setUp() {
-    tesztAsztalId = asztalService.getIdByNev("1. asztal");
+    tesztAsztalId = asztalService.getIdByNev("1. ASZTAL");
     tesztEtteremTermek = etteremTermekService.getByName("Paradicsom leves");
   }
 

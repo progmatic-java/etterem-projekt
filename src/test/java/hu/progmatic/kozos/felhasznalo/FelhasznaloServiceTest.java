@@ -65,8 +65,8 @@ class hFelhasznaloServiceTest {
   }
 
   @Test
-  @DisplayName("Felhasználó jogosultságok lekérése - user")
-  @WithUserDetails(userDetailsServiceBeanName = "myUserDetailsService")
+  @DisplayName("Felhasználó jogosultságok lekérése - felszolgáló")
+  @WithUserDetails(value = "felszolgáló",userDetailsServiceBeanName = "myUserDetailsService")
   void userHasRole() {
     assertTrue(felhasznaloService.hasRole(UserType.Roles.USER_READ_ROLE));
     assertFalse(felhasznaloService.hasRole(UserType.Roles.USER_WRITE_ROLE));
@@ -80,17 +80,10 @@ class hFelhasznaloServiceTest {
     assertTrue(felhasznaloService.hasRole(UserType.Roles.USER_WRITE_ROLE));
   }
 
-  @Test
-  @DisplayName("Felhasználó jogosultságok lekérése - guest")
-  @WithUserDetails(value = "guest", userDetailsServiceBeanName = "myUserDetailsService")
-  void guestHasRole() {
-    assertFalse(felhasznaloService.hasRole(UserType.Roles.USER_READ_ROLE));
-    assertFalse(felhasznaloService.hasRole(UserType.Roles.USER_WRITE_ROLE));
-  }
 
   @Test
   @DisplayName("Felhasználó id lekérése")
-  @WithUserDetails(value = "guest", userDetailsServiceBeanName = "myUserDetailsService")
+  @WithUserDetails(value = "admin", userDetailsServiceBeanName = "myUserDetailsService")
   void userId() {
     Long felhasznaloId = felhasznaloService.getFelhasznaloId();
     assertThat(felhasznaloId)
