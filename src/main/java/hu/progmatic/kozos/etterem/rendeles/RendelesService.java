@@ -3,9 +3,9 @@ package hu.progmatic.kozos.etterem.rendeles;
 import hu.progmatic.kozos.etterem.asztal.Asztal;
 import hu.progmatic.kozos.etterem.asztal.AsztalRepository;
 import hu.progmatic.kozos.etterem.asztal.AsztalService;
-import hu.progmatic.kozos.etterem.leltar.EtteremTermek;
-import hu.progmatic.kozos.etterem.leltar.EtteremTermekDto;
-import hu.progmatic.kozos.etterem.leltar.EtteremTermekService;
+import hu.progmatic.kozos.etterem.leltar.Termek;
+import hu.progmatic.kozos.etterem.leltar.TermekDto;
+import hu.progmatic.kozos.etterem.leltar.TermekService;
 import hu.progmatic.kozos.etterem.szamla.SzamlaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,16 +26,16 @@ public class RendelesService {
   @Autowired
   private AsztalService asztalService;
   @Autowired
-  private EtteremTermekService etteremTermekService;
+  private TermekService termekService;
   @Autowired
   private AsztalRepository asztalRepository;
 
   public Rendeles create(@Valid CreateRendelesCommand command) {
     Asztal asztal = asztalService.getById(command.getAsztalId());
-    EtteremTermek etteremTermek = etteremTermekService.getById(command.getEtteremTermekId());
+    Termek termek = termekService.getById(command.getEtteremTermekId());
     Rendeles rendeles = Rendeles.builder()
         .asztal(asztal)
-        .etteremTermek(etteremTermek)
+        .termek(termek)
         .mennyiseg(command.getMennyiseg())
         .build();
     asztal.getRendelesek().add(rendeles);
@@ -47,25 +47,25 @@ public class RendelesService {
     rendelesRepository.delete(rendelesRepository.getById(rendelesId));
   }
 
-  public List<EtteremTermekDto> findAll() {
+  public List<TermekDto> findAll() {
     List<Rendeles> rendelesek = rendelesRepository.findAll();
-    List<EtteremTermekDto> etteremTermekDtoList = new ArrayList<>();
+    List<TermekDto> termekDtoList = new ArrayList<>();
     for (Rendeles rendeles : rendelesek) {
-      etteremTermekDtoList.add(
-          EtteremTermekDto.builder()
+      termekDtoList.add(
+          TermekDto.builder()
               .id(rendeles.getId())
-              .nev(rendeles.getEtteremTermek().getNev())
-              .ar(rendeles.getEtteremTermek().getAr())
+              .nev(rendeles.getTermek().getNev())
+              .ar(rendeles.getTermek().getAr())
               .build()
       );
     }
-    return etteremTermekDtoList;
+    return termekDtoList;
   }
 
   public void mennyisegNovelese(Integer asztalId, String termekNeve) {
     Asztal asztal = asztalRepository.getById(asztalId);
     Rendeles aktualisRendeles = asztal.getRendelesek().stream()
-        .filter(rendeles -> rendeles.getEtteremTermek().getNev().equals(termekNeve))
+        .filter(rendeles -> rendeles.getTermek().getNev().equals(termekNeve))
         .findFirst()
         .orElseThrow();
     aktualisRendeles.setMennyiseg(aktualisRendeles.getMennyiseg() + 1);
@@ -75,7 +75,7 @@ public class RendelesService {
   public void mennyisegNovelese(Integer asztalId, Integer termekId) {
     Asztal asztal = asztalRepository.getById(asztalId);
     Rendeles aktualisRendeles = asztal.getRendelesek().stream()
-        .filter(rendeles -> Objects.equals(rendeles.getEtteremTermek().getId(), termekId))
+        .filter(rendeles -> Objects.equals(rendeles.getTermek().getId(), termekId))
         .findFirst()
         .orElseThrow();
     aktualisRendeles.setMennyiseg(aktualisRendeles.getMennyiseg() + 1);
@@ -85,7 +85,7 @@ public class RendelesService {
   public void mennyisegCsokkentese(Integer asztalId, String termekNeve) {
     Asztal asztal = asztalRepository.getById(asztalId);
     Rendeles aktualisRendeles = asztal.getRendelesek().stream()
-        .filter(rendeles -> rendeles.getEtteremTermek().getNev().equals(termekNeve))
+        .filter(rendeles -> rendeles.getTermek().getNev().equals(termekNeve))
         .findFirst()
         .orElseThrow();
     aktualisRendeles.setMennyiseg(aktualisRendeles.getMennyiseg() - 1);
@@ -99,9 +99,9 @@ public class RendelesService {
 
   public boolean rendelesTartalmazzaATermeket(CreateRendelesCommand command) {
     Asztal asztal = asztalRepository.getById(command.getAsztalId());
-    EtteremTermek termek = etteremTermekService.getById(command.getEtteremTermekId());
+    Termek termek = termekService.getById(command.getEtteremTermekId());
     return asztal.getRendelesek().stream()
-        .map(rendeles -> rendeles.getEtteremTermek().getNev())
+        .map(rendeles -> rendeles.getTermek().getNev())
         .toList().contains(termek.getNev());
   }
 

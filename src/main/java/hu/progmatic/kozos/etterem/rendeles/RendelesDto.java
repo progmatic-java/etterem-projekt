@@ -1,6 +1,6 @@
 package hu.progmatic.kozos.etterem.rendeles;
 
-import hu.progmatic.kozos.etterem.leltar.EtteremTermekDto;
+import hu.progmatic.kozos.etterem.leltar.TermekDto;
 import lombok.*;
 
 @Data
@@ -11,6 +11,6 @@ import lombok.*;
 @Builder
 public class RendelesDto {
   private Integer id;
-  private EtteremTermekDto etteremTermekDto;
+  private TermekDto termekDto;
   private Integer mennyiseg;
 }

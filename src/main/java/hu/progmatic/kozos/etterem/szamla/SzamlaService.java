@@ -1,6 +1,6 @@
 package hu.progmatic.kozos.etterem.szamla;
 
-import hu.progmatic.kozos.etterem.leltar.EtteremTermekDto;
+import hu.progmatic.kozos.etterem.leltar.TermekDto;
 import hu.progmatic.kozos.etterem.rendeles.Rendeles;
 import hu.progmatic.kozos.etterem.rendeles.RendelesDto;
 import hu.progmatic.kozos.etterem.rendeles.RendelesRepository;
@@ -81,10 +81,10 @@ public class SzamlaService {
             .id(tetel.getId())
             .rendelesDto(RendelesDto.builder()
                 .id(tetel.getRendeles().getId())
-                .etteremTermekDto(EtteremTermekDto.builder()
-                    .id(tetel.getRendeles().getEtteremTermek().getId())
-                    .nev(tetel.getRendeles().getEtteremTermek().getNev())
-                    .ar(tetel.getRendeles().getEtteremTermek().getAr())
+                .termekDto(TermekDto.builder()
+                    .id(tetel.getRendeles().getTermek().getId())
+                    .nev(tetel.getRendeles().getTermek().getNev())
+                    .ar(tetel.getRendeles().getTermek().getAr())
                     .build())
                 .mennyiseg(tetel.getRendeles().getMennyiseg())
                 .build())
@@ -96,13 +96,13 @@ public class SzamlaService {
 
   private Integer getVegosszeg(Szamla szamla) {
     return szamla.getTetelek().stream()
-        .mapToInt(tetel -> tetel.getRendeles().getEtteremTermek().getAr() * tetel.getNemFizetettMennyiseg())
+        .mapToInt(tetel -> tetel.getRendeles().getTermek().getAr() * tetel.getNemFizetettMennyiseg())
         .sum() / 100 * 115;
   }
 
   private Integer getFizetettVegosszeg(Szamla szamla) {
     return szamla.getTetelek().stream()
-        .mapToInt(tetel -> tetel.getRendeles().getEtteremTermek().getAr() * tetel.getFizetettMennyiseg())
+        .mapToInt(tetel -> tetel.getRendeles().getTermek().getAr() * tetel.getFizetettMennyiseg())
         .sum() / 100 * 115;
   }
 
@@ -118,7 +118,7 @@ public class SzamlaService {
   public void addToSzamlaSplit(Integer asztalId, Integer termekId) {
     Szamla szamla = findSzamlaByAsztalId(asztalId);
     SzamlaTetel szamlaTetel = szamla.getTetelek().stream()
-        .filter(tetel -> tetel.getRendeles().getEtteremTermek().getId() == termekId)
+        .filter(tetel -> tetel.getRendeles().getTermek().getId() == termekId)
         .findFirst()
         .orElseThrow();
     szamlaTetel.setFizetettMennyiseg(szamlaTetel.getFizetettMennyiseg() + 1);
@@ -128,7 +128,7 @@ public class SzamlaService {
   public void removeFromSzamlaSplit(Integer asztalId, Integer termekId) {
     Szamla szamla = findSzamlaByAsztalId(asztalId);
     SzamlaTetel szamlaTetel = szamla.getTetelek().stream()
-        .filter(tetel -> tetel.getRendeles().getEtteremTermek().getId() == termekId)
+        .filter(tetel -> tetel.getRendeles().getTermek().getId() == termekId)
         .findFirst()
         .orElseThrow();
     szamlaTetel.setFizetettMennyiseg(szamlaTetel.getFizetettMennyiseg() - 1);
@@ -151,7 +151,7 @@ public class SzamlaService {
     Asztal asztal = asztalService.getById(asztalId);
     for (SzamlaTetel tetel : asztal.getSzamla().getTetelek()) {
       for (Rendeles rendeles : asztal.getRendelesek()) {
-        if (tetel.getRendeles().getEtteremTermek().equals(rendeles.getEtteremTermek())) {
+        if (tetel.getRendeles().getTermek().equals(rendeles.getTermek())) {
           rendeles.setMennyiseg(rendeles.getMennyiseg() - tetel.getFizetettMennyiseg());
           tetel.setFizetettMennyiseg(0);
         }

@@ -1,10 +1,8 @@
 package hu.progmatic.kozos.etterem.asztal;
 
-import hu.progmatic.kozos.etterem.leltar.EtteremTermekDto;
+import hu.progmatic.kozos.etterem.leltar.TermekDto;
 import hu.progmatic.kozos.etterem.leltar.Tipus;
-import hu.progmatic.kozos.etterem.rendeles.Rendeles;
 import hu.progmatic.kozos.etterem.rendeles.RendelesDto;
-import hu.progmatic.kozos.etterem.rendeles.RendelesRepository;
 import hu.progmatic.kozos.etterem.termekfooldal.AsztalFeluletTipus;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,10 +61,10 @@ public class AsztalService implements InitializingBean {
             .map(rendeles -> RendelesDto.builder()
                 .id(rendeles.getId())
                 .mennyiseg(rendeles.getMennyiseg())
-                .etteremTermekDto(EtteremTermekDto.builder()
-                    .id(rendeles.getEtteremTermek().getId())
-                    .nev(rendeles.getEtteremTermek().getNev())
-                    .ar(rendeles.getEtteremTermek().getAr())
+                .termekDto(TermekDto.builder()
+                    .id(rendeles.getTermek().getId())
+                    .nev(rendeles.getTermek().getNev())
+                    .ar(rendeles.getTermek().getAr())
                     .build())
                 .build())
             .toList())
@@ -114,7 +112,7 @@ public class AsztalService implements InitializingBean {
             rendeles -> TableViewDto.RendelesDto.builder()
                 .mennyiseg(rendeles.getMennyiseg())
                 .rendelesId(rendeles.getId())
-                .etteremTermekNev(rendeles.getEtteremTermek().getNev())
+                .etteremTermekNev(rendeles.getTermek().getNev())
                 .build()
         )
         .toList();

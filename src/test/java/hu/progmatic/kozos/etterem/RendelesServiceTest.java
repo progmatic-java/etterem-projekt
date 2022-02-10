@@ -2,8 +2,8 @@ package hu.progmatic.kozos.etterem;
 
 import hu.progmatic.kozos.etterem.asztal.AsztalService;
 import hu.progmatic.kozos.etterem.asztal.TableViewDto;
-import hu.progmatic.kozos.etterem.leltar.EtteremTermek;
-import hu.progmatic.kozos.etterem.leltar.EtteremTermekService;
+import hu.progmatic.kozos.etterem.leltar.Termek;
+import hu.progmatic.kozos.etterem.leltar.TermekService;
 import hu.progmatic.kozos.etterem.leltar.Tipus;
 import hu.progmatic.kozos.etterem.rendeles.CreateRendelesCommand;
 import hu.progmatic.kozos.etterem.rendeles.RendelesService;
@@ -24,16 +24,16 @@ class RendelesServiceTest {
   @Autowired
   AsztalService asztalService;
   @Autowired
-  EtteremTermekService etteremTermekService;
+  TermekService termekService;
 
   private Integer tesztAsztalId;
-  private EtteremTermek tesztEtteremTermek;
+  private Termek tesztTermek;
   private Rendeles tesztOrder;
 
   @BeforeEach
   void setUp() {
     tesztAsztalId = asztalService.getIdByNev("1. ASZTAL");
-    tesztEtteremTermek = etteremTermekService.getByName("Paradicsom leves");
+    tesztTermek = termekService.getByName("Paradicsom leves");
   }
 
   @Test
@@ -41,7 +41,7 @@ class RendelesServiceTest {
   void addOrderToAsztalTest() {
     CreateRendelesCommand command = CreateRendelesCommand.builder()
         .asztalId(tesztAsztalId)
-        .etteremTermekId(tesztEtteremTermek.getId())
+        .etteremTermekId(tesztTermek.getId())
         .mennyiseg(2)
         .build();
     tesztOrder = rendelesService.create(command);

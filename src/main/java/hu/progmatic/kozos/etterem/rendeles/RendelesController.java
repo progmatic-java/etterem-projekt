@@ -1,7 +1,7 @@
 package hu.progmatic.kozos.etterem.rendeles;
 
 import hu.progmatic.kozos.etterem.asztal.TableViewDto;
-import hu.progmatic.kozos.etterem.leltar.EtteremTermekDto;
+import hu.progmatic.kozos.etterem.leltar.TermekDto;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,7 +31,7 @@ public class RendelesController {
   }
 
   @ModelAttribute("rendelesItems")
-  List<EtteremTermekDto> rendelesItems() {
+  List<TermekDto> rendelesItems() {
     return List.of();
   }
 

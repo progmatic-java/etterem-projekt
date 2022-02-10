@@ -13,7 +13,7 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class EtteremTermek {
+public class Termek {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
