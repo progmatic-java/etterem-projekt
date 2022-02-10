@@ -56,7 +56,6 @@ public class TermekService implements InitializingBean {
       new Termek(null, "Fanta", 1200, Tipus.UDITO),
       new Termek(null, "Kóla", 1200, Tipus.UDITO),
       new Termek(null, "Almalé", 1200, Tipus.UDITO),
-      new Termek(null, "Almalé", 1200, Tipus.UDITO),
       new Termek(null, "Narancslé", 1200, Tipus.UDITO),
       new Termek(null, "Tea", 1200, Tipus.FORROITAL),
       new Termek(null, "Forró csokoládé", 1200, Tipus.FORROITAL),
