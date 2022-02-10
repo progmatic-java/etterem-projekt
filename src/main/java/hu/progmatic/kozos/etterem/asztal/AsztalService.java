@@ -118,4 +118,7 @@ public class AsztalService implements InitializingBean {
         .toList();
   }
 
+  public AsztalDto getAsztalDtoById(Integer id) {
+    return buildAsztalDto(asztalRepository.getById(id));
+  }
 }
