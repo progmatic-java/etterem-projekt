@@ -64,7 +64,7 @@ public class EtteremTermekService implements InitializingBean {
       new EtteremTermek(null, "Cappuccino", 1200, Tipus.KAVE),
       new EtteremTermek(null, "Espresso", 1200, Tipus.KAVE),
       new EtteremTermek(null, "Cortado", 1300, Tipus.KAVE),
-      new EtteremTermek(null, "Ristoretto", 1300, Tipus.KAVE),
+      new EtteremTermek(null, "Ristretto", 1300, Tipus.KAVE),
       new EtteremTermek(null, "Extra 500", 500, Tipus.EXTRA),
       new EtteremTermek(null, "Extra 1000", 1000, Tipus.EXTRA),
       new EtteremTermek(null, "Extra 2000", 2000, Tipus.EXTRA)
