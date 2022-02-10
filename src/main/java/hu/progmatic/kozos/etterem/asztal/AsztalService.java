@@ -17,15 +17,15 @@ import java.util.List;
 @Service
 public class AsztalService implements InitializingBean {
   public final List<Asztal> asztalok = List.of(
-      Asztal.builder().nev("1. asztal").build(),
-      Asztal.builder().nev("2. asztal").build(),
-      Asztal.builder().nev("3. asztal").build(),
-      Asztal.builder().nev("4. asztal").build(),
-      Asztal.builder().nev("5. asztal").build(),
-      Asztal.builder().nev("6. asztal").build(),
-      Asztal.builder().nev("7. asztal").build(),
-      Asztal.builder().nev("8. asztal").build(),
-      Asztal.builder().nev("9. asztal").build()
+      Asztal.builder().nev("1. ASZTAL").build(),
+      Asztal.builder().nev("2. ASZTAL").build(),
+      Asztal.builder().nev("3. ASZTAL").build(),
+      Asztal.builder().nev("4. ASZTAL").build(),
+      Asztal.builder().nev("5. ASZTAL").build(),
+      Asztal.builder().nev("6. ASZTAL").build(),
+      Asztal.builder().nev("7. ASZTAL").build(),
+      Asztal.builder().nev("8. ASZTAL").build(),
+      Asztal.builder().nev("9. ASZTAL").build()
   );
 
   @Autowired
@@ -51,7 +51,7 @@ public class AsztalService implements InitializingBean {
   }
 
   public Integer getIdByAsztalSzam(Integer asztalSzam) {
-    String asztalNev = asztalSzam + ". asztal";
+    String asztalNev = asztalSzam + ". ASZTAL";
     return getIdByNev(asztalNev);
   }
 
