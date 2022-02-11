@@ -1,10 +1,8 @@
 package hu.progmatic.kozos.etterem.asztal;
 
-import hu.progmatic.kozos.etterem.leltar.EtteremTermekDto;
+import hu.progmatic.kozos.etterem.leltar.TermekDto;
 import hu.progmatic.kozos.etterem.leltar.Tipus;
-import hu.progmatic.kozos.etterem.rendeles.Rendeles;
 import hu.progmatic.kozos.etterem.rendeles.RendelesDto;
-import hu.progmatic.kozos.etterem.rendeles.RendelesRepository;
 import hu.progmatic.kozos.etterem.termekfooldal.AsztalFeluletTipus;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,15 +15,15 @@ import java.util.List;
 @Service
 public class AsztalService implements InitializingBean {
   public final List<Asztal> asztalok = List.of(
-      Asztal.builder().nev("1. asztal").build(),
-      Asztal.builder().nev("2. asztal").build(),
-      Asztal.builder().nev("3. asztal").build(),
-      Asztal.builder().nev("4. asztal").build(),
-      Asztal.builder().nev("5. asztal").build(),
-      Asztal.builder().nev("6. asztal").build(),
-      Asztal.builder().nev("7. asztal").build(),
-      Asztal.builder().nev("8. asztal").build(),
-      Asztal.builder().nev("9. asztal").build()
+      Asztal.builder().nev("1. ASZTAL").build(),
+      Asztal.builder().nev("2. ASZTAL").build(),
+      Asztal.builder().nev("3. ASZTAL").build(),
+      Asztal.builder().nev("4. ASZTAL").build(),
+      Asztal.builder().nev("5. ASZTAL").build(),
+      Asztal.builder().nev("6. ASZTAL").build(),
+      Asztal.builder().nev("7. ASZTAL").build(),
+      Asztal.builder().nev("8. ASZTAL").build(),
+      Asztal.builder().nev("9. ASZTAL").build()
   );
 
   @Autowired
@@ -57,7 +55,7 @@ public class AsztalService implements InitializingBean {
   }
 
   public Integer getIdByAsztalSzam(Integer asztalSzam) {
-    String asztalNev = asztalSzam + ". asztal";
+    String asztalNev = asztalSzam + ". ASZTAL";
     return getIdByNev(asztalNev);
   }
 
@@ -69,10 +67,10 @@ public class AsztalService implements InitializingBean {
             .map(rendeles -> RendelesDto.builder()
                 .id(rendeles.getId())
                 .mennyiseg(rendeles.getMennyiseg())
-                .etteremTermekDto(EtteremTermekDto.builder()
-                    .id(rendeles.getEtteremTermek().getId())
-                    .nev(rendeles.getEtteremTermek().getNev())
-                    .ar(rendeles.getEtteremTermek().getAr())
+                .termekDto(TermekDto.builder()
+                    .id(rendeles.getTermek().getId())
+                    .nev(rendeles.getTermek().getNev())
+                    .ar(rendeles.getTermek().getAr())
                     .build())
                 .build())
             .toList())
@@ -120,10 +118,13 @@ public class AsztalService implements InitializingBean {
             rendeles -> TableViewDto.RendelesDto.builder()
                 .mennyiseg(rendeles.getMennyiseg())
                 .rendelesId(rendeles.getId())
-                .etteremTermekNev(rendeles.getEtteremTermek().getNev())
+                .etteremTermekNev(rendeles.getTermek().getNev())
                 .build()
         )
         .toList();
   }
 
+  public AsztalDto getAsztalDtoById(Integer id) {
+    return buildAsztalDto(asztalRepository.getById(id));
+  }
 }

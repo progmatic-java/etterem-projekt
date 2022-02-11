@@ -1,8 +1,8 @@
 package hu.progmatic.kozos.etterem;
 
-import hu.progmatic.kozos.etterem.leltar.EtteremTermek;
-import hu.progmatic.kozos.etterem.leltar.EtteremTermekDto;
-import hu.progmatic.kozos.etterem.leltar.EtteremTermekService;
+import hu.progmatic.kozos.etterem.leltar.Termek;
+import hu.progmatic.kozos.etterem.leltar.TermekDto;
+import hu.progmatic.kozos.etterem.leltar.TermekService;
 import hu.progmatic.kozos.etterem.leltar.Tipus;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -14,20 +14,20 @@ import org.springframework.boot.test.context.SpringBootTest;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-class EtteremEtteremTermekServiceTest {
+class TermekServiceTest {
   @Autowired
-  EtteremTermekService service;
+  TermekService service;
 
   @Test
   @DisplayName("Létrehozás és kiolvasás teszt")
   void createAndRead() {
-    EtteremTermek newEntity = EtteremTermek.builder()
+    Termek newEntity = Termek.builder()
         .nev("Kóla")
         .ar(400)
         .tipus(Tipus.UDITO)
         .build();
-    EtteremTermek savedEntity = service.create(newEntity);
-    EtteremTermekDto dto = service.getDto(savedEntity.getId());
+    Termek savedEntity = service.create(newEntity);
+    TermekDto dto = service.getDto(savedEntity.getId());
 
     assertNotNull(dto.getId());
     assertEquals("Kóla", dto.getNev());
@@ -37,13 +37,13 @@ class EtteremEtteremTermekServiceTest {
   @Test
   @DisplayName("Törlés és létezés ellenőrzése")
   void existAndDelete() {
-    EtteremTermek newEntity = EtteremTermek.builder()
+    Termek newEntity = Termek.builder()
         .nev("Steak")
         .ar(2700)
         .tipus(Tipus.MARHAETEL)
         .build();
-    EtteremTermek savedEntity = service.create(newEntity);
-    EtteremTermekDto dto = service.getDto(savedEntity.getId());
+    Termek savedEntity = service.create(newEntity);
+    TermekDto dto = service.getDto(savedEntity.getId());
 
     assertTrue(service.isExists(dto.getId()));
     service.deleteById(dto.getId());
@@ -53,11 +53,11 @@ class EtteremEtteremTermekServiceTest {
   @Nested
   @DisplayName("Tesztek létező entitással")
   class LetezoEntitasTest {
-    EtteremTermek entity;
+    Termek entity;
 
     @BeforeEach
     void setUp() {
-      EtteremTermek newEntity = EtteremTermek.builder()
+      Termek newEntity = Termek.builder()
           .nev("RedBull")
           .ar(450)
           .tipus(Tipus.UDITO)
@@ -69,7 +69,7 @@ class EtteremEtteremTermekServiceTest {
     @DisplayName("Adatok módosítása")
     void update() {
       service.update(entity.getId(), "Hell", 200, Tipus.UDITO);
-      EtteremTermekDto dto = service.getDto(entity.getId());
+      TermekDto dto = service.getDto(entity.getId());
       assertEquals("Hell", dto.getNev());
       assertEquals(200, dto.getAr());
     }

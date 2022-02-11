@@ -24,7 +24,6 @@ class SzamlaControllerTest {
 
   @Test
   @DisplayName("Számla oldal megjelenik")
-  @Disabled
   void szamlaTest() throws Exception {
     mockMvc.perform(
             MockMvcRequestBuilders.get("/etterem/asztal/1/szamla?")

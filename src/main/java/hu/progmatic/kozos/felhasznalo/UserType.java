@@ -10,8 +10,8 @@ public enum UserType {
       Roles.USER_WRITE_ROLE,
       Roles.USER_READ_ROLE
   ),
-  USER(Roles.USER_READ_ROLE),
-  GUEST();
+  FELSZOLGALO(Roles.USER_READ_ROLE);
+
   private final String[] roles;
 
 

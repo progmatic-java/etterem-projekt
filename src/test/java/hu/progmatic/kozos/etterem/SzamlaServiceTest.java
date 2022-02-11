@@ -1,17 +1,9 @@
 package hu.progmatic.kozos.etterem;
 
 
-import hu.progmatic.kozos.etterem.asztal.Asztal;
 import hu.progmatic.kozos.etterem.asztal.AsztalService;
-import hu.progmatic.kozos.etterem.leltar.EtteremTermek;
-import hu.progmatic.kozos.etterem.rendeles.Rendeles;
-import hu.progmatic.kozos.etterem.rendeles.RendelesService;
-import hu.progmatic.kozos.etterem.szamla.Szamla;
-import hu.progmatic.kozos.etterem.szamla.SzamlaDto;
 import hu.progmatic.kozos.etterem.szamla.SzamlaService;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 

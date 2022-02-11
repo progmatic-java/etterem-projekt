@@ -11,13 +11,17 @@
             border: 2px solid white;
         }
 
+        .table-header {
+            background-color: black;
+        }
+
         @media screen and (max-width: 600px) {
             table {
                 width: auto;
                 font-size: 2.5vw;
             }
 
-            .btn-success {
+            .btn-warning {
                 width: auto;
                 font-size: 2.5vw;
             }
@@ -32,8 +36,13 @@
                 font-size: 3vw;
                 margin-bottom: 5px;
             }
-        }
 
+            .form-select {
+                width: auto;
+                font-size: 3vw;
+                margin-bottom: 5px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -42,7 +51,7 @@
         crossorigin="anonymous"></script>
 <div style="overflow-x:auto;">
     <table class="table table-white table-striped">
-        <thead>
+        <thead class="table-header" style="color: white">
         <tr>
             <th scope="col" style="text-align: center">Id</th>
             <th scope="col" style="text-align: center">Név</th>
@@ -60,7 +69,7 @@
             <td th:text="${item.tipus}" style="text-align: center">Tipus</td>
             <td>
                 <form style="text-align: center" th:action="@{'/etterem/leltar/{id}'(id=${item.id})}" method="get">
-                    <input type="submit" class="btn btn-success edit-btn" value="Módosít"/>
+                    <input type="submit" class="btn btn-warning edit-btn" value="Módosít"/>
                 </form>
             </td>
             <td>
@@ -130,7 +139,7 @@
     </div>
     <div class="col">
         <input th:if="${formItem.id == null}" class="btn btn-primary" type="submit" value="Hozzáad"/>
-        <input th:if="${formItem.id != null}" class="btn btn-primary" type="submit" value="Módosít"/>
+        <input th:if="${formItem.id != null}" class="btn btn-warning" type="submit" value="Módosít"/>
     </div>
 </form>
 <form th:action="@{/etterem/asztal}" style="padding-top: 2%">

@@ -16,7 +16,7 @@ import java.util.List;
 @Controller
 public class LeltarController {
     @Autowired
-    private EtteremTermekService etteremTermekService;
+    private TermekService termekService;
 
     @GetMapping("/etterem/leltar")
     public String items(Model model) {
@@ -29,7 +29,7 @@ public class LeltarController {
 
     @GetMapping("/etterem/leltar/{id}")
     public String edit(@PathVariable Integer id, Model model) {
-        EtteremTermek formItem = etteremTermekService.getById(id);
+        Termek formItem = termekService.getById(id);
         model.addAttribute("formItem", formItem);
         return items();
     }
@@ -37,18 +37,18 @@ public class LeltarController {
 
     @PostMapping("/etterem/leltar/delete/{id}")
     public String delete(@PathVariable Integer id, Model model) {
-        etteremTermekService.deleteById(id);
+        termekService.deleteById(id);
         refreshAllTermek(model);
         return items();
     }
 
     @PostMapping("/etterem/leltar")
     public String create(
-            @ModelAttribute("formItem") @Valid EtteremTermek formItem,
+            @ModelAttribute("formItem") @Valid Termek formItem,
             BindingResult bindingResult,
             Model model) {
         if (!bindingResult.hasErrors()) {
-            etteremTermekService.create(formItem);
+            termekService.create(formItem);
             refreshAllTermek(model);
             clearFormItem(model);
         }
@@ -58,11 +58,11 @@ public class LeltarController {
     @PostMapping("/etterem/leltar/{id}")
     public String save(
             @PathVariable Integer id,
-            @ModelAttribute("formItem") @Valid EtteremTermek formItem,
+            @ModelAttribute("formItem") @Valid Termek formItem,
             BindingResult bindingResult,
             Model model) {
         if (!bindingResult.hasErrors()) {
-            etteremTermekService.save(formItem);
+            termekService.save(formItem);
             refreshAllTermek(model);
             clearFormItem(model);
         }
@@ -70,13 +70,13 @@ public class LeltarController {
     }
 
     @ModelAttribute("allItem")
-    List<EtteremTermek> allItem() {
-        return etteremTermekService.findAll();
+    List<Termek> allItem() {
+        return termekService.findAll();
     }
 
     @ModelAttribute("formItem")
-    public EtteremTermek formItem() {
-        return new EtteremTermek();
+    public Termek formItem() {
+        return new Termek();
     }
 
     @ModelAttribute("allTipus")

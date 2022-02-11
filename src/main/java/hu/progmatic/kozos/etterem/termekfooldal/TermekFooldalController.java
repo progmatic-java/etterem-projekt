@@ -2,9 +2,9 @@ package hu.progmatic.kozos.etterem.termekfooldal;
 
 import hu.progmatic.kozos.etterem.asztal.AsztalService;
 import hu.progmatic.kozos.etterem.asztal.TableViewDto;
-import hu.progmatic.kozos.etterem.leltar.EtteremTermek;
-import hu.progmatic.kozos.etterem.leltar.EtteremTermekDto;
-import hu.progmatic.kozos.etterem.leltar.EtteremTermekService;
+import hu.progmatic.kozos.etterem.leltar.Termek;
+import hu.progmatic.kozos.etterem.leltar.TermekDto;
+import hu.progmatic.kozos.etterem.leltar.TermekService;
 import hu.progmatic.kozos.etterem.leltar.Tipus;
 import hu.progmatic.kozos.etterem.rendeles.CreateRendelesCommand;
 import hu.progmatic.kozos.etterem.rendeles.Rendeles;
@@ -27,7 +27,7 @@ public class TermekFooldalController {
   @Autowired
   private RendelesService rendelesService;
   @Autowired
-  private EtteremTermekService etteremTermekService;
+  private TermekService termekService;
 
   @GetMapping("/etterem/asztal/{asztalSzam}/{asztalFeluletTipus}")
   public String itemMain(
@@ -55,7 +55,7 @@ public class TermekFooldalController {
   ) {
     model.addAttribute(
         "filteredByTipus",
-        etteremTermekService.findAllByTipus(tipus)
+        termekService.findAllByTipus(tipus)
     );
       Integer asztalId = asztalService.getIdByAsztalSzam(asztalSzam);
       TableViewDto dto = asztalService.getTableViewDto(asztalId, tipus, asztalFeluletTipus);
@@ -91,7 +91,7 @@ public class TermekFooldalController {
     rendelesService.mennyisegNovelese(asztalId, termekNeve);
     TableViewDto dto = asztalService.getTableViewDto(asztalId, tipus, asztalFeluletTipus);
     model.addAttribute("tableViewDto", dto);
-    model.addAttribute("filteredByTipus", etteremTermekService.findAllByTipus(tipus));
+    model.addAttribute("filteredByTipus", termekService.findAllByTipus(tipus));
       return "redirect:/etterem/asztal/" + asztalId + "/" + asztalFeluletTipus.name() + "/tipus/" + tipus;
   }
 
@@ -106,7 +106,7 @@ public class TermekFooldalController {
     rendelesService.mennyisegCsokkentese(asztalId, termekNeve);
     TableViewDto dto = asztalService.getTableViewDto(asztalId, tipus, asztalFeluletTipus);
     model.addAttribute("tableViewDto", dto);
-    model.addAttribute("filteredByTipus", etteremTermekService.findAllByTipus(tipus));
+    model.addAttribute("filteredByTipus", termekService.findAllByTipus(tipus));
       return "redirect:/etterem/asztal/" + asztalId + "/" + asztalFeluletTipus.name() + "/tipus/" + tipus;
   }
 
@@ -183,7 +183,7 @@ public class TermekFooldalController {
   }
 
   @ModelAttribute("rendelesItems")
-  List<EtteremTermekDto> rendelesItems() {
+  List<TermekDto> rendelesItems() {
     return List.of();
   }
 
@@ -193,7 +193,7 @@ public class TermekFooldalController {
   }
 
   @ModelAttribute("filteredByTipus")
-  public List<EtteremTermek> filteredByTipus() {
+  public List<Termek> filteredByTipus() {
     return List.of();
   }
 

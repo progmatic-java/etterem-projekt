@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>hu.progmatic</groupId>
-    <artifactId>projekt-projekt</artifactId>
+    <artifactId>etterem-projekt</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>etterem-projekt</name>
     <description>Étterem projekt</description>

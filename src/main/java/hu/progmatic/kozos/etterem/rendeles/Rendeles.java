@@ -2,7 +2,7 @@ package hu.progmatic.kozos.etterem.rendeles;
 
 
 import hu.progmatic.kozos.etterem.asztal.Asztal;
-import hu.progmatic.kozos.etterem.leltar.EtteremTermek;
+import hu.progmatic.kozos.etterem.leltar.Termek;
 import lombok.*;
 
 import javax.persistence.*;
@@ -19,7 +19,7 @@ public class Rendeles {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     @ManyToOne
-    private EtteremTermek etteremTermek;
+    private Termek termek;
     @NotNull
     private Integer mennyiseg;
     @ManyToOne
