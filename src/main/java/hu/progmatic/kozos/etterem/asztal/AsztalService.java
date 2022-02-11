@@ -15,25 +15,19 @@ import java.util.List;
 @Service
 public class AsztalService implements InitializingBean {
   public final List<Asztal> asztalok = List.of(
-      Asztal.builder().nev("1. ASZTAL").build(),
-      Asztal.builder().nev("2. ASZTAL").build(),
-      Asztal.builder().nev("3. ASZTAL").build(),
-      Asztal.builder().nev("4. ASZTAL").build(),
-      Asztal.builder().nev("5. ASZTAL").build(),
-      Asztal.builder().nev("6. ASZTAL").build(),
-      Asztal.builder().nev("7. ASZTAL").build(),
-      Asztal.builder().nev("8. ASZTAL").build(),
-      Asztal.builder().nev("9. ASZTAL").build()
+      Asztal.builder().nev("1. ASZTAL").asztalSzam(1).build(),
+      Asztal.builder().nev("2. ASZTAL").asztalSzam(2).build(),
+      Asztal.builder().nev("3. ASZTAL").asztalSzam(3).build(),
+      Asztal.builder().nev("4. ASZTAL").asztalSzam(4).build(),
+      Asztal.builder().nev("5. ASZTAL").asztalSzam(5).build(),
+      Asztal.builder().nev("6. ASZTAL").asztalSzam(6).build(),
+      Asztal.builder().nev("7. ASZTAL").asztalSzam(7).build(),
+      Asztal.builder().nev("8. ASZTAL").asztalSzam(8).build(),
+      Asztal.builder().nev("9. ASZTAL").asztalSzam(9).build()
   );
 
   @Autowired
   private AsztalRepository asztalRepository;
-
-  public void createAsztal(String nev) {
-    asztalRepository.save(Asztal.builder()
-        .nev(nev)
-        .build());
-  }
 
   public Asztal getById(Integer id) {
     return asztalRepository.getById(id);
@@ -85,6 +79,7 @@ public class AsztalService implements InitializingBean {
         .nev(asztal.getNev())
         .rendelesDtoList(rendelesek)
         .termekTipus(tipus)
+        .asztalSzam(asztal.getAsztalSzam())
         .build();
   }
 
@@ -96,6 +91,7 @@ public class AsztalService implements InitializingBean {
         .nev(asztal.getNev())
         .rendelesDtoList(rendelesek)
         .asztalFeluletTipus(asztalFeluletTipus)
+        .asztalSzam(asztal.getAsztalSzam())
         .build();
   }
 
@@ -108,6 +104,7 @@ public class AsztalService implements InitializingBean {
         .rendelesDtoList(rendelesek)
         .termekTipus(tipus)
         .asztalFeluletTipus(asztalFeluletTipus)
+        .asztalSzam(asztal.getAsztalSzam())
         .build();
   }
 

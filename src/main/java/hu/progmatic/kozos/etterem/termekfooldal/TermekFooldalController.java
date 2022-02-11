@@ -38,11 +38,11 @@ public class TermekFooldalController {
     TableViewDto dto = asztalService.getTableViewDto(asztalId, asztalFeluletTipus);
     model.addAttribute("tableViewDto", dto);
       if (asztalFeluletTipus == AsztalFeluletTipus.ITAL || asztalFeluletTipus == AsztalFeluletTipus.ETEL) {
-          dto.setVisszaGombLink("/etterem/asztal/" + asztalId + "/KEZDOLAP");
+          dto.setVisszaGombLink("/etterem/asztal/" + asztalSzam + "/KEZDOLAP");
       } else if (asztalFeluletTipus == AsztalFeluletTipus.KEZDOLAP) {
           dto.setVisszaGombLink("/etterem/asztal/");
       }
-    getGombDtoList(asztalId, asztalFeluletTipus, model);
+    getGombDtoList(asztalSzam, asztalFeluletTipus, model);
     return "etterem/termek_fooldal";
   }
 
@@ -92,7 +92,7 @@ public class TermekFooldalController {
     TableViewDto dto = asztalService.getTableViewDto(asztalId, tipus, asztalFeluletTipus);
     model.addAttribute("tableViewDto", dto);
     model.addAttribute("filteredByTipus", termekService.findAllByTipus(tipus));
-      return "redirect:/etterem/asztal/" + asztalId + "/" + asztalFeluletTipus.name() + "/tipus/" + tipus;
+      return "redirect:/etterem/asztal/" + dto.getAsztalSzam() + "/" + asztalFeluletTipus.name() + "/tipus/" + tipus;
   }
 
   @PostMapping("/etterem/asztal/{asztalId}/mennyisegCsokkenteseTipusOldalon/{asztalFeluletTipus}/{tipus}/{termekNeve}")
@@ -107,7 +107,7 @@ public class TermekFooldalController {
     TableViewDto dto = asztalService.getTableViewDto(asztalId, tipus, asztalFeluletTipus);
     model.addAttribute("tableViewDto", dto);
     model.addAttribute("filteredByTipus", termekService.findAllByTipus(tipus));
-      return "redirect:/etterem/asztal/" + asztalId + "/" + asztalFeluletTipus.name() + "/tipus/" + tipus;
+      return "redirect:/etterem/asztal/" + dto.getAsztalSzam() + "/" + asztalFeluletTipus.name() + "/tipus/" + tipus;
   }
 
   @PostMapping("/etterem/asztal/{asztalId}/mennyisegCsokkenteseKezdolapon/{asztalFeluletTipus}/{termekNeve}")
@@ -121,7 +121,7 @@ public class TermekFooldalController {
     TableViewDto dto = asztalService.getTableViewDto(asztalId, asztalFeluletTipus);
     model.addAttribute("tableViewDto", dto);
     getGombDtoList(asztalId, asztalFeluletTipus, model);
-      return "redirect:/etterem/asztal/" + asztalId + "/" + asztalFeluletTipus.name();
+      return "redirect:/etterem/asztal/" + dto.getAsztalSzam() + "/" + asztalFeluletTipus.name();
   }
 
   @PostMapping("/etterem/asztal/{asztalId}/mennyisegNoveleseKezdolapon/{asztalFeluletTipus}/{termekNeve}")
@@ -135,35 +135,35 @@ public class TermekFooldalController {
     TableViewDto dto = asztalService.getTableViewDto(asztalId, asztalFeluletTipus);
     model.addAttribute("tableViewDto", dto);
     getGombDtoList(asztalId, asztalFeluletTipus, model);
-      return "redirect:/etterem/asztal/" + asztalId + "/" + asztalFeluletTipus.name();
+      return "redirect:/etterem/asztal/" + dto.getAsztalSzam() + "/" + asztalFeluletTipus.name();
   }
 
-  private void getGombDtoList(Integer asztalId, AsztalFeluletTipus tipus, Model model) {
+  private void getGombDtoList(Integer asztalSzam, AsztalFeluletTipus tipus, Model model) {
     List<GombDto> gombok;
     if (tipus == AsztalFeluletTipus.ETEL) {
       gombok = List.of(
-          new GombDto("LEVES", "/etterem/asztal/" + asztalId + "/" + tipus + "/tipus/" + Tipus.LEVES.name()),
-          new GombDto("ELŐÉTEL", "/etterem/asztal/" + asztalId + "/" + tipus + "/tipus/" + Tipus.ELOETEL.name()),
-          new GombDto("SERTÉSÉTEL", "/etterem/asztal/" + asztalId + "/" + tipus + "/tipus/" + Tipus.SERTESETEL.name()),
-          new GombDto("HALÉTEL", "/etterem/asztal/" + asztalId + "/" + tipus + "/tipus/" + Tipus.HALETEL.name()),
-          new GombDto("MARHA", "/etterem/asztal/" + asztalId + "/" + tipus + "/tipus/" + Tipus.MARHAETEL.name()),
-          new GombDto("DESSZERT", "/etterem/asztal/" + asztalId + "/" + tipus + "/tipus/" + Tipus.DESSZERT.name()),
-          new GombDto("EXTRA", "/etterem/asztal/" + asztalId + "/" + tipus + "/tipus/" + Tipus.EXTRA.name())
+          new GombDto("LEVES", "/etterem/asztal/" + asztalSzam + "/" + tipus + "/tipus/" + Tipus.LEVES.name()),
+          new GombDto("ELŐÉTEL", "/etterem/asztal/" + asztalSzam + "/" + tipus + "/tipus/" + Tipus.ELOETEL.name()),
+          new GombDto("SERTÉSÉTEL", "/etterem/asztal/" + asztalSzam + "/" + tipus + "/tipus/" + Tipus.SERTESETEL.name()),
+          new GombDto("HALÉTEL", "/etterem/asztal/" + asztalSzam + "/" + tipus + "/tipus/" + Tipus.HALETEL.name()),
+          new GombDto("MARHA", "/etterem/asztal/" + asztalSzam + "/" + tipus + "/tipus/" + Tipus.MARHAETEL.name()),
+          new GombDto("DESSZERT", "/etterem/asztal/" + asztalSzam + "/" + tipus + "/tipus/" + Tipus.DESSZERT.name()),
+          new GombDto("EXTRA", "/etterem/asztal/" + asztalSzam + "/" + tipus + "/tipus/" + Tipus.EXTRA.name())
       );
     } else if (tipus == AsztalFeluletTipus.ITAL) {
       gombok = List.of(
-          new GombDto("ALKOHOL", "/etterem/asztal/" + asztalId + "/" + tipus + "/tipus/" + Tipus.ALKOHOL.name()),
-          new GombDto("RÖVIDITAL", "/etterem/asztal/" + asztalId + "/" + tipus + "/tipus/" + Tipus.ROVIDITAL.name()),
-          new GombDto("KOKTÉL", "/etterem/asztal/" + asztalId + "/" + tipus + "/tipus/" + Tipus.KOKTEL.name()),
-          new GombDto("ÜDÍTŐ", "/etterem/asztal/" + asztalId + "/" + tipus + "/tipus/" + Tipus.UDITO.name()),
-          new GombDto("FORRÓ ITAL", "/etterem/asztal/" + asztalId + "/" + tipus + "/tipus/" + Tipus.FORROITAL.name()),
-          new GombDto("KÁVÉ", "/etterem/asztal/" + asztalId + "/" + tipus + "/tipus/" + Tipus.KAVE.name()),
-          new GombDto("EXTRA", "/etterem/asztal/" + asztalId + "/" + tipus + "/tipus/" + Tipus.EXTRA.name())
+          new GombDto("ALKOHOL", "/etterem/asztal/" + asztalSzam + "/" + tipus + "/tipus/" + Tipus.ALKOHOL.name()),
+          new GombDto("RÖVIDITAL", "/etterem/asztal/" + asztalSzam + "/" + tipus + "/tipus/" + Tipus.ROVIDITAL.name()),
+          new GombDto("KOKTÉL", "/etterem/asztal/" + asztalSzam + "/" + tipus + "/tipus/" + Tipus.KOKTEL.name()),
+          new GombDto("ÜDÍTŐ", "/etterem/asztal/" + asztalSzam + "/" + tipus + "/tipus/" + Tipus.UDITO.name()),
+          new GombDto("FORRÓ ITAL", "/etterem/asztal/" + asztalSzam + "/" + tipus + "/tipus/" + Tipus.FORROITAL.name()),
+          new GombDto("KÁVÉ", "/etterem/asztal/" + asztalSzam + "/" + tipus + "/tipus/" + Tipus.KAVE.name()),
+          new GombDto("EXTRA", "/etterem/asztal/" + asztalSzam + "/" + tipus + "/tipus/" + Tipus.EXTRA.name())
       );
     } else {
       gombok = List.of(
-          new GombDto("ÉTEL", "/etterem/asztal/" + asztalId + "/" + AsztalFeluletTipus.ETEL.name()),
-          new GombDto("ITAL", "/etterem/asztal/" + asztalId + "/" + AsztalFeluletTipus.ITAL.name())
+          new GombDto("ÉTEL", "/etterem/asztal/" + asztalSzam + "/" + AsztalFeluletTipus.ETEL.name()),
+          new GombDto("ITAL", "/etterem/asztal/" + asztalSzam + "/" + AsztalFeluletTipus.ITAL.name())
       );
     }
     model.addAttribute(
@@ -195,13 +195,5 @@ public class TermekFooldalController {
   @ModelAttribute("filteredByTipus")
   public List<Termek> filteredByTipus() {
     return List.of();
-  }
-
-  private void clearFormItem(Model model) {
-    model.addAttribute("formItem", formItem());
-  }
-
-  private void refreshAllItem(Model model) {
-    model.addAttribute("rendelesItems", rendelesItems());
   }
 }

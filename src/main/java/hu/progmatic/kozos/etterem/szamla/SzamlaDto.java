@@ -19,4 +19,5 @@ public class SzamlaDto implements Serializable{
     private Integer fizetettVegosszeg;
     private boolean split;
     private List<SzamlaTetelDto> tetelek;
+    private Integer asztalSzam;
 }

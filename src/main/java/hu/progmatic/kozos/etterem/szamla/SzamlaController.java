@@ -29,7 +29,7 @@ public class SzamlaController {
       @PathVariable Integer asztalId
   ) {
     szamlaService.szamlaFizetese(asztalId);
-    return "etterem/asztal";
+    return "redirect:/etterem/asztal";
   }
 
   @PostMapping("/etterem/asztal/{asztalId}/splitSzamla")

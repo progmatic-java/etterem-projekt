@@ -72,6 +72,7 @@ public class SzamlaService {
         .fizetettVegosszeg(getFizetettVegosszeg(szamla))
         .tetelek(getTetelDtoList(szamla.getTetelek()))
         .split(szamla.isSplit())
+        .asztalSzam(szamla.getAsztal().getAsztalSzam())
         .build();
   }
 
