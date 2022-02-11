@@ -33,9 +33,6 @@ public class AsztalService implements InitializingBean {
     return asztalRepository.getById(id);
   }
 
-  public void delete(Integer id) {
-    asztalRepository.deleteById(id);
-  }
 
   @Override
   public void afterPropertiesSet() {
