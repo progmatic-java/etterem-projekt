@@ -17,12 +17,4 @@ class SzamlaServiceTest {
   private SzamlaService service;
   @Autowired
   private AsztalService asztalService;
-  private Integer tesztAsztalId;
-
-  @BeforeEach
-  void setUp() {
-    tesztAsztalId = asztalService.getIdByNev("1. asztal");
-    service.createSzamlaForAsztal(tesztAsztalId);
-  }
-
 }

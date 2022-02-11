@@ -28,9 +28,6 @@ class AsztalControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @Autowired
-    private SzamlaService szamlaService;
-
     @Test
     @DisplayName("Asztal főoldal megjelenik")
     void asztalIndex() throws Exception {
@@ -78,16 +75,16 @@ class AsztalControllerTest {
     @DisplayName("Termék hozzáadása a rendeléshez")
     void hozzadas() throws Exception {
         mockMvc.perform(
-                        post("/etterem/asztal/1/ETEL/tipus/LEVES")
+                        post("/etterem/asztal/9/ETEL/tipus/HALETEL")
                                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                                .content("etteremTermekId=10&mennyiseg=1")
+                                .content("etteremTermekId=23&mennyiseg=1")
                 ).andDo(print())
                 .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
-                .andExpect(MockMvcResultMatchers.redirectedUrl("/etterem/asztal/1/ETEL/tipus/LEVES"));
+                .andExpect(MockMvcResultMatchers.redirectedUrl("/etterem/asztal/9/ETEL/tipus/HALETEL"));
         mockMvc.perform(
-                        MockMvcRequestBuilders.get("/etterem/asztal/1/ETEL/tipus/LEVES")
+                        MockMvcRequestBuilders.get("/etterem/asztal/9/ETEL/tipus/HALETEL")
                 )
                 .andExpect(status().isOk())
-                .andExpect(content().string(containsString("Paradicsom leves")));
+                .andExpect(content().string(containsString("Lazacsteak")));
     }
 }
