@@ -57,6 +57,7 @@ class RendelesServiceTest {
   }
 
   @Test
+  @DisplayName("Rendelés hozzáadása asztalhoz")
   void addOrderToAsztalTest() {
     Rendeles tesztOrder = rendelesService.create(command);
     TableViewDto dto = asztalService.getTableViewDto(tesztAsztal.getId(), Tipus.LEVES);
@@ -106,6 +107,26 @@ class RendelesServiceTest {
     assertEquals("Paradicsom leves", rendelesDto.getEtteremTermekNev());
     assertEquals(2, rendelesDto.getMennyiseg());
   }
+
+    @Test
+    @DisplayName("Mennyiség csökkentése termék névvel")
+    void mennyisegcsokkenteseTermekNevvelTest() {
+      command.setMennyiseg(2);
+        rendelesService.create(command);
+        TableViewDto dto = asztalService.getTableViewDto(tesztAsztal.getId(), Tipus.LEVES);
+        TableViewDto.RendelesDto rendelesDto = dto.getRendelesDtoList().stream()
+                .findFirst()
+                .orElseThrow();
+        assertEquals("Paradicsom leves", rendelesDto.getEtteremTermekNev());
+        assertEquals(2, rendelesDto.getMennyiseg());
+        rendelesService.mennyisegCsokkentese(tesztAsztal.getId(), tesztTermek.getNev());
+        dto = asztalService.getTableViewDto(tesztAsztal.getId(), Tipus.LEVES);
+        rendelesDto = dto.getRendelesDtoList().stream()
+                .findFirst()
+                .orElseThrow();
+        assertEquals("Paradicsom leves", rendelesDto.getEtteremTermekNev());
+        assertEquals(1, rendelesDto.getMennyiseg());
+    }
 
   @Test
   @DisplayName("Rendelés keresése asztal alapján")
