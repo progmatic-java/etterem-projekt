@@ -29,7 +29,6 @@ class TermekFooldalControllerTest {
   void termekIndex() throws Exception {
     mockMvc.perform(
             MockMvcRequestBuilders.get("/etterem/asztal/3/KEZDOLAP")
-
         ).andExpect(status().isOk())
         .andExpect(content().string(containsString("ÉTEL")));
   }
@@ -41,5 +40,14 @@ class TermekFooldalControllerTest {
             MockMvcRequestBuilders.get("/etterem/asztal/3/ETEL?")
         ).andExpect(status().isOk())
         .andExpect(content().string(containsString("LEVES")));
+  }
+
+  @DisplayName("Típus oldal megjelenik")
+  @Test
+  void tipusMegjelenik() throws Exception {
+    mockMvc.perform(
+                    MockMvcRequestBuilders.get("/etterem/asztal/5/ETEL/tipus/LEVES?")
+            ).andExpect(status().isOk())
+            .andExpect(content().string(containsString("Gulyás leves")));
   }
 }
