@@ -52,7 +52,7 @@ public class FelhasznaloService implements InitializingBean {
         return felhasznaloRepository.findByNev(nev);
     }
 
-    private final List<UjFelhasznaloCommand> felhasznalok = List.of(
+    public final List<UjFelhasznaloCommand> felhasznalok = List.of(
             new UjFelhasznaloCommand("admin", "adminpass", UserType.ADMIN),
             new UjFelhasznaloCommand("bence", "bence", UserType.ADMIN),
             new UjFelhasznaloCommand("benji", "benji", UserType.ADMIN),

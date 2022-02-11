@@ -195,11 +195,4 @@ public class TermekFooldalController {
     return List.of();
   }
 
-  private void clearFormItem(Model model) {
-    model.addAttribute("formItem", formItem());
-  }
-
-  private void refreshAllItem(Model model) {
-    model.addAttribute("rendelesItems", rendelesItems());
-  }
 }
