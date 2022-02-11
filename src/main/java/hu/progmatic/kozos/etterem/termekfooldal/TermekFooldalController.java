@@ -12,7 +12,6 @@ import hu.progmatic.kozos.etterem.rendeles.RendelesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,11 +29,12 @@ public class TermekFooldalController {
   @Autowired
   private EtteremTermekService etteremTermekService;
 
-  @GetMapping("/etterem/asztal/{asztalId}/{asztalFeluletTipus}")
+  @GetMapping("/etterem/asztal/{asztalSzam}/{asztalFeluletTipus}")
   public String itemMain(
-      @PathVariable Integer asztalId,
+      @PathVariable Integer asztalSzam,
       @PathVariable AsztalFeluletTipus asztalFeluletTipus,
       Model model) {
+    Integer asztalId = asztalService.getIdByAsztalSzam(asztalSzam);
     TableViewDto dto = asztalService.getTableViewDto(asztalId, asztalFeluletTipus);
     model.addAttribute("tableViewDto", dto);
       if (asztalFeluletTipus == AsztalFeluletTipus.ITAL || asztalFeluletTipus == AsztalFeluletTipus.ETEL) {
@@ -46,9 +46,9 @@ public class TermekFooldalController {
     return "etterem/termek_fooldal";
   }
 
-  @GetMapping("/etterem/asztal/{asztalId}/{asztalFeluletTipus}/tipus/{tipus}")
+  @GetMapping("/etterem/asztal/{asztalSzam}/{asztalFeluletTipus}/tipus/{tipus}")
   public String dishes(
-      @PathVariable Integer asztalId,
+      @PathVariable Integer asztalSzam,
       @PathVariable AsztalFeluletTipus asztalFeluletTipus,
       @PathVariable Tipus tipus,
       Model model
@@ -57,26 +57,27 @@ public class TermekFooldalController {
         "filteredByTipus",
         etteremTermekService.findAllByTipus(tipus)
     );
+      Integer asztalId = asztalService.getIdByAsztalSzam(asztalSzam);
       TableViewDto dto = asztalService.getTableViewDto(asztalId, tipus, asztalFeluletTipus);
       model.addAttribute("tableViewDto", dto);
-      dto.setVisszaGombLink("/etterem/asztal/" + asztalId + "/" + asztalFeluletTipus.name());
+      dto.setVisszaGombLink("/etterem/asztal/" + asztalSzam + "/" + asztalFeluletTipus.name());
       return "etterem/termek_fooldal";
   }
 
-  @PostMapping("/etterem/asztal/{asztalId}/{asztalFeluletTipus}/tipus/{tipus}")
+  @PostMapping("/etterem/asztal/{asztalSzam}/{asztalFeluletTipus}/tipus/{tipus}")
   public String createOrder(
-      @PathVariable Integer asztalId,
+      @PathVariable Integer asztalSzam,
       @PathVariable Tipus tipus,
       @PathVariable AsztalFeluletTipus asztalFeluletTipus,
       @ModelAttribute("createRendelesCommand") @Valid CreateRendelesCommand command) {
-    asztalId = asztalService.getIdByAsztalSzam(asztalId);
+    Integer asztalId = asztalService.getIdByAsztalSzam(asztalSzam);
     command.setAsztalId(asztalId);
     if (rendelesService.rendelesTartalmazzaATermeket(command)) {
       rendelesService.mennyisegNovelese(asztalId, command.getEtteremTermekId());
     } else {
       rendelesService.create(command);
   }
-    return "redirect:/etterem/asztal/" + asztalId + "/" + asztalFeluletTipus.name() + "/tipus/" + tipus;
+    return "redirect:/etterem/asztal/" + asztalSzam + "/" + asztalFeluletTipus.name() + "/tipus/" + tipus;
   }
 
   @PostMapping("/etterem/asztal/{asztalId}/mennyisegNoveleseTipusOldalon/{asztalFeluletTipus}/{tipus}/{termekNeve}")

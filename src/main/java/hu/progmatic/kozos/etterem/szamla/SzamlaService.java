@@ -167,4 +167,11 @@ public class SzamlaService {
     rendelesRepository.deleteAll(eltavolitandoRendelesek);
     asztal.getSzamla().setSplit(false);
   }
+
+  public void szamlaFizetese(Integer asztalId) {
+    Asztal asztal = asztalService.getById(asztalId);
+    szamlaTetelRepository.deleteAllBySzamla(asztal.getSzamla());
+    rendelesRepository.deleteAll(asztal.getRendelesek());
+    asztal.getRendelesek().removeAll(asztal.getRendelesek() );
+  }
 }

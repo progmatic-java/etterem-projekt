@@ -31,6 +31,12 @@ public class AsztalService implements InitializingBean {
   @Autowired
   private AsztalRepository asztalRepository;
 
+  public void createAsztal(String nev) {
+    asztalRepository.save(Asztal.builder()
+        .nev(nev)
+        .build());
+  }
+
   public Asztal getById(Integer id) {
     return asztalRepository.getById(id);
   }

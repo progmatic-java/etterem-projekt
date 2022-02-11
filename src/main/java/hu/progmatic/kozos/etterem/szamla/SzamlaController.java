@@ -24,6 +24,14 @@ public class SzamlaController {
     return "etterem/szamla";
   }
 
+  @PostMapping("/etterem/asztal/{asztalId}/szamlaFizetese")
+  public String szamlaFizetese(
+      @PathVariable Integer asztalId
+  ) {
+    szamlaService.szamlaFizetese(asztalId);
+    return "etterem/asztal";
+  }
+
   @PostMapping("/etterem/asztal/{asztalId}/splitSzamla")
   public String splitSzamla(
       @PathVariable Integer asztalId,
