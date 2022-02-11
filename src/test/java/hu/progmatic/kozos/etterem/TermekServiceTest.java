@@ -35,6 +35,21 @@ class TermekServiceTest {
   }
 
   @Test
+  @DisplayName("Termék mentése")
+  void saveTest() {
+    Termek newEntity = Termek.builder()
+            .nev("Kóla")
+            .ar(400)
+            .tipus(Tipus.UDITO)
+            .build();
+    Termek savedEntity = service.create(newEntity);
+    service.save(savedEntity);
+    TermekDto dto = service.getDto(savedEntity.getId());
+    assertNotNull(dto.getId());
+    assertEquals("Kóla", dto.getNev());
+    assertEquals(400, dto.getAr());
+  }
+  @Test
   @DisplayName("Törlés és létezés ellenőrzése")
   void existAndDelete() {
     Termek newEntity = Termek.builder()
