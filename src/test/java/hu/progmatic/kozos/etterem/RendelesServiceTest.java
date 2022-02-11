@@ -9,15 +9,17 @@ import hu.progmatic.kozos.etterem.rendeles.CreateRendelesCommand;
 import hu.progmatic.kozos.etterem.rendeles.RendelesService;
 import hu.progmatic.kozos.etterem.rendeles.Rendeles;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import javax.transaction.Transactional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
+@Transactional
 class RendelesServiceTest {
     @Autowired
     RendelesService rendelesService;
@@ -44,11 +46,11 @@ class RendelesServiceTest {
                 .mennyiseg(2)
                 .build();
         tesztOrder = rendelesService.create(command);
-        TableViewDto dto = asztalService.getTableViewDto(tesztAsztalId, Tipus.UDITO);
+        TableViewDto dto = asztalService.getTableViewDto(tesztAsztalId, Tipus.LEVES);
         assertEquals("1. ASZTAL", dto.getNev());
         assertEquals(tesztAsztalId, dto.getId());
-        assertThat(dto.getRendelesDtoList()).hasSize(1);
-        TableViewDto.RendelesDto order = dto.getRendelesDtoList().get(0);
+        assertThat(dto.getRendelesDtoList()).hasSize(2);
+        TableViewDto.RendelesDto order = dto.getRendelesDtoList().get(1);
         assertEquals("Paradicsom leves", order.getEtteremTermekNev());
         assertEquals(2, order.getMennyiseg());
         assertEquals(tesztOrder.getId(), order.getRendelesId());
