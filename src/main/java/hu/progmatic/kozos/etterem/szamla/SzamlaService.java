@@ -72,6 +72,7 @@ public class SzamlaService {
         .fizetettVegosszeg(getFizetettVegosszeg(szamla))
         .tetelek(getTetelDtoList(szamla.getTetelek()))
         .split(szamla.isSplit())
+        .asztalSzam(szamla.getAsztal().getAsztalSzam())
         .build();
   }
 
@@ -166,5 +167,12 @@ public class SzamlaService {
     szamlaTetelRepository.deleteAll(eltavolitandoTetelek);
     rendelesRepository.deleteAll(eltavolitandoRendelesek);
     asztal.getSzamla().setSplit(false);
+  }
+
+  public void szamlaFizetese(Integer asztalId) {
+    Asztal asztal = asztalService.getById(asztalId);
+    szamlaTetelRepository.deleteAllBySzamla(asztal.getSzamla());
+    rendelesRepository.deleteAll(asztal.getRendelesek());
+    asztal.getRendelesek().removeAll(asztal.getRendelesek() );
   }
 }

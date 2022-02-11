@@ -6,6 +6,8 @@ import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
 import hu.progmatic.kozos.etterem.rendeles.Rendeles;
 import org.hibernate.annotations.Fetch;
 
@@ -28,4 +30,6 @@ public class Asztal {
     private Szamla szamla;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "asztal", fetch = FetchType.EAGER)
     private List<Rendeles> rendelesek = new ArrayList<>();
+    @NotNull
+    private Integer asztalSzam;
 }

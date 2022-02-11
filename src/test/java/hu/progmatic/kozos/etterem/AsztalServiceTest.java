@@ -14,24 +14,23 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class AsztalServiceTest {
-  private Asztal tesztAsztal;
+    private Asztal tesztAsztal;
 
-  @Autowired
-  private AsztalService asztalService;
+    @Autowired
+    private AsztalService asztalService;
 
-  @BeforeEach
-  void setUp() {
-    asztalService.afterPropertiesSet();
-    tesztAsztal = asztalService.getById(asztalService.getIdByNev("1. asztal"));
-  }
+    @BeforeEach
+    void setUp() {
+        asztalService.afterPropertiesSet();
+        tesztAsztal = asztalService.getById(asztalService.getIdByNev("1. ASZTAL"));
+    }
 
-  @Test
-  @DisplayName("Asztal kikérése id alapján")
-  @Disabled
-  void getByIdTest() {
-    Asztal asztal = asztalService.getById(tesztAsztal.getId());
-    AsztalDto dto = asztalService.buildAsztalDto(asztal);
-    assertNotNull(dto.getId());
-    assertEquals("1. asztal", dto.getNev());
-  }
+    @Test
+    @DisplayName("Asztal kikérése id alapján")
+    void getByIdTest() {
+        Asztal asztal = asztalService.getById(tesztAsztal.getId());
+        AsztalDto dto = asztalService.getAsztalDtoById(asztal.getId());
+        assertNotNull(dto.getId());
+        assertEquals("1. ASZTAL", dto.getNev());
+    }
 }

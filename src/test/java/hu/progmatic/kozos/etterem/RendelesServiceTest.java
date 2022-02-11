@@ -6,57 +6,60 @@ import hu.progmatic.kozos.etterem.leltar.Termek;
 import hu.progmatic.kozos.etterem.leltar.TermekService;
 import hu.progmatic.kozos.etterem.leltar.Tipus;
 import hu.progmatic.kozos.etterem.rendeles.CreateRendelesCommand;
+import hu.progmatic.kozos.etterem.rendeles.RendelesDto;
 import hu.progmatic.kozos.etterem.rendeles.RendelesService;
 import hu.progmatic.kozos.etterem.rendeles.Rendeles;
+import hu.progmatic.kozos.etterem.szamla.Szamla;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import javax.transaction.Transactional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
+@Transactional
 class RendelesServiceTest {
-  @Autowired
-  RendelesService rendelesService;
-  @Autowired
-  AsztalService asztalService;
-  @Autowired
-  TermekService termekService;
+    @Autowired
+    RendelesService rendelesService;
+    @Autowired
+    AsztalService asztalService;
+    @Autowired
+    TermekService termekService;
 
-  private Integer tesztAsztalId;
-  private Termek tesztTermek;
-  private Rendeles tesztOrder;
+    private Integer tesztAsztalId;
+    private Termek tesztTermek;
+    private Rendeles tesztOrder;
 
-  @BeforeEach
-  void setUp() {
-    tesztAsztalId = asztalService.getIdByNev("1. ASZTAL");
-    tesztTermek = termekService.getByName("Paradicsom leves");
-  }
+    @BeforeEach
+    void setUp() {
+        tesztAsztalId = asztalService.getIdByNev("1. ASZTAL");
+        tesztTermek = termekService.getByName("Paradicsom leves");
+    }
 
-  @Test
-  @Disabled
-  void addOrderToAsztalTest() {
-    CreateRendelesCommand command = CreateRendelesCommand.builder()
-        .asztalId(tesztAsztalId)
-        .etteremTermekId(tesztTermek.getId())
-        .mennyiseg(2)
-        .build();
-    tesztOrder = rendelesService.create(command);
-    TableViewDto dto = asztalService.getTableViewDto(tesztAsztalId, Tipus.UDITO);
-    assertEquals("1. asztal", dto.getNev());
-    assertEquals(tesztAsztalId, dto.getId());
-    assertThat(dto.getRendelesDtoList()).hasSize(1);
-    TableViewDto.RendelesDto order = dto.getRendelesDtoList().get(0);
-    assertEquals("Paradicsom leves", order.getEtteremTermekNev());
-    assertEquals(2, order.getMennyiseg());
-    assertEquals(tesztOrder.getId(), order.getRendelesId());
-  }
+    @Test
+    void addOrderToAsztalTest() {
+        CreateRendelesCommand command = CreateRendelesCommand.builder()
+                .asztalId(tesztAsztalId)
+                .etteremTermekId(tesztTermek.getId())
+                .mennyiseg(2)
+                .build();
+        tesztOrder = rendelesService.create(command);
+        TableViewDto dto = asztalService.getTableViewDto(tesztAsztalId, Tipus.LEVES);
+        assertEquals("1. ASZTAL", dto.getNev());
+        assertEquals(tesztAsztalId, dto.getId());
+        assertThat(dto.getRendelesDtoList()).hasSize(2);
+        TableViewDto.RendelesDto order = dto.getRendelesDtoList().get(1);
+        assertEquals("Paradicsom leves", order.getEtteremTermekNev());
+        assertEquals(2, order.getMennyiseg());
+        assertEquals(tesztOrder.getId(), order.getRendelesId());
+    }
 
-  @Test
-  void mennyisegHozzaadasaTest() {
+    @Test
+    void mennyisegHozzaadasaTest() {
 
-  }
+    }
 }

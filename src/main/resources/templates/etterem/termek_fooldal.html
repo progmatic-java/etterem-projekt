@@ -137,7 +137,7 @@
             <form class="row" th:each="item : ${filteredByTipus}"
                   style="text-align: right"
                   th:action="@{'/etterem/asztal/{asztalId}/{asztalFeluletTipus}/tipus/{tipus}'
-                            (asztalId=${asztalId}, asztalFeluletTipus=${tableViewDto.asztalFeluletTipus}, tipus=${item.tipus})}"
+                            (asztalId=${asztalSzam}, asztalFeluletTipus=${tableViewDto.asztalFeluletTipus}, tipus=${item.tipus})}"
                   method="post"
                   th:object="${createRendelesCommand}"
             >
