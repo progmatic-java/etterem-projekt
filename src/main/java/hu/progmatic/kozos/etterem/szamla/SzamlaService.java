@@ -12,6 +12,9 @@ import javax.transaction.Transactional;
 import hu.progmatic.kozos.etterem.asztal.Asztal;
 import hu.progmatic.kozos.etterem.asztal.AsztalService;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -143,6 +146,7 @@ public class SzamlaService {
         List<SzamlaTetel> eltavolitandoTetelek = new ArrayList<>();
         List<Rendeles> eltavolitandoRendelesek = new ArrayList<>();
         Asztal asztal = asztalService.getById(asztalId);
+        szamlaFileIrasa(asztal.getSzamla());
         for (SzamlaTetel tetel : asztal.getSzamla().getTetelek()) {
             for (Rendeles rendeles : asztal.getRendelesek()) {
                 if (tetel.getRendeles().getTermek().equals(rendeles.getTermek())) {
@@ -167,5 +171,54 @@ public class SzamlaService {
         szamlaTetelRepository.deleteAllBySzamla(asztal.getSzamla());
         rendelesRepository.deleteAll(asztal.getRendelesek());
         asztal.getRendelesek().removeAll(asztal.getRendelesek());
+    }
+
+    private String szamlaFileLetrehozasa(String asztalNev, Integer szamlaId) {
+        String fajlNev= asztalNev+" "+szamlaId+".txt";
+        try {
+            File myObj = new File(fajlNev);
+            if (myObj.createNewFile()) {
+                System.out.println("File created: " + myObj.getName());
+            } else {
+                System.out.println("A fajl már létezik");
+            }
+        } catch (IOException e) {
+            System.out.println("Hiba a fajl létrehozásánál");
+            e.printStackTrace();
+        }
+        return fajlNev;
+    }
+    public void szamlaFileIrasa(Szamla szamla){
+        String asztalNev=szamla.getAsztal().getNev();
+        Integer szamlaid=szamla.getId();
+        String fajlNev= szamlaFileLetrehozasa(asztalNev,szamlaid);
+        List<SzamlaTetel> tetelek=szamla.getTetelek();
+        String szamlaString="";
+        Integer vegosszeg=0;
+        for(SzamlaTetel tetel: tetelek){
+            if(szamla.isSplit()&&tetel.getFizetettMennyiseg()>0) {
+                vegosszeg=getFizetettVegosszeg(szamla);
+                szamlaString +=tetel.getRendeles().getTermek().getNev()+" "
+                        +tetel.getFizetettMennyiseg()+" "
+                        +tetel.getRendeles().getTermek().getAr()+"\n";
+            }else if(!szamla.isSplit()){
+                vegosszeg=getVegosszeg(szamla);
+                szamlaString +=tetel.getRendeles().getTermek().getNev()+" "
+                        +tetel.getNemFizetettMennyiseg()+" "
+                        +tetel.getRendeles().getTermek().getAr()+"\n";
+            }
+        }
+        Integer servizDij= vegosszeg/115*15;
+        szamlaString+="\nSzerviz díj: "+ servizDij+
+                "\nVégösszeg: "+vegosszeg;
+        try {
+            FileWriter myWriter = new FileWriter(fajlNev);
+            myWriter.write(szamlaString);
+            myWriter.close();
+            System.out.println("Successfully wrote to the file.");
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
     }
 }
