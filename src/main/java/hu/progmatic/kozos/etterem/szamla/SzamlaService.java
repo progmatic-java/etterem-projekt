@@ -168,13 +168,15 @@ public class SzamlaService {
 
     public void szamlaFizetese(Integer asztalId) {
         Asztal asztal = asztalService.getById(asztalId);
+        szamlaFileIrasa(asztal.getSzamla());
+        asztal.getSzamla().getTetelek().removeAll(asztal.getSzamla().getTetelek());
         szamlaTetelRepository.deleteAllBySzamla(asztal.getSzamla());
         rendelesRepository.deleteAll(asztal.getRendelesek());
         asztal.getRendelesek().removeAll(asztal.getRendelesek());
     }
 
     private String szamlaFileLetrehozasa(String asztalNev, Integer szamlaId, Integer split) {
-        String fajlNev= asztalNev+" "+szamlaId+""+split+".txt";
+        String fajlNev = asztalNev + " " + szamlaId + "" + split + ".txt";
         try {
             File myObj = new File(fajlNev);
             if (myObj.createNewFile()) {
@@ -188,31 +190,33 @@ public class SzamlaService {
         }
         return fajlNev;
     }
-    public void szamlaFileIrasa(Szamla szamla){
-        String asztalNev=szamla.getAsztal().getNev();
-        Integer szamlaid=szamla.getId();
-        String fajlNev= "";
-        List<SzamlaTetel> tetelek=szamla.getTetelek();
-        String szamlaString="";
-        Integer vegosszeg=0;
-        for(SzamlaTetel tetel: tetelek){
-            if(szamla.isSplit()&&tetel.getFizetettMennyiseg()>0) {
-                fajlNev=szamlaFileLetrehozasa(asztalNev,szamlaid,tetel.getId());
-                vegosszeg=getFizetettVegosszeg(szamla);
-                szamlaString +=tetel.getRendeles().getTermek().getNev()+" "
-                        +tetel.getFizetettMennyiseg()+" "
-                        +tetel.getRendeles().getTermek().getAr()+"\n";
-            }else if(!szamla.isSplit()){
-                vegosszeg=getVegosszeg(szamla);
-                fajlNev=szamlaFileLetrehozasa(asztalNev,szamlaid,0);
-                szamlaString +=tetel.getRendeles().getTermek().getNev()+" "
-                        +tetel.getNemFizetettMennyiseg()+" "
-                        +tetel.getRendeles().getTermek().getAr()+"\n";
+
+    public void szamlaFileIrasa(Szamla szamla) {
+        String asztalNev = szamla.getAsztal().getNev();
+        Integer szamlaid = szamla.getId();
+        Integer split = 0;
+        String fajlNev = "";
+        List<SzamlaTetel> tetelek = szamla.getTetelek();
+        String szamlaString = "";
+        Integer vegosszeg = 0;
+        for (SzamlaTetel tetel : tetelek) {
+            if (szamla.isSplit() && tetel.getFizetettMennyiseg() > 0) {
+                split =tetel.getId();
+                vegosszeg = getFizetettVegosszeg(szamla);
+                szamlaString += tetel.getRendeles().getTermek().getNev() + " "
+                        + tetel.getFizetettMennyiseg() + " "
+                        + tetel.getRendeles().getTermek().getAr() + "\n";
+            } else if (!szamla.isSplit()) {
+                vegosszeg = getVegosszeg(szamla);
+                szamlaString += tetel.getRendeles().getTermek().getNev() + " "
+                        + tetel.getNemFizetettMennyiseg() + " "
+                        + tetel.getRendeles().getTermek().getAr() + "\n";
             }
         }
-        Integer servizDij= vegosszeg/115*15;
-        szamlaString+="\nSzerviz díj: "+ servizDij+
-                "\nVégösszeg: "+vegosszeg;
+        fajlNev=szamlaFileLetrehozasa(asztalNev, szamlaid, split);
+        Integer servizDij = vegosszeg / 115 * 15;
+        szamlaString += "\nSzerviz díj: " + servizDij +
+                "\nVégösszeg: " + vegosszeg;
         try {
             FileWriter myWriter = new FileWriter(fajlNev);
             myWriter.write(szamlaString);
