@@ -197,11 +197,11 @@ public class SzamlaService {
         Integer split = 0;
         String fajlNev = "";
         List<SzamlaTetel> tetelek = szamla.getTetelek();
-        String szamlaString = "";
+        String szamlaString = asztalNev + "\n\n";
         Integer vegosszeg = 0;
         for (SzamlaTetel tetel : tetelek) {
             if (szamla.isSplit() && tetel.getFizetettMennyiseg() > 0) {
-                split =tetel.getId();
+                split = tetel.getId();
                 vegosszeg = getFizetettVegosszeg(szamla);
                 szamlaString += tetel.getRendeles().getTermek().getNev() + " "
                         + tetel.getFizetettMennyiseg() + " "
@@ -213,7 +213,7 @@ public class SzamlaService {
                         + tetel.getRendeles().getTermek().getAr() + "\n";
             }
         }
-        fajlNev=szamlaFileLetrehozasa(asztalNev, szamlaid, split);
+        fajlNev = szamlaFileLetrehozasa(asztalNev, szamlaid, split);
         Integer servizDij = vegosszeg / 115 * 15;
         szamlaString += "\nSzerviz díj: " + servizDij +
                 "\nVégösszeg: " + vegosszeg;
