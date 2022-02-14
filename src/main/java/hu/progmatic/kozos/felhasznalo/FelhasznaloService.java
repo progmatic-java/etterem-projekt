@@ -24,7 +24,6 @@ public class FelhasznaloService implements InitializingBean {
         this.encoder = encoder;
     }
 
-    @RolesAllowed(UserType.Roles.USER_READ_ROLE)
     public List<Felhasznalo> findAll() {
         return felhasznaloRepository.findAll();
     }
@@ -82,5 +81,9 @@ public class FelhasznaloService implements InitializingBean {
 
     private MyUserDetails getMyUserDetails() {
         return (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    }
+
+    public Felhasznalo getById(Long id) {
+        return felhasznaloRepository.getById(id);
     }
 }

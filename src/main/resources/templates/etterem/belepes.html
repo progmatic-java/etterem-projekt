@@ -15,7 +15,7 @@
 <div class="left" th:if="${!felhasznaloGombList.isEmpty()}">
     <div class="row" th:each="felhasznaloGomb : ${felhasznaloGombList}">
         <div class="col-md">
-            <form class="row">
+            <form class="row" th:action="@{'/login/felhasznalobetoltese/{id}'}" method="post">
                 <div class="col-sm">
                     <button class="btn btn-info user-button" type="submit" th:text="${felhasznaloGomb.nev}">Felhasználó név
                     </button>
@@ -32,7 +32,10 @@
                     <label for="validationCustom01" class="form-label">FELHASZNÁLÓ:</label>
                     <input name="username" type="text" class="form-control" id="validationCustom01"
                            placeholder="Felhasználó"
-                           style="text-align: center" required>
+                           style="text-align: center"
+                           required
+                           th:field = "*{formFelhasznalo.nev}"
+                    >
                     <div class="invalid-feedback">
                         Try it again!
                     </div>
