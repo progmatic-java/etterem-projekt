@@ -24,7 +24,7 @@
         </div>
     </div>
 </div>
-<form th:action="@{/login}" method="post">
+<form th:action="@{/login}" method="post" th:object="${formFelhasznalo}">
     <div class="container" style="text-align: center">
         <div class="col-2">
             <div class="position-absolute top-50 start-50 translate-middle">
@@ -34,7 +34,7 @@
                            placeholder="Felhasználó"
                            style="text-align: center"
                            required
-                           th:field = "*{formFelhasznalo.nev}"
+                           th:field = "*{nev}"
                     >
                     <div class="invalid-feedback">
                         Try it again!
