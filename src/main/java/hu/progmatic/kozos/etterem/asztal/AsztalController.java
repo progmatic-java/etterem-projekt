@@ -20,19 +20,9 @@ public class AsztalController {
     @Autowired
     private FelhasznaloService felhasznaloService;
 
-
     @GetMapping("/etterem/asztal")
     public String etterem() {
         return "/etterem/asztal";
-    }
-
-    @GetMapping("/etterem/asztal/{asztalId}/rendeles/{rendelesId}")
-    public String asztalFilter(@PathVariable Asztal asztal, Model model) {
-        model.addAttribute(
-                "findAllByAsztal",
-                rendelesService.findAllByAsztal(asztal)
-        );
-        return "/etterem/rendeles";
     }
 
     @RequestMapping("/")
