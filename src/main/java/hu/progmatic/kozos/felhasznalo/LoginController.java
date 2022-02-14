@@ -29,7 +29,7 @@ public class LoginController {
     ) {
         Felhasznalo felhasznalo = felhasznaloService.getById(id);
         model.addAttribute("formFelhasznalo", felhasznalo);
-        return "etterem/belepes";
+        return "redirect:/etterem/belepes";
     }
 
     @ModelAttribute("formFelhasznalo")

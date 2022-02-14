@@ -15,7 +15,7 @@
 <div class="left" th:if="${!felhasznaloGombList.isEmpty()}">
     <div class="row" th:each="felhasznaloGomb : ${felhasznaloGombList}">
         <div class="col-md">
-            <form class="row" th:action="@{'/login/felhasznalobetoltese/{id}'}" method="post">
+            <form class="row" th:action="@{'/login/felhasznalobetoltese/{id}' (id=${felhasznaloGomb.id})}" method="post">
                 <div class="col-sm">
                     <button class="btn btn-info user-button" type="submit" th:text="${felhasznaloGomb.nev}">Felhasználó név
                     </button>
