@@ -1,6 +1,7 @@
 package hu.progmatic.kozos.etterem.asztal;
 
 import hu.progmatic.kozos.etterem.rendeles.RendelesDto;
+import hu.progmatic.kozos.etterem.szamla.SzamlaDto;
 import lombok.*;
 
 import java.util.ArrayList;
@@ -17,4 +18,5 @@ public class AsztalDto {
   private String nev;
   @Builder.Default
   private List<RendelesDto> rendelesDtoLista = new ArrayList<>();
+  private SzamlaDto szamlaDto;
 }
