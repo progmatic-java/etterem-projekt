@@ -41,4 +41,35 @@ public class LeltarControllerTest {
                 ).andExpect(status().isOk())
                 .andExpect(content().string(containsString("Paradicsom leves")));
     }
+
+    @Test
+    @DisplayName("Termék törlése")
+    void törlés() throws Exception {
+        mockMvc.perform(
+                        MockMvcRequestBuilders.post("/etterem/leltar/delete/20")
+                ).andExpect(status().isOk())
+                .andExpect(content().string(containsString("Húsleves gazdagon")));
+    }
+
+    @Test
+    @DisplayName("Termék létrehozása")
+    void letrehozas() throws Exception {
+        mockMvc.perform(
+                        MockMvcRequestBuilders.post("/etterem/leltar?")
+                                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                                .content("nev=Karfiol+leves&ar=2200&tipus=LEVES")
+                ).andExpect(status().isOk())
+                .andExpect(content().string(containsString("Karfiol leves")));
+    }
+
+    @Test
+    @DisplayName("Termék mentése")
+    void mentes() throws Exception {
+        mockMvc.perform(
+                        MockMvcRequestBuilders.post("/etterem/leltar/66")
+                                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                                .content("nev=Karfiol+leves&ar=2200&tipus=LEVES")
+                ).andExpect(status().isOk())
+                .andExpect(content().string(containsString("Karfiol leves")));
+    }
 }
