@@ -3,6 +3,7 @@ package hu.progmatic.kozos.etterem.asztal;
 import hu.progmatic.kozos.etterem.leltar.TermekDto;
 import hu.progmatic.kozos.etterem.leltar.Tipus;
 import hu.progmatic.kozos.etterem.rendeles.RendelesDto;
+import hu.progmatic.kozos.etterem.szamla.SzamlaDto;
 import hu.progmatic.kozos.etterem.termekfooldal.AsztalFeluletTipus;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,7 +51,28 @@ public class AsztalService implements InitializingBean {
     return getIdByNev(asztalNev);
   }
 
+  // csak tesztekhez használjuk
   public AsztalDto buildAsztalDto(Asztal asztal) {
+    if (asztal.getSzamla() != null) {
+      return AsztalDto.builder()
+          .id(asztal.getId())
+          .nev(asztal.getNev())
+          .rendelesDtoLista(asztal.getRendelesek().stream()
+              .map(rendeles -> RendelesDto.builder()
+                  .id(rendeles.getId())
+                  .mennyiseg(rendeles.getMennyiseg())
+                  .termekDto(TermekDto.builder()
+                      .id(rendeles.getTermek().getId())
+                      .nev(rendeles.getTermek().getNev())
+                      .ar(rendeles.getTermek().getAr())
+                      .build())
+                  .build())
+              .toList())
+          .szamlaDto(SzamlaDto.builder()
+              .id(asztal.getSzamla().getId())
+              .build())
+          .build();
+    }
     return AsztalDto.builder()
         .id(asztal.getId())
         .nev(asztal.getNev())
