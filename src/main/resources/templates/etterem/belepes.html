@@ -18,9 +18,12 @@
             margin-bottom: 10px;
         }
 
+        #user-button {
+            margin-right: 10px;
+        }
+
         @media screen and (max-width: 600px) {
             #user-button {
-                width: auto;
                 font-size: 3vw;
             }
         }
@@ -32,16 +35,16 @@
         integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
         crossorigin="anonymous"></script>
 <div class="left" th:if="${!felhasznaloGombList.isEmpty()}">
-    <div class="row" th:each="felhasznaloGomb : ${felhasznaloGombList}">
-        <div class="col-md">
-            <form class="row" th:action="@{'/login/felhasznalobetoltese/{id}' (id=${felhasznaloGomb.id})}" method="get">
-                <div class="col-sm">
-                    <button class="btn btn-info user-button" type="submit" th:text="${felhasznaloGomb.nev}">Felhasználó név
+    <table>
+        <tr th:each="felhasznaloGomb : ${felhasznaloGombList}">
+                <form th:action="@{'/login/felhasznalobetoltese/{id}' (id=${felhasznaloGomb.id})}"
+                      method="get">
+                    <button id="user-button" class="btn btn-info user-button" type="submit"
+                            th:text="${felhasznaloGomb.nev}">Felhasználó név
                     </button>
-                </div>
-            </form>
-        </div>
-    </div>
+                </form>
+        </tr>
+    </table>
 </div>
 <form th:action="@{/login}" method="post">
     <div class="container" style="text-align: center">
