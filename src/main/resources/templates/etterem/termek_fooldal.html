@@ -17,19 +17,6 @@
             border: 2px solid white;
         }
 
-        .dropbtn {
-            background-color: #04AA6D;
-            color: white;
-            padding: 16px;
-            font-size: 16px;
-            border: none;
-            cursor: pointer;
-        }
-
-        .dropbtn:hover, .dropbtn:focus {
-            background-color: #3e8e41;
-        }
-
         #myInput {
             box-sizing: border-box;
             background-image: url("https://www.w3schools.com/css/searchicon.png");
@@ -41,11 +28,15 @@
             border-bottom: 1px solid #ddd;
         }
 
-        #myInput:focus {outline: 3px solid #ddd;}
+        #myInput:focus {
+            outline: 3px solid #ddd;
+        }
 
         .dropdown {
             position: center;
             display: inline-block;
+            top: 8px;
+            margin-bottom: 20px;
         }
 
         .dropdown-content {
@@ -65,9 +56,13 @@
             display: block;
         }
 
-        .dropdown a:hover {background-color: #ddd;}
+        .dropdown a:hover {
+            background-color: #ddd;
+        }
 
-        .show {display: block;}
+        .show {
+            display: block;
+        }
 
         .row {
             padding-bottom: 15px;
@@ -118,61 +113,93 @@
                 left: 1px;
                 right: 1px;
             }
+
+            #search-button {
+                font-size: 4vw;
+                width: 200%;
+            }
+
+            #myInput {
+                font-size: 4vw;
+                width: max-content;
+            }
+
+            .dropdown-content a {
+                font-size: 4vw;
+            }
+
         }
     </style>
 </head>
 <body>
 <div style="text-align: center">
-<div class="dropdown">
-
-        <button onclick="myFunction()" class="dropbtn" style="text-align: center">Keresés</button>
-        <div id="myDropdown" class="dropdown-content">
-            <input type="text" placeholder="Termék keresése" id="myInput" onkeyup="filterFunction()">
+    <div class="dropdown">
+        <button onclick="myFunction()" id="search-button" class="btn btn-success item-button" type="submit"
+                style="text-align: center">KERESÉS
+        </button>
+        <div id="myDropdown" class="dropdown-content" style="text-align: left">
+            <input type="text" placeholder="Termék neve" id="myInput" onkeyup="filterFunction()">
             <a th:href="@{/etterem/asztal/{asztalId}/ITAL/tipus/UDITO? (asztalId=${tableViewDto.id})}">Almalé</a>
             <a th:href="@{/etterem/asztal/{asztalId}/ITAL/tipus/KOKTEL? (asztalId=${tableViewDto.id})}">Bloody Mary</a>
-            <a th:href="@{/etterem/asztal/{asztalId}/ETEL/tipus/SERTESETEL? (asztalId=${tableViewDto.id})}">Brassói aprópecsenye</a>
+            <a th:href="@{/etterem/asztal/{asztalId}/ETEL/tipus/SERTESETEL? (asztalId=${tableViewDto.id})}">Brassói
+                aprópecsenye</a>
             <a th:href="@{/etterem/asztal/{asztalId}/ETEL/tipus/DESSZERT? (asztalId=${tableViewDto.id})}">Brownie</a>
             <a th:href="@{/etterem/asztal/{asztalId}/ITAL/tipus/FORROITAL? (asztalId=${tableViewDto.id})}">Cappuccino</a>
-            <a th:href="@{/etterem/asztal/{asztalId}/ETEL/tipus/ELOETEL? (asztalId=${tableViewDto.id})}">Cézár saláta</a>
-            <a th:href="@{/etterem/asztal/{asztalId}/ETEL/tipus/ELOETEL? (asztalId=${tableViewDto.id})}">Csípős juhsajtkrém</a>
-            <a th:href="@{/etterem/asztal/{asztalId}/ETEL/tipus/DESSZERT? (asztalId=${tableViewDto.id})}">Csöröge fánk</a>
+            <a th:href="@{/etterem/asztal/{asztalId}/ETEL/tipus/ELOETEL? (asztalId=${tableViewDto.id})}">Cézár
+                saláta</a>
+            <a th:href="@{/etterem/asztal/{asztalId}/ETEL/tipus/ELOETEL? (asztalId=${tableViewDto.id})}">Csípős
+                juhsajtkrém</a>
+            <a th:href="@{/etterem/asztal/{asztalId}/ETEL/tipus/DESSZERT? (asztalId=${tableViewDto.id})}">Csöröge
+                fánk</a>
             <a th:href="@{/etterem/asztal/{asztalId}/ITAL/tipus/FORROITAL? (asztalId=${tableViewDto.id})}">Cortado</a>
             <a th:href="@{/etterem/asztal/{asztalId}/ITAL/tipus/FORROITAL? (asztalId=${tableViewDto.id})}">Espresso</a>
             <a th:href="@{/etterem/asztal/{asztalId}/ITAL/tipus/UDITO? (asztalId=${tableViewDto.id})}">Fanta</a>
             <a th:href="@{/etterem/asztal/{asztalId}/ITAL/tipus/ALKOHOL? (asztalId=${tableViewDto.id})}">Fehér Bor</a>
-            <a th:href="@{/etterem/asztal/{asztalId}/ETEL/tipus/HALETEL? (asztalId=${tableViewDto.id})}">Fish and chips</a>
-            <a th:href="@{/etterem/asztal/{asztalId}/ITAL/tipus/FORROITAL? (asztalId=${tableViewDto.id})}">Forró csokoládé</a>
+            <a th:href="@{/etterem/asztal/{asztalId}/ETEL/tipus/HALETEL? (asztalId=${tableViewDto.id})}">Fish and
+                chips</a>
+            <a th:href="@{/etterem/asztal/{asztalId}/ITAL/tipus/FORROITAL? (asztalId=${tableViewDto.id})}">Forró
+                csokoládé</a>
             <a th:href="@{/etterem/asztal/{asztalId}/ETEL/tipus/LEVES? (asztalId=${tableViewDto.id})}">Gulyás leves</a>
             <a th:href="@{/etterem/asztal/{asztalId}/ETEL/tipus/DESSZERT? (asztalId=${tableViewDto.id})}">Gundelpalacsinta</a>
             <a th:href="@{/etterem/asztal/{asztalId}/ETEL/tipus/LEVES? (asztalId=${tableViewDto.id})}">Gyümölcsleves</a>
             <a th:href="@{/etterem/asztal/{asztalId}/ETEL/tipus/HALETEL? (asztalId=${tableViewDto.id})}">Harcsapaprikás</a>
-            <a th:href="@{/etterem/asztal/{asztalId}/ETEL/tipus/LEVES? (asztalId=${tableViewDto.id})}">Húsleves gazdagon</a>
+            <a th:href="@{/etterem/asztal/{asztalId}/ETEL/tipus/LEVES? (asztalId=${tableViewDto.id})}">Húsleves
+                gazdagon</a>
             <a th:href="@{/etterem/asztal/{asztalId}/ITAL/tipus/UDITO? (asztalId=${tableViewDto.id})}">Kóla</a>
             <a th:href="@{/etterem/asztal/{asztalId}/ETEL/tipus/HALETEL? (asztalId=${tableViewDto.id})}">Lazacsteak</a>
-            <a th:href="@{/etterem/asztal/{asztalId}/ETEL/tipus/ELOETEL? (asztalId=${tableViewDto.id})}">Libamáj pástétom</a>
-            <a th:href="@{/etterem/asztal/{asztalId}/ETEL/tipus/SERTESETEL? (asztalId=${tableViewDto.id})}">Lyon-i tarja</a>
-            <a th:href="@{/etterem/asztal/{asztalId}/ETEL/tipus/SERTESETEL? (asztalId=${tableViewDto.id})}">Milánói sertésborda</a>
+            <a th:href="@{/etterem/asztal/{asztalId}/ETEL/tipus/ELOETEL? (asztalId=${tableViewDto.id})}">Libamáj
+                pástétom</a>
+            <a th:href="@{/etterem/asztal/{asztalId}/ETEL/tipus/SERTESETEL? (asztalId=${tableViewDto.id})}">Lyon-i
+                tarja</a>
+            <a th:href="@{/etterem/asztal/{asztalId}/ETEL/tipus/SERTESETEL? (asztalId=${tableViewDto.id})}">Milánói
+                sertésborda</a>
             <a th:href="@{/etterem/asztal/{asztalId}/ITAL/tipus/KOKTEL? (asztalId=${tableViewDto.id})}">Mojito</a>
             <a th:href="@{/etterem/asztal/{asztalId}/ITAL/tipus/UDITO? (asztalId=${tableViewDto.id})}">Narancslé</a>
-            <a th:href="@{/etterem/asztal/{asztalId}/ETEL/tipus/LEVES? (asztalId=${tableViewDto.id})}">Paradicsom leves</a>
+            <a th:href="@{/etterem/asztal/{asztalId}/ETEL/tipus/LEVES? (asztalId=${tableViewDto.id})}">Paradicsom
+                leves</a>
             <a th:href="@{/etterem/asztal/{asztalId}/ITAL/tipus/ROVIDITAL? (asztalId=${tableViewDto.id})}">Pálinka</a>
-            <a th:href="@{/etterem/asztal/{asztalId}/ETEL/tipus/MARHAETEL? (asztalId=${tableViewDto.id})}">Rib-eye steak</a>
+            <a th:href="@{/etterem/asztal/{asztalId}/ETEL/tipus/MARHAETEL? (asztalId=${tableViewDto.id})}">Rib-eye
+                steak</a>
             <a th:href="@{/etterem/asztal/{asztalId}/ITAL/tipus/FORROITAL? (asztalId=${tableViewDto.id})}">Ristretto</a>
             <a th:href="@{/etterem/asztal/{asztalId}/ITAL/tipus/ALKOHOL? (asztalId=${tableViewDto.id})}">Rosé</a>
             <a th:href="@{/etterem/asztal/{asztalId}/ITAL/tipus/ROVIDITAL? (asztalId=${tableViewDto.id})}">Rum</a>
-            <a th:href="@{/etterem/asztal/{asztalId}/ETEL/tipus/SERTESETEL? (asztalId=${tableViewDto.id})}">Sertés szűzérmék</a>
+            <a th:href="@{/etterem/asztal/{asztalId}/ETEL/tipus/SERTESETEL? (asztalId=${tableViewDto.id})}">Sertés
+                szűzérmék</a>
             <a th:href="@{/etterem/asztal/{asztalId}/ETEL/tipus/DESSZERT? (asztalId=${tableViewDto.id})}">Somlói</a>
             <a th:href="@{/etterem/asztal/{asztalId}/ITAL/tipus/ALKOHOL? (asztalId=${tableViewDto.id})}">Sör</a>
             <a th:href="@{/etterem/asztal/{asztalId}/ETEL/tipus/ELOETEL? (asztalId=${tableViewDto.id})}">Tatárbeefsteak</a>
-            <a th:href="@{/etterem/asztal/{asztalId}/ETEL/tipus/MARHAETEL? (asztalId=${tableViewDto.id})}">T-bone steak</a>
+            <a th:href="@{/etterem/asztal/{asztalId}/ETEL/tipus/MARHAETEL? (asztalId=${tableViewDto.id})}">T-bone
+                steak</a>
             <a th:href="@{/etterem/asztal/{asztalId}/ITAL/tipus/FORROITAL? (asztalId=${tableViewDto.id})}">Tea</a>
             <a th:href="@{/etterem/asztal/{asztalId}/ITAL/tipus/KOKTEL? (asztalId=${tableViewDto.id})}">Titanic</a>
-            <a th:href="@{/etterem/asztal/{asztalId}/ETEL/tipus/ELOETEL? (asztalId=${tableViewDto.id})}">Tonhal tataki</a>
+            <a th:href="@{/etterem/asztal/{asztalId}/ETEL/tipus/ELOETEL? (asztalId=${tableViewDto.id})}">Tonhal
+                tataki</a>
             <a th:href="@{/etterem/asztal/{asztalId}/ETEL/tipus/MARHAETEL? (asztalId=${tableViewDto.id})}">Vadasmarha</a>
             <a th:href="@{/etterem/asztal/{asztalId}/ITAL/tipus/ROVIDITAL? (asztalId=${tableViewDto.id})}">Vodka</a>
             <a th:href="@{/etterem/asztal/{asztalId}/ITAL/tipus/ALKOHOL? (asztalId=${tableViewDto.id})}">Vörös Bor</a>
             <a th:href="@{/etterem/asztal/{asztalId}/ITAL/tipus/ROVIDITAL? (asztalId=${tableViewDto.id})}">Whiskey</a>
-            <a th:href="@{/etterem/asztal/{asztalId}/ITAL/tipus/KOKTEL? (asztalId=${tableViewDto.id})}">White Russian</a>
+            <a th:href="@{/etterem/asztal/{asztalId}/ITAL/tipus/KOKTEL? (asztalId=${tableViewDto.id})}">White
+                Russian</a>
             <a th:href="@{/etterem/asztal/{asztalId}/ITAL/tipus/EXTRA? (asztalId=${tableViewDto.id})}">Extra 500</a>
             <a th:href="@{/etterem/asztal/{asztalId}/ITAL/tipus/EXTRA? (asztalId=${tableViewDto.id})}">Extra 1000</a>
             <a th:href="@{/etterem/asztal/{asztalId}/ITAL/tipus/EXTRA? (asztalId=${tableViewDto.id})}">Extra 2000</a>
@@ -274,8 +301,7 @@
                   th:action="@{'/etterem/asztal/{asztalId}/{asztalFeluletTipus}/tipus/{tipus}'
                             (asztalId=${asztalSzam}, asztalFeluletTipus=${tableViewDto.asztalFeluletTipus}, tipus=${item.tipus})}"
                   method="post"
-                  th:object="${createRendelesCommand}"
-            >
+                  th:object="${createRendelesCommand}">
                 <input type="hidden" name="etteremTermekId" th:value="${item.id}">
                 <input type="hidden" name="mennyiseg" th:value="1">
                 <button class="btn btn-success item-button" type="submit" th:text="${item.nev}">ITAL
