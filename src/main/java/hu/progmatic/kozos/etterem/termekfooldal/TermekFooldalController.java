@@ -172,6 +172,11 @@ public class TermekFooldalController {
     );
   }
 
+  @ModelAttribute("allItem")
+  List<Termek> allItem() {
+    return termekService.findAll();
+  }
+
   @ModelAttribute("tableViewDto")
   public TableViewDto tableViewDto() {
     return TableViewDto.builder().build();
