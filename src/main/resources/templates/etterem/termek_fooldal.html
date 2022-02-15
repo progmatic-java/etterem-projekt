@@ -124,8 +124,7 @@
 <body>
 <div style="text-align: center">
 <div class="dropdown">
-
-        <button onclick="myFunction()" class="dropbtn" style="text-align: center">Keresés</button>
+        <button onclick="myFunction()" class="btn btn-success" style="text-align: center">Keresés</button>
         <div id="myDropdown" class="dropdown-content">
             <input type="text" placeholder="Termék keresése" id="myInput" onkeyup="filterFunction()">
             <a th:href="@{/etterem/asztal/{asztalId}/ITAL/tipus/UDITO? (asztalId=${tableViewDto.id})}">Almalé</a>
