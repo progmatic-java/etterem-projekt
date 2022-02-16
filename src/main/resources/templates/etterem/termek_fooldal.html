@@ -17,19 +17,6 @@
             border: 2px solid white;
         }
 
-        .dropbtn {
-            background-color: #04AA6D;
-            color: white;
-            padding: 16px;
-            font-size: 16px;
-            border: none;
-            cursor: pointer;
-        }
-
-        .dropbtn:hover, .dropbtn:focus {
-            background-color: #3e8e41;
-        }
-
         #myInput {
             box-sizing: border-box;
             background-image: url("https://www.w3schools.com/css/searchicon.png");
@@ -134,6 +121,13 @@
             .dropdown {
                 right: 40%;
             }
+
+            #search-button {
+                width: 100%;
+                float: left;
+                margin-bottom: 5px;
+                left: 1px;
+            }
         }
     </style>
 </head>
@@ -152,7 +146,8 @@
                       method="post">
                     <input type="hidden" name="etteremTermekId" th:value="${item.id}">
                     <input type="hidden" name="mennyiseg" value="1">
-                    <button class="btn btn-success item-button" type="submit" th:text="${item.nev}"></button>
+                    <button class="btn btn-success item-button" id="search-button" type="submit"
+                            th:text="${item.nev}"></button>
                 </form>
             </a>
         </div>
