@@ -173,9 +173,9 @@
         for (i = 0; i < a.length; i++) {
             txtValue = a[i].textContent || a[i].innerText;
             if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                a[i].style.display = "";
+                a[i].parentElement.parentElement.style.display = "";
             } else {
-                a[i].style.display = "none";
+                a[i].parentElement.parentElement.style.display = "none";
             }
         }
     }
