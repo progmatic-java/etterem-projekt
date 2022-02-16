@@ -53,13 +53,13 @@
     </thead>
     <tbody>
     <tr th:each="felhasznalo : ${allFelhasznalo}">
-        <th scope="row" th:text="${felhasznalo.id}">1</th>
+        <th scope="row" th:text="${felhasznalo.id}" style="text-align: center">1</th>
         <td th:text="${felhasznalo.nev}" style="text-align: center">Minta név</td>
         <td th:text="${felhasznalo.role}" style="text-align: center">ADMIN</td>
         <td>
             <form style="text-align: center" th:if="${hasUserWriteRole}"
                   th:action="@{'/felhasznalo/delete/{id}'(id=${felhasznalo.id})}" method="post">
-                <input type="submit" class="btn btn-danger" th:href="@{/felhasznalo}" value="Törlés"/>
+                <input type="submit" class="btn btn-danger" th:href="@{/felhasznalo}" value="Töröl"/>
             </form>
         </td>
     </tr>
@@ -77,9 +77,16 @@
         <label>
             <input type="text"
                    class="form-control"
+                   placeholder="Id"
+                   disabled="true">
+        </label>
+    </div>
+    <div class="col">
+        <label>
+            <input type="text"
+                   class="form-control"
                    name="nev"
-                   placeholder="Felhasználónév"
-                   th:field="*{nev}"/>
+                   placeholder="Felhasználónév"/>
         </label>
     </div>
     <div class="col">
@@ -87,8 +94,7 @@
             <input type="password"
                    class="form-control"
                    name="jelszo"
-                   placeholder="Jelszó"
-                   th:field="*{jelszo}"/>
+                   placeholder="Jelszó"/>
         </label>
     </div>
     <div class="col">
