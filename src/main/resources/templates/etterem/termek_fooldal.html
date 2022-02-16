@@ -142,7 +142,7 @@
     <div class="dropdown">
         <button onclick="myFunction()" class="btn btn-success" style="text-align: center">KERESÉS</button>
         <div id="myDropdown" class="dropdown-content">
-            <input type="text" placeholder="Termék keresése" id="myInput" onkeyup="filterFunction()">
+            <input type="text" placeholder="Termék neve" id="myInput" onkeyup="filterFunction()">
             <a th:each="item : ${allItem}" th:text="${item.nev}">
                 <form th:each="gombDto : ${gombDtoList}"
                       ></form>
