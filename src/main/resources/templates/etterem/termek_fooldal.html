@@ -144,10 +144,13 @@
         <div id="myDropdown" class="dropdown-content">
             <input type="text" placeholder="Termék neve" id="myInput" onkeyup="filterFunction()">
             <a th:each="item : ${allItem}" th:text="${item.nev}">
-                <form th:each="gombDto : ${gombDtoList}"
-                      ></form>
+                <form th:action="@{'/etterem/asztal/{asztalId}/{asztalFeluletTipus}/tipus/{tipus}'
+                          (asztalId=${tableViewDto.id}, asztalFeluletTipus=${tableViewDto.asztalFeluletTipus},
+                           termekNeve=${item.getNev()})}"
+                      method="post"
+                ></form>
             </a>
-            <!--            <a th:href="@{/etterem/asztal/{asztalId}/ITAL/tipus/UDITO? (asztalId=${tableViewDto.id})}">Almalé</a>-->
+            <!--                        <a th:href="@{/etterem/asztal/{asztalId}/ITAL/tipus/UDITO? (asztalId=${tableViewDto.id})}">Almalé</a>-->
             <!--            <a th:href="@{/etterem/asztal/{asztalId}/ITAL/tipus/KOKTEL? (asztalId=${tableViewDto.id})}">Bloody Mary</a>-->
             <!--            <a th:href="@{/etterem/asztal/{asztalId}/ETEL/tipus/SERTESETEL? (asztalId=${tableViewDto.id})}">Brassói aprópecsenye</a>-->
             <!--            <a th:href="@{/etterem/asztal/{asztalId}/ETEL/tipus/DESSZERT? (asztalId=${tableViewDto.id})}">Brownie</a>-->
