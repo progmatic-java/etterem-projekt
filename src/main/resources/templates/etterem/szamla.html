@@ -91,6 +91,7 @@
                   th:if="${!szamlaDto.isSplit()}" method="post">
                 <div class="position-relative gombok" style="text-align: center">
                     <button class="btn btn-primary btn-lg" type="submit">FIZETÉS</button>
+                    <a th:href="@{'/etterem/asztal/{asztalId}/szamlaMentese'}" download>Számla mentése</a>
                 </div>
             </form>
             <form th:action="@{'/etterem/asztal/{asztalId}/splitSzamla' (asztalId=${szamlaDto.getAsztalId()})}"
@@ -169,6 +170,7 @@
             (asztalId=${szamlaDto.getAsztalId()})}" method="post">
                 <div class="position-relative" style="text-align: center">
                     <button class="btn btn-primary btn-lg" type="submit">KÜLÖN SZÁMLA FIZETÉSE</button>
+                    <a th:href="@{'/etterem/asztal/{asztalId}/szamlaMentese'}" download>Külön számla mentése</a>
                 </div>
             </form>
         </td>

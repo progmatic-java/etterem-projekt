@@ -9,6 +9,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+
 @Controller
 public class SzamlaController {
   @Autowired
@@ -30,6 +34,15 @@ public class SzamlaController {
   ) {
     szamlaService.szamlaFizetese(asztalId);
     return "etterem/asztal";
+  }
+  @GetMapping("/etterem/asztal/{asztalId}/szamlaMentese")
+  public void szamlaMentese(@PathVariable Integer asztalId, HttpServletResponse response) throws IOException {
+    String fileName = szamlaService.szamlaFileNev(szamlaService.findSzamlaByAsztalId(asztalId));
+    String fileContent = szamlaService.szamlaFileTartalom(szamlaService.findSzamlaByAsztalId(asztalId));
+
+    response.setContentType("text/plain");
+    response.getOutputStream().write(fileContent.getBytes(StandardCharsets.UTF_8));
+    response.addHeader("Content-Disposition", "attachment; filename="+fileName);
   }
 
   @PostMapping("/etterem/asztal/{asztalId}/splitSzamla")

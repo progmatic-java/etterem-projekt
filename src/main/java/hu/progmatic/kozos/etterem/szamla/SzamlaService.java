@@ -149,7 +149,6 @@ public class SzamlaService {
     List<SzamlaTetel> eltavolitandoTetelek = new ArrayList<>();
     List<Rendeles> eltavolitandoRendelesek = new ArrayList<>();
     Asztal asztal = asztalService.getById(asztalId);
-    szamlaFileIrasa(asztal.getSzamla());
     for (SzamlaTetel tetel : asztal.getSzamla().getTetelek()) {
       for (Rendeles rendeles : asztal.getRendelesek()) {
         if (tetel.getRendeles().getTermek().equals(rendeles.getTermek())) {
@@ -171,30 +170,13 @@ public class SzamlaService {
 
   public void szamlaFizetese(Integer asztalId) {
     Asztal asztal = asztalService.getById(asztalId);
-    szamlaFileIrasa(asztal.getSzamla());
     asztal.getSzamla().getTetelek().removeAll(asztal.getSzamla().getTetelek());
     szamlaTetelRepository.deleteAllBySzamla(asztal.getSzamla());
     rendelesRepository.deleteAll(asztal.getRendelesek());
     asztal.getRendelesek().removeAll(asztal.getRendelesek());
   }
 
-  private String szamlaFileLetrehozasa(String asztalNev, Integer szamlaId, Integer split) {
-    String fajlNev = asztalNev + " " + szamlaId + "" + split + ".txt";
-    try {
-      File myObj = new File(fajlNev);
-      if (myObj.createNewFile()) {
-        System.out.println("File created: " + myObj.getName());
-      } else {
-        System.out.println("A fajl már létezik");
-      }
-    } catch (IOException e) {
-      System.out.println("Hiba a fajl létrehozásánál");
-      e.printStackTrace();
-    }
-    return fajlNev;
-  }
-
-  public void szamlaFileIrasa(Szamla szamla) {
+  public String szamlaFileNev(Szamla szamla) {
     String asztalNev = szamla.getAsztal().getNev();
     Integer szamlaid = szamla.getId();
     Integer split = 0;
@@ -216,18 +198,31 @@ public class SzamlaService {
             + tetel.getRendeles().getTermek().getAr() + "\n";
       }
     }
-    fajlNev = szamlaFileLetrehozasa(asztalNev, szamlaid, split);
     int servizDij = vegosszeg / 115 * 15;
     szamlaString += "\nSzerviz díj: " + servizDij +
-        "\nVégösszeg: " + vegosszeg;
-    try {
-      FileWriter myWriter = new FileWriter(fajlNev);
-      myWriter.write(szamlaString);
-      myWriter.close();
-      System.out.println("Successfully wrote to the file.");
-    } catch (IOException e) {
-      System.out.println("An error occurred.");
-      e.printStackTrace();
+            "\nVégösszeg: " + vegosszeg;
+    return fajlNev = asztalNev + " " + szamlaid + "" + split + ".txt";
+  }
+  public String szamlaFileTartalom(Szamla szamla) {
+    String asztalNev = szamla.getAsztal().getNev();
+    List<SzamlaTetel> tetelek = szamla.getTetelek();
+    String szamlaString = asztalNev + "\n\n";
+    int vegosszeg = 0;
+    for (SzamlaTetel tetel : tetelek) {
+      if (szamla.isSplit() && tetel.getFizetettMennyiseg() > 0) {
+        vegosszeg = getFizetettVegosszeg(szamla);
+        szamlaString += tetel.getRendeles().getTermek().getNev() + " "
+                + tetel.getFizetettMennyiseg() + " "
+                + tetel.getRendeles().getTermek().getAr() + "\n";
+      } else if (!szamla.isSplit()) {
+        vegosszeg = getVegosszeg(szamla);
+        szamlaString += tetel.getRendeles().getTermek().getNev() + " "
+                + tetel.getNemFizetettMennyiseg() + " "
+                + tetel.getRendeles().getTermek().getAr() + "\n";
+      }
     }
+    int servizDij = vegosszeg / 115 * 15;
+    return szamlaString += "\nSzerviz díj: " + servizDij +
+            "\nVégösszeg: " + vegosszeg;
   }
 }
