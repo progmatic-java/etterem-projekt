@@ -59,7 +59,7 @@
         .dropdown-content {
             display: none;
             position: absolute;
-            background-color: #f6f6f6;
+            background-color: white;
             min-width: 230px;
             overflow: auto;
             border: 1px solid #ddd;
@@ -149,11 +149,10 @@
                            asztalFeluletTipus=${tableViewDto.asztalFeluletTipus},
                            tipus=${item.tipus}
                            )}"
-                      method="post"
-                >
+                      method="post">
                     <input type="hidden" name="etteremTermekId" th:value="${item.id}">
                     <input type="hidden" name="mennyiseg" value="1">
-                    <button class="btn btn-primary btn-lg" type="submit" th:text="${item.nev}">></button>
+                    <button class="btn btn-success item-button" type="submit" th:text="${item.nev}"></button>
                 </form>
             </a>
         </div>
@@ -161,8 +160,6 @@
 </div>
 
 <script>
-    /* When the user clicks on the button,
-    toggle between hiding and showing the dropdown content */
     function myFunction() {
         document.getElementById("myDropdown").classList.toggle("show");
     }
