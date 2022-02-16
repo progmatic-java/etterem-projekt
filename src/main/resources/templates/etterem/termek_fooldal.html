@@ -47,6 +47,11 @@
             top: 8px;
             position: center;
             display: inline-block;
+            margin-bottom: 20px;
+            margin-left: 40px;
+            font-size: x-large;
+            font-weight: bold;
+            width: 25%;
         }
 
         .dropdown-content {
@@ -128,7 +133,7 @@
 <body>
 <div style="text-align: center">
 <div class="dropdown">
-        <button onclick="myFunction()" class="btn btn-success" style="text-align: center">Keresés</button>
+        <button onclick="myFunction()" class="btn btn-success" style="text-align: center">KERESÉS</button>
         <div id="myDropdown" class="dropdown-content">
             <input type="text" placeholder="Termék keresése" id="myInput" onkeyup="filterFunction()">
             <a th:href="@{/etterem/asztal/{asztalId}/ITAL/tipus/UDITO? (asztalId=${tableViewDto.id})}">Almalé</a>
