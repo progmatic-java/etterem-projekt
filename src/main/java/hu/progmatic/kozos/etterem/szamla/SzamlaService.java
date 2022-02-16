@@ -180,28 +180,17 @@ public class SzamlaService {
     String asztalNev = szamla.getAsztal().getNev();
     Integer szamlaid = szamla.getId();
     Integer split = 0;
-    String fajlNev = "";
     List<SzamlaTetel> tetelek = szamla.getTetelek();
-    String szamlaString = asztalNev + "\n\n";
     int vegosszeg = 0;
     for (SzamlaTetel tetel : tetelek) {
       if (szamla.isSplit() && tetel.getFizetettMennyiseg() > 0) {
         split = tetel.getId();
         vegosszeg = getFizetettVegosszeg(szamla);
-        szamlaString += tetel.getRendeles().getTermek().getNev() + " "
-            + tetel.getFizetettMennyiseg() + " "
-            + tetel.getRendeles().getTermek().getAr() + "\n";
       } else if (!szamla.isSplit()) {
         vegosszeg = getVegosszeg(szamla);
-        szamlaString += tetel.getRendeles().getTermek().getNev() + " "
-            + tetel.getNemFizetettMennyiseg() + " "
-            + tetel.getRendeles().getTermek().getAr() + "\n";
       }
     }
-    int servizDij = vegosszeg / 115 * 15;
-    szamlaString += "\nSzerviz díj: " + servizDij +
-            "\nVégösszeg: " + vegosszeg;
-    return fajlNev = asztalNev + " " + szamlaid + "" + split + ".txt";
+    return asztalNev + " " + szamlaid + "-" + split + ".txt";
   }
   public String szamlaFileTartalom(Szamla szamla) {
     String asztalNev = szamla.getAsztal().getNev();
@@ -222,7 +211,8 @@ public class SzamlaService {
       }
     }
     int servizDij = vegosszeg / 115 * 15;
-    return szamlaString += "\nSzerviz díj: " + servizDij +
+    szamlaString += "\nSzerviz díj: " + servizDij +
             "\nVégösszeg: " + vegosszeg;
+    return szamlaString;
   }
 }
