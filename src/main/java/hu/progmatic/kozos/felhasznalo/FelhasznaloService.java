@@ -52,7 +52,7 @@ public class FelhasznaloService implements InitializingBean {
     }
 
     public final List<UjFelhasznaloCommand> felhasznalok = List.of(
-            new UjFelhasznaloCommand("admin", "adminpass", UserType.ADMIN),
+            new UjFelhasznaloCommand("admin", "admin", UserType.ADMIN),
             new UjFelhasznaloCommand("bence", "bence", UserType.ADMIN),
             new UjFelhasznaloCommand("benji", "benji", UserType.ADMIN),
             new UjFelhasznaloCommand("attila", "attila", UserType.ADMIN),
