@@ -69,7 +69,7 @@ public class RendelesService {
         .findFirst()
         .orElseThrow();
     aktualisRendeles.setMennyiseg(aktualisRendeles.getMennyiseg() - 1);
-    if (aktualisRendeles.getMennyiseg() <= 0) {
+    if (aktualisRendeles.getMennyiseg() == 0) {
       szamlaService.szamlaTetelEltavolitasa(asztalId, aktualisRendeles.getId());
       asztal.getRendelesek().remove(aktualisRendeles);
       rendelesRepository.delete(aktualisRendeles);
