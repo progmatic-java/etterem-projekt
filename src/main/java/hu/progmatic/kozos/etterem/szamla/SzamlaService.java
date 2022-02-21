@@ -71,7 +71,7 @@ public class SzamlaService {
         .fizetettVegosszeg(getFizetettVegosszeg(szamla))
         .formazottFizetettVegosszeg(osszegFormazasa(getFizetettVegosszeg(szamla)))
         .formazottFizetendoOsszeg(osszegFormazasa(getVegosszeg(szamla) + getVegosszeg(szamla) / 100 * 15))
-        .formazottFizetettFizetendoOsszeg(osszegFormazasa(getVegosszeg(szamla) + getFizetettVegosszeg(szamla) / 100 * 15))
+        .formazottFizetettFizetendoOsszeg(osszegFormazasa(getFizetettVegosszeg(szamla) + getFizetettVegosszeg(szamla) / 100 * 15))
         .formazottSzervizdij(osszegFormazasa(getVegosszeg(szamla) / 100 * 15))
         .formazottFizetettSzervizdij(osszegFormazasa(getFizetettVegosszeg(szamla) / 100 * 15))
         .tetelek(getTetelDtoList(szamla.getTetelek()))
