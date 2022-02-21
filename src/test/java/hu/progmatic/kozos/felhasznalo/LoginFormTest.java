@@ -51,7 +51,7 @@ class LoginFormTest {
                         MockMvcRequestBuilders.post("/login").contentType(MediaType.APPLICATION_FORM_URLENCODED)
                                 .content(buildUrlEncodedFormEntity(
                                         "username", "admin",
-                                        "password", "adminpass"
+                                        "password", "admin"
                                 ))
                 )
                 .andExpect(MockMvcResultMatchers.status().isOk())

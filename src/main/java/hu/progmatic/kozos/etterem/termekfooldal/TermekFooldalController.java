@@ -9,6 +9,7 @@ import hu.progmatic.kozos.etterem.leltar.Tipus;
 import hu.progmatic.kozos.etterem.rendeles.CreateRendelesCommand;
 import hu.progmatic.kozos.etterem.rendeles.Rendeles;
 import hu.progmatic.kozos.etterem.rendeles.RendelesService;
+import hu.progmatic.kozos.felhasznalo.FelhasznaloService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,6 +29,8 @@ public class TermekFooldalController {
   private RendelesService rendelesService;
   @Autowired
   private TermekService termekService;
+  @Autowired
+  private FelhasznaloService felhasznaloService;
 
   @GetMapping("/etterem/asztal/{asztalSzam}/{asztalFeluletTipus}")
   public String itemMain(
@@ -170,6 +173,10 @@ public class TermekFooldalController {
         "gombDtoList",
         gombok
     );
+  }
+  @ModelAttribute("felszolgalo")
+  String felszolgalo(){
+    return felhasznaloService.getById(felhasznaloService.getFelhasznaloId()).getNev();
   }
 
   @ModelAttribute("allItem")

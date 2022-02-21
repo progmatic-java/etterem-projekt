@@ -160,7 +160,7 @@
     }
 
     function filterFunction() {
-        var input, filter, ul, li, a, i;
+        var input, filter, a, i;
         input = document.getElementById("myInput");
         filter = input.value.toUpperCase();
         div = document.getElementById("myDropdown");
@@ -182,6 +182,8 @@
             <tr>
                 <th scope="col" th:text="${tableViewDto.nev}" style="text-align: center" colspan="4">Asztal</th>
             </tr>
+            <tr>
+                <th scope="col" th:text="${felszolgalo}" style="text-align: center" colspan="4">Felszolgáló</th>
             <tr>
                 <th scope="col">Név</th>
                 <th scope="col">Mennyiség</th>
@@ -246,8 +248,7 @@
                   th:action="@{'/etterem/asztal/{asztalId}/{asztalFeluletTipus}/tipus/{tipus}'
                             (asztalId=${asztalSzam}, asztalFeluletTipus=${tableViewDto.asztalFeluletTipus}, tipus=${item.tipus})}"
                   method="post"
-                  th:object="${createRendelesCommand}"
-            >
+                  th:object="${createRendelesCommand}">
                 <input type="hidden" name="etteremTermekId" th:value="${item.id}">
                 <input type="hidden" name="mennyiseg" th:value="1">
                 <button class="btn btn-success item-button" type="submit" th:text="${item.nev}">ITAL

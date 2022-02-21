@@ -16,6 +16,10 @@
             background-color: black;
         }
 
+        #splitsavebutton {
+            margin-top: 5px;
+        }
+
         @media screen and (max-width: 600px) {
             .table {
                 width: auto;
@@ -85,7 +89,12 @@
                   th:if="${!szamlaDto.isSplit()}" method="post">
                 <div class="position-relative gombok" style="text-align: center">
                     <button class="btn btn-primary btn-lg" type="submit">FIZETÉS</button>
-                    <a th:href="@{'/etterem/asztal/{asztalId}/szamlaMentese' (asztalId=${szamlaDto.getAsztalId()})}" download>Számla mentése</a>
+                </div>
+            </form>
+            <form th:action="@{'/etterem/asztal/{asztalId}/szamlaMentese' (asztalId=${szamlaDto.getAsztalId()})}" download
+                  th:if="${!szamlaDto.isSplit()}" method="get">
+                <div class="position-relative gombok" style="text-align: center">
+                    <button class="btn btn-primary btn-lg" type="submit">SZÁMLA MENTÉSE</button>
                 </div>
             </form>
             <form th:action="@{'/etterem/asztal/{asztalId}/splitSzamla' (asztalId=${szamlaDto.getAsztalId()})}"
@@ -157,7 +166,12 @@
             (asztalId=${szamlaDto.getAsztalId()})}" method="post">
                 <div class="position-relative" style="text-align: center">
                     <button class="btn btn-primary btn-lg" type="submit">KÜLÖN SZÁMLA FIZETÉSE</button>
-                    <a th:href="@{'/etterem/asztal/{asztalId}/szamlaMentese'}" download>Külön számla mentése</a>
+                </div>
+            </form>
+            <form th:action="@{'/etterem/asztal/{asztalId}/szamlaMentese' (asztalId=${szamlaDto.getAsztalId()})}" download
+                  th:if="${szamlaDto.isSplit()}" method="get">
+                <div class="position-relative gombok" style="text-align: center">
+                    <button class="btn btn-primary btn-lg" id="splitsavebutton" type="submit">KÜLÖN SZÁMLA MENTÉSE</button>
                 </div>
             </form>
         </td>

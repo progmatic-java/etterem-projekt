@@ -4,6 +4,7 @@ import hu.progmatic.kozos.etterem.leltar.TermekDto;
 import hu.progmatic.kozos.etterem.rendeles.Rendeles;
 import hu.progmatic.kozos.etterem.rendeles.RendelesDto;
 import hu.progmatic.kozos.etterem.rendeles.RendelesRepository;
+import hu.progmatic.kozos.felhasznalo.FelhasznaloService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +27,8 @@ public class SzamlaService {
   private SzamlaTetelRepository szamlaTetelRepository;
   @Autowired
   private RendelesRepository rendelesRepository;
+  @Autowired
+  private FelhasznaloService felhasznaloService;
 
   public void createSzamlaForAsztal(Integer asztalId) {
     Asztal asztal = asztalService.getById(asztalId);
@@ -222,7 +225,8 @@ public class SzamlaService {
   public String szamlaFileTartalom(Szamla szamla) {
     String asztalNev = szamla.getAsztal().getNev();
     List<SzamlaTetel> tetelek = szamla.getTetelek();
-    String szamlaString = asztalNev + "\n\n";
+    String felhasznalo = felhasznaloService.getById(felhasznaloService.getFelhasznaloId()).getNev();
+    String szamlaString = asztalNev + "\n Felszolgáló:"+felhasznalo+"\n\n";
     int vegosszeg = 0;
     for (SzamlaTetel tetel : tetelek) {
       if (szamla.isSplit() && tetel.getFizetettMennyiseg() > 0) {
