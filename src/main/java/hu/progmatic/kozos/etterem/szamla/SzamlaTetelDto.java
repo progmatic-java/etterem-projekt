@@ -15,6 +15,8 @@ public class SzamlaTetelDto implements Serializable {
   private Integer id;
   private RendelesDto rendelesDto;
   private Integer nemFizetettMennyiseg;
+  private String formazottNemFizetettAr;
   @Builder.Default
   private Integer fizetettMennyiseg = 0;
+  private String formazottFizetettAr;
 }
