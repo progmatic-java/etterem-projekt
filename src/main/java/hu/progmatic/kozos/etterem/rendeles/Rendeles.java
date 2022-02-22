@@ -24,4 +24,6 @@ public class Rendeles {
     private Integer mennyiseg;
     @ManyToOne
     private Asztal asztal;
+    @Builder.Default
+    private boolean leadott=false;
 }

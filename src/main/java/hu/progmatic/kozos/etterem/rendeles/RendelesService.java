@@ -5,12 +5,16 @@ import hu.progmatic.kozos.etterem.asztal.AsztalRepository;
 import hu.progmatic.kozos.etterem.asztal.AsztalService;
 import hu.progmatic.kozos.etterem.leltar.Termek;
 import hu.progmatic.kozos.etterem.leltar.TermekService;
+import hu.progmatic.kozos.etterem.leltar.Tipus;
 import hu.progmatic.kozos.etterem.szamla.SzamlaService;
+import hu.progmatic.kozos.felhasznalo.FelhasznaloRepository;
+import hu.progmatic.kozos.felhasznalo.FelhasznaloService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -28,6 +32,8 @@ public class RendelesService {
   private TermekService termekService;
   @Autowired
   private AsztalRepository asztalRepository;
+  @Autowired
+  private FelhasznaloService felhasznaloService;
 
   public Rendeles create(@Valid CreateRendelesCommand command) {
     Asztal asztal = asztalService.getById(command.getAsztalId());
@@ -40,6 +46,36 @@ public class RendelesService {
     asztal.getRendelesek().add(rendeles);
     szamlaService.createSzamlaForAsztal(asztal.getId());
     return rendelesRepository.save(rendeles);
+  }
+  public String[] etelekLeadas(Asztal asztal){
+    List<Tipus> etelek= List.of(Tipus.DESSZERT,Tipus.ELOETEL, Tipus.HALETEL, Tipus.LEVES, Tipus.MARHAETEL, Tipus.SERTESETEL);
+    String filnev= asztal.getNev()+" ";
+    String fileTartalom=asztal.getNev()+"\nFelszolgáló: "+felhasznaloService.getById(felhasznaloService.getFelhasznaloId()).getNev()+"\n\n";
+    for(Rendeles rendeles: asztal.getRendelesek()){
+      if(etelek.contains(rendeles.getTermek().getTipus())){
+        filnev+=rendeles.getId();
+        fileTartalom+=rendeles.getTermek().getNev()+" "+rendeles.getMennyiseg();
+        rendeles.setLeadott(true);
+      }
+    }
+    filnev+=".txt";
+    String[] stringek={filnev, fileTartalom};
+    return stringek;
+  }
+  public String[] italokLeadas(Asztal asztal){
+    List<Tipus> italok= List.of(Tipus.KAVE,Tipus.ALKOHOL, Tipus.FORROITAL, Tipus.UDITO, Tipus.KOKTEL, Tipus.ROVIDITAL);
+    String filenev= asztal.getNev()+" ";
+    String fileTartalom=asztal.getNev()+"\nFelszolgáló: "+felhasznaloService.getById(felhasznaloService.getFelhasznaloId()).getNev()+"\n\n";
+    for(Rendeles rendeles: asztal.getRendelesek()){
+      if(italok.contains(rendeles.getTermek().getTipus())){
+        filenev+=rendeles.getId();
+        fileTartalom+=rendeles.getTermek().getNev()+" "+rendeles.getMennyiseg();
+        rendeles.setLeadott(true);
+      }
+    }
+    filenev+=".txt";
+    String[] stringek={filenev, fileTartalom};
+    return stringek;
   }
 
   public void mennyisegNovelese(Integer asztalId, String termekNeve) {

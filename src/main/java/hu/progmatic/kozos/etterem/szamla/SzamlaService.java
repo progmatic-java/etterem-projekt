@@ -12,10 +12,6 @@ import javax.transaction.Transactional;
 
 import hu.progmatic.kozos.etterem.asztal.Asztal;
 import hu.progmatic.kozos.etterem.asztal.AsztalService;
-
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,6 +41,7 @@ public class SzamlaService {
     setTetelek(szamla);
     asztal.setSzamla(szamla);
     szamlaRepository.save(szamla);
+
   }
 
   private void setTetelek(Szamla szamla) {

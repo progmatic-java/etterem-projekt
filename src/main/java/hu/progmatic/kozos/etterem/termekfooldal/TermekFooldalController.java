@@ -18,7 +18,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 @Controller
@@ -47,6 +50,17 @@ public class TermekFooldalController {
       }
     getGombDtoList(asztalSzam, asztalFeluletTipus, model);
     return "etterem/termek_fooldal";
+  }
+  @GetMapping("/etterem/asztal/{asztalId}/rendelesLeadasa")
+  public void rendelesLeadasa(@PathVariable Integer asztalId, HttpServletResponse response) throws IOException {
+    String[] italokLeadas = rendelesService.italokLeadas(asztalService.getById(asztalId));
+    response.setContentType("text/plain");
+    response.getOutputStream().write(italokLeadas[1].getBytes(StandardCharsets.UTF_8));
+    response.addHeader("Content-Disposition", "attachment; filename="+italokLeadas[0]);
+    String[]  etelekLeadas= rendelesService.etelekLeadas(asztalService.getById(asztalId));
+    response.setContentType("text/plain");
+    response.getOutputStream().write(etelekLeadas[1].getBytes(StandardCharsets.UTF_8));
+    response.addHeader("Content-Disposition", "attachment; filename="+etelekLeadas[0]);
   }
 
   @GetMapping("/etterem/asztal/{asztalSzam}/{asztalFeluletTipus}/tipus/{tipus}")
