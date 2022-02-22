@@ -229,7 +229,7 @@ public class SzamlaService {
     String asztalNev = szamla.getAsztal().getNev();
     List<SzamlaTetel> tetelek = szamla.getTetelek();
     String felhasznalo = felhasznaloService.getById(felhasznaloService.getFelhasznaloId()).getNev();
-    String szamlaString = asztalNev + "\n Felszolgáló:"+felhasznalo+"\n\n";
+    String szamlaString = asztalNev + "\nFelszolgáló: "+felhasznalo+"\n\n";
     int vegosszeg = 0;
     for (SzamlaTetel tetel : tetelek) {
       if (szamla.isSplit() && tetel.getFizetettMennyiseg() > 0) {

@@ -40,9 +40,7 @@
             margin-left: 40px;
             font-size: x-large;
             font-weight: bold;
-            width: 18.4%;
-            overflow-y: auto;
-            height : 500px;
+            width: 15%;
         }
 
         .dropdown-content {
@@ -54,6 +52,17 @@
             border: 1px solid #ddd;
             z-index: 1;
         }
+
+        .comment-content {
+            display: none;
+            position: absolute;
+            background-color: white;
+            min-width: 300px;
+            overflow: auto;
+            border: white;
+            z-index: 1;
+        }
+
 
         .dropdown-content a {
             color: black;
@@ -155,7 +164,6 @@
         </div>
     </div>
 </div>
-
 <script>
     function myFunction() {
         document.getElementById("myDropdown").classList.toggle("show");
@@ -182,15 +190,18 @@
         <table class="table table-white table-striped">
             <thead class="table-header" style="color: white">
             <tr>
-                <th scope="col" th:text="${tableViewDto.nev}" style="text-align: center" colspan="4">Asztal</th>
+                <th scope="col" th:text="${tableViewDto.nev}" style="text-align: center" colspan="5">Asztal</th>
             </tr>
             <tr>
-                <th scope="col" th:text="${felszolgalo}" style="text-align: center" colspan="4">Felszolgáló</th>
+                <th scope="col" th:text="'Felszolgáló: ' + ${felszolgalo}" style="text-align: center" colspan="5">
+                    Felszolgáló
+                </th>
             <tr>
                 <th scope="col">Név</th>
                 <th scope="col">Mennyiség</th>
                 <th scope="col" style="width: 50px"></th>
                 <th scope="col" style="width: 50px"></th>
+                <th scope="col"></th>
             </tr>
             </thead>
             <tbody>
@@ -232,6 +243,24 @@
                           method="post">
                         <input type="submit" class="btn btn-danger edit-btn" value="-"/>
                     </form>
+                </td>
+                <td>
+                    <div>
+                        <div class="comment">
+                            <button onclick="myComment()" class="btn btn-warning edit-btn" style="text-align: center">
+                                ÜZENET
+                            </button>
+                            <div id="myComment" class="comment-content">
+                                <input type="text" placeholder="Komment">
+                                <input type="submit" class="btn btn-success" value="ELKÜLD"/>
+                            </div>
+                        </div>
+                    </div>
+                    <script>
+                        function myComment() {
+                            document.getElementById("myComment").classList.toggle("show");
+                        }
+                    </script>
                 </td>
             </tr>
             </tbody>
