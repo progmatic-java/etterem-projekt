@@ -169,6 +169,16 @@
         document.getElementById("myDropdown").classList.toggle("show");
     }
 
+    function commentToggle(id) {
+        console.log('toggle element visibility: ' + id)
+        commentBlokk = document.getElementById(id);
+        if (commentBlokk.style.display === "none") {
+            commentBlokk.style.display = "block";
+        } else {
+            commentBlokk.style.display = "none";
+        }
+    }
+
     function filterFunction() {
         var input, filter, a, i;
         input = document.getElementById("myInput");
@@ -193,7 +203,8 @@
                 <th scope="col" th:text="${tableViewDto.nev}" style="text-align: center" colspan="5">Asztal</th>
             </tr>
             <tr>
-                <th scope="col" th:text="'Felszolgáló: ' + ${tableViewDto.felszolgalo}" style="text-align: center" colspan="5">
+                <th scope="col" th:text="'Felszolgáló: ' + ${tableViewDto.felszolgalo}" style="text-align: center"
+                    colspan="5">
                     Felszolgáló
                 </th>
             <tr>
@@ -205,70 +216,67 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:each="item : ${tableViewDto.getRendelesDtoList()}">
-                <td th:text="${item.getEtteremTermekNev()}">Name</td>
-                <td th:text="${item.getMennyiseg()}" style="text-align: center">1</td>
-                <td>
-                    <form style="text-align: right"
-                          th:if="${tableViewDto.termekTipus != null}"
-                          th:action="@{'/etterem/asztal/{asztalId}/mennyisegNoveleseTipusOldalon/{asztalFeluletTipus}/{tipus}/{termekNeve}'
+            <div th:each="item : ${tableViewDto.getRendelesDtoList()}">
+                <tr>
+                    <td th:text="${item.getEtteremTermekNev()}"
+                        th:onclick="'commentToggle(\'comment-' + ${item.rendelesId} + '\')'">Name
+                    </td>
+                    <td th:text="${item.getMennyiseg()}" style="text-align: center">1</td>
+                    <td>
+                        <form style="text-align: right"
+                              th:if="${tableViewDto.termekTipus != null}"
+                              th:action="@{'/etterem/asztal/{asztalId}/mennyisegNoveleseTipusOldalon/{asztalFeluletTipus}/{tipus}/{termekNeve}'
                           (asztalId=${tableViewDto.id}, asztalFeluletTipus=${tableViewDto.asztalFeluletTipus},
                            tipus=${tableViewDto.termekTipus}, termekNeve=${item.getEtteremTermekNev()})}"
-                          method="post">
-                        <input type="submit" class="btn btn-success edit-btn" value="+"/>
-                    </form>
-                    <form style="text-align: right"
-                          th:if="${tableViewDto.termekTipus == null}"
-                          th:action="@{'/etterem/asztal/{asztalId}/mennyisegNoveleseKezdolapon/{asztalFeluletTipus}/{termekNeve}'
+                              method="post">
+                            <input type="submit" class="btn btn-success edit-btn" value="+"/>
+                        </form>
+                        <form style="text-align: right"
+                              th:if="${tableViewDto.termekTipus == null}"
+                              th:action="@{'/etterem/asztal/{asztalId}/mennyisegNoveleseKezdolapon/{asztalFeluletTipus}/{termekNeve}'
                           (asztalId=${tableViewDto.id}, asztalFeluletTipus=${tableViewDto.asztalFeluletTipus},
                            termekNeve=${item.getEtteremTermekNev()})}"
-                          method="post">
-                        <input type="submit" class="btn btn-success edit-btn" value="+"/>
-                    </form>
-                </td>
-                <td>
-                    <form style="text-align: right"
-                          th:if="${tableViewDto.termekTipus != null}"
-                          th:action="@{'/etterem/asztal/{asztalId}/mennyisegCsokkenteseTipusOldalon/{asztalFeluletTipus}/{tipus}/{termekNeve}'
+                              method="post">
+                            <input type="submit" class="btn btn-success edit-btn" value="+"/>
+                        </form>
+                    </td>
+                    <td>
+                        <form style="text-align: right"
+                              th:if="${tableViewDto.termekTipus != null}"
+                              th:action="@{'/etterem/asztal/{asztalId}/mennyisegCsokkenteseTipusOldalon/{asztalFeluletTipus}/{tipus}/{termekNeve}'
                           (asztalId=${tableViewDto.id}, asztalFeluletTipus=${tableViewDto.asztalFeluletTipus},
                            tipus=${tableViewDto.termekTipus}, termekNeve=${item.getEtteremTermekNev()})}"
-                          method="post">
-                        <input type="submit" class="btn btn-danger edit-btn" value="-"/>
-                    </form>
-                    <form style="text-align: right"
-                          th:if="${tableViewDto.termekTipus == null}"
-                          th:action="@{'/etterem/asztal/{asztalId}/mennyisegCsokkenteseKezdolapon/{asztalFeluletTipus}/{termekNeve}'
+                              method="post">
+                            <input type="submit" class="btn btn-danger edit-btn" value="-"/>
+                        </form>
+                        <form style="text-align: right"
+                              th:if="${tableViewDto.termekTipus == null}"
+                              th:action="@{'/etterem/asztal/{asztalId}/mennyisegCsokkenteseKezdolapon/{asztalFeluletTipus}/{termekNeve}'
                           (asztalId=${tableViewDto.id}, asztalFeluletTipus=${tableViewDto.asztalFeluletTipus},
                            termekNeve=${item.getEtteremTermekNev()})}"
-                          method="post">
-                        <input type="submit" class="btn btn-danger edit-btn" value="-"/>
-                    </form>
-                </td>
-                <td>
-                    <div>
+                              method="post">
+                            <input type="submit" class="btn btn-danger edit-btn" value="-"/>
+                        </form>
+                    </td>
+                </tr>
+                <tr th:id="'comment-' + ${item.rendelesId}" style="display: none;">
+                    <td colspan="4">
                         <div class="comment">
-                            <button onclick="myComment()" class="btn btn-warning edit-btn" style="text-align: center">
-                                ÜZENET
-                            </button>
                             <div id="myComment" class="comment-content">
                                 <input type="text" placeholder="Komment">
                                 <input type="submit" class="btn btn-success" value="ELKÜLD"/>
                             </div>
                         </div>
-                    </div>
-                    <script>
-                        function myComment() {
-                            document.getElementById("myComment").classList.toggle("show");
-                        }
-                    </script>
-                </td>
-            </tr>
+                    </td>
+                </tr>
+            </div>
             </tbody>
         </table>
         <form th:action="@{'/etterem/asztal/{asztalId}/rendelesLeadasa' (asztalId=${tableViewDto.id})}" download
               th:if="${!tableViewDto.getRendelesDtoList().isEmpty()}" method="get">
             <div class="position-relative gombok" style="text-align: center">
-                <button class="btn btn-primary btn-lg" type="submit" style="margin-bottom: 20px">RENDELÉS ELKÜLDÉSE</button>
+                <button class="btn btn-primary btn-lg" type="submit" style="margin-bottom: 20px">RENDELÉS ELKÜLDÉSE
+                </button>
             </div>
         </form>
         <form th:if="${!tableViewDto.getRendelesDtoList().isEmpty()}"

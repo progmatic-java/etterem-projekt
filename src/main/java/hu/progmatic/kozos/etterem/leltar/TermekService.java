@@ -41,7 +41,7 @@ public class TermekService implements InitializingBean {
             new Termek(null, "Vadasmarha", 4200, Tipus.MARHAETEL),
             new Termek(null, "Somlói", 1200, Tipus.DESSZERT),
             new Termek(null, "Brownie", 1500, Tipus.DESSZERT),
-            new Termek(null, "Gundelpalacsinta", 1200, Tipus.DESSZERT),
+            new Termek(null, "Gundel palacsinta", 1200, Tipus.DESSZERT),
             new Termek(null, "Csöröge fánk", 1400, Tipus.DESSZERT),
             new Termek(null, "Sör", 1200, Tipus.ALKOHOL),
             new Termek(null, "Fehér Bor", 1200, Tipus.ALKOHOL),
