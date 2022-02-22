@@ -7,15 +7,12 @@ import hu.progmatic.kozos.etterem.leltar.Termek;
 import hu.progmatic.kozos.etterem.leltar.TermekService;
 import hu.progmatic.kozos.etterem.leltar.Tipus;
 import hu.progmatic.kozos.etterem.szamla.SzamlaService;
-import hu.progmatic.kozos.felhasznalo.FelhasznaloRepository;
 import hu.progmatic.kozos.felhasznalo.FelhasznaloService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -58,7 +55,7 @@ public class RendelesService {
             if (etelek.contains(rendeles.getTermek().getTipus()) && rendeles.getNemLeadottMennyiseg() > 0) {
                 filnev += rendeles.getId();
                 fileTartalom += rendeles.getTermek().getNev() + " " + rendeles.getNemLeadottMennyiseg() + "\n";
-                rendeles.setLeadottmENNYISEG(rendeles.getNemLeadottMennyiseg());
+                rendeles.setLeadottMennyiseg(rendeles.getNemLeadottMennyiseg());
                 rendeles.setNemLeadottMennyiseg(0);
             }
         }
@@ -67,7 +64,7 @@ public class RendelesService {
             if (italok.contains(rendeles.getTermek().getTipus()) && rendeles.getNemLeadottMennyiseg() > 0) {
                 filnev += rendeles.getId();
                 fileTartalom += rendeles.getTermek().getNev() + " " + rendeles.getNemLeadottMennyiseg() + "\n";
-                rendeles.setLeadottmENNYISEG(rendeles.getNemLeadottMennyiseg());
+                rendeles.setLeadottMennyiseg(rendeles.getNemLeadottMennyiseg());
                 rendeles.setNemLeadottMennyiseg(0);
             }
         }

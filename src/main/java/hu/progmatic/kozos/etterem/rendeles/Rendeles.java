@@ -26,5 +26,5 @@ public class Rendeles {
     private Asztal asztal;
     private Integer nemLeadottMennyiseg;
     @Builder.Default
-    private Integer leadottmENNYISEG=0;
+    private Integer leadottMennyiseg =0;
 }
