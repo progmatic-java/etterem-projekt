@@ -173,7 +173,7 @@
         console.log('toggle element visibility: ' + id)
         commentBlokk = document.getElementById(id);
         if (commentBlokk.style.display === "none") {
-            commentBlokk.style.display = "block";
+            commentBlokk.style.display = "";
         } else {
             commentBlokk.style.display = "none";
         }
@@ -200,17 +200,16 @@
         <table class="table table-white table-striped">
             <thead class="table-header" style="color: white">
             <tr>
-                <th scope="col" th:text="${tableViewDto.nev}" style="text-align: center" colspan="5">Asztal</th>
+                <th scope="col" th:text="${tableViewDto.nev}" style="text-align: center" colspan="4">Asztal</th>
             </tr>
             <tr>
                 <th scope="col" th:text="'Felszolgáló: ' + ${tableViewDto.felszolgalo}" style="text-align: center"
-                    colspan="5">
+                    colspan="4">
                     Felszolgáló
                 </th>
             <tr>
                 <th scope="col">Név</th>
                 <th scope="col">Mennyiség</th>
-                <th scope="col" style="width: 50px"></th>
                 <th scope="col" style="width: 50px"></th>
                 <th scope="col" style="width: 50px"></th>
             </tr>
@@ -259,15 +258,11 @@
                         </form>
                     </td>
                 </tr>
-                <tr th:id="'comment-' + ${item.rendelesId}" style="display: none;">
-                    <td colspan="4">
-                        <div class="comment">
-                            <div id="myComment" class="comment-content">
-                                <input type="text" placeholder="Komment">
-                                <input type="submit" class="btn btn-success" value="ELKÜLD"/>
-                            </div>
-                        </div>
+                <tr th:id="'comment-' + ${item.rendelesId}" style="display: none">
+                    <td colspan="2">
+                            <input type="text" width="100%" placeholder="Üzenet">
                     </td>
+                    <td colspan="2"><input type="submit" class="btn btn-success" value="ELKÜLD"/></td>
                 </tr>
             </div>
             </tbody>
