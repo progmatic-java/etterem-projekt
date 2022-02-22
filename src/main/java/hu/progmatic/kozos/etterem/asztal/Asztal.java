@@ -32,4 +32,6 @@ public class Asztal {
     private List<Rendeles> rendelesek = new ArrayList<>();
     @NotNull
     private Integer asztalSzam;
+    @Builder.Default
+    private String felhasznalo=" ";
 }

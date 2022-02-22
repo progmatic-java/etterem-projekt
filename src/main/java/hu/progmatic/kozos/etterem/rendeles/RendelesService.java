@@ -34,6 +34,9 @@ public class RendelesService {
 
     public Rendeles create(@Valid CreateRendelesCommand command) {
         Asztal asztal = asztalService.getById(command.getAsztalId());
+        if(asztal.getRendelesek().isEmpty()){
+            asztal.setFelhasznalo(felhasznaloService.getById(felhasznaloService.getFelhasznaloId()).getNev());
+        }
         Termek termek = termekService.getById(command.getEtteremTermekId());
         Rendeles rendeles = Rendeles.builder()
                 .asztal(asztal)

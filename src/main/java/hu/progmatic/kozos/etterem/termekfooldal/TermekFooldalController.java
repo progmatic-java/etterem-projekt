@@ -185,10 +185,6 @@ public class TermekFooldalController {
         gombok
     );
   }
-  @ModelAttribute("felszolgalo")
-  String felszolgalo(){
-    return felhasznaloService.getById(felhasznaloService.getFelhasznaloId()).getNev();
-  }
 
   @ModelAttribute("allItem")
   List<Termek> allItem() {
