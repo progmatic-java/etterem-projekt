@@ -15,7 +15,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class SzamlaServiceTest {
-  private AsztalDto tesztAsztalDto;
   private SzamlaDto tesztSzamlaDto;
   private Integer tesztAsztalId;
   private SzamlaTetelDto tesztSzamlaTetelDto;
@@ -30,7 +29,6 @@ class SzamlaServiceTest {
   @BeforeEach
   void setUp() {
     tesztAsztalId = asztalService.getIdByNev("2. ASZTAL");
-    tesztAsztalDto = asztalService.getAsztalDtoById(tesztAsztalId);
     rendelesService.create(CreateRendelesCommand.builder()
         .asztalId(tesztAsztalId)
         .etteremTermekId(rendelesService.findTermekByNev("Paradicsom leves").getId())
@@ -50,10 +48,23 @@ class SzamlaServiceTest {
   @Test
   @DisplayName("Számla létrehozása asztalhoz")
   void szamlaLetrehozasaAsztalhozTest() {
-    assertNull(tesztAsztalDto.getSzamlaDto());
-    szamlaService.createSzamlaForAsztal(tesztAsztalId);
-    tesztAsztalDto = asztalService.getAsztalDtoById(tesztAsztalId);
-    assertNotNull(tesztAsztalDto.getSzamlaDto());
+    Integer letrehozasTestId = asztalService.getIdByNev("3. ASZTAL");
+    AsztalDto letrehozasTestDto = asztalService.getAsztalDtoById(letrehozasTestId);
+    assertNull(letrehozasTestDto.getSzamlaDto());
+    szamlaService.createSzamlaForAsztal(letrehozasTestId);
+    letrehozasTestDto = asztalService.getAsztalDtoById(letrehozasTestId);
+    assertNotNull(letrehozasTestDto.getSzamlaDto());
+  }
+
+  @Test
+  @DisplayName("Összeg formázása")
+  void osszegFormazasaTest() {
+    assertEquals("1000", szamlaService.osszegFormazasa(1000));
+    assertEquals("10.000", szamlaService.osszegFormazasa(10000));
+    assertEquals("100.000", szamlaService.osszegFormazasa(100000));
+    assertEquals("1.000.000", szamlaService.osszegFormazasa(1000000));
+    assertEquals("10.000.000", szamlaService.osszegFormazasa(10000000));
+    assertEquals("100.000.000", szamlaService.osszegFormazasa(100000000));
   }
 
   @Nested

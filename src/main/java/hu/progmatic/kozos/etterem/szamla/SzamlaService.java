@@ -12,9 +12,9 @@ import javax.transaction.Transactional;
 
 import hu.progmatic.kozos.etterem.asztal.Asztal;
 import hu.progmatic.kozos.etterem.asztal.AsztalService;
+
 import java.util.ArrayList;
 import java.util.List;
-
 
 @Service
 @Transactional
@@ -68,7 +68,13 @@ public class SzamlaService {
         .id(szamla.getId())
         .asztalId(szamla.getAsztal().getId())
         .vegosszeg(getVegosszeg(szamla))
+        .formazottVegosszeg(osszegFormazasa(getVegosszeg(szamla)))
         .fizetettVegosszeg(getFizetettVegosszeg(szamla))
+        .formazottFizetettVegosszeg(osszegFormazasa(getFizetettVegosszeg(szamla)))
+        .formazottFizetendoOsszeg(osszegFormazasa(getVegosszeg(szamla) + getVegosszeg(szamla) / 100 * 15))
+        .formazottFizetettFizetendoOsszeg(osszegFormazasa(getFizetettVegosszeg(szamla) + getFizetettVegosszeg(szamla) / 100 * 15))
+        .formazottSzervizdij(osszegFormazasa(getVegosszeg(szamla) / 100 * 15))
+        .formazottFizetettSzervizdij(osszegFormazasa(getFizetettVegosszeg(szamla) / 100 * 15))
         .tetelek(getTetelDtoList(szamla.getTetelek()))
         .split(szamla.isSplit())
         .asztalSzam(szamla.getAsztal().getAsztalSzam())
@@ -90,6 +96,8 @@ public class SzamlaService {
                 .build())
             .fizetettMennyiseg(tetel.getFizetettMennyiseg())
             .nemFizetettMennyiseg(tetel.getNemFizetettMennyiseg())
+            .formazottFizetettAr(osszegFormazasa(tetel.getRendeles().getTermek().getAr() * tetel.getFizetettMennyiseg()))
+            .formazottNemFizetettAr(osszegFormazasa(tetel.getRendeles().getTermek().getAr() * tetel.getNemFizetettMennyiseg()))
             .build())
         .toList();
   }
@@ -97,13 +105,38 @@ public class SzamlaService {
   private Integer getVegosszeg(Szamla szamla) {
     return szamla.getTetelek().stream()
         .mapToInt(tetel -> tetel.getRendeles().getTermek().getAr() * tetel.getNemFizetettMennyiseg())
-        .sum() / 100 * 115;
+        .sum();
   }
 
   private Integer getFizetettVegosszeg(Szamla szamla) {
     return szamla.getTetelek().stream()
         .mapToInt(tetel -> tetel.getRendeles().getTermek().getAr() * tetel.getFizetettMennyiseg())
-        .sum() / 100 * 115;
+        .sum();
+  }
+
+  public String osszegFormazasa(int osszeg) {
+    String osszegString = "" + osszeg;
+    String formazottString = "";
+    if (osszegString.length() > 4) {
+      int megmaradtSzamjegyek = osszegString.length() % 3;
+      int charIndex = 0, szamlalo = 0;
+      for (int i = 0; i < megmaradtSzamjegyek; i++) {
+        formazottString += osszegString.charAt(i);
+        charIndex++;
+        if (i == megmaradtSzamjegyek - 1) {
+          formazottString += ".";
+        }
+      }
+      for (int i = charIndex; i < osszegString.length(); i++) {
+        formazottString += osszegString.charAt(i);
+        szamlalo++;
+        if (szamlalo == 3 && i < osszegString.length() - 1) {
+          formazottString += ".";
+          szamlalo = 0;
+        }
+      }
+    }
+    return osszegString.length() > 4 ? formazottString : osszegString;
   }
 
   public void splitSzamla(Integer asztalId) {

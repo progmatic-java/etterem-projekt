@@ -53,7 +53,7 @@
         th:if="${aru.getNemFizetettMennyiseg() > 0}">
         <td th:text="${aru.getRendelesDto().getTermekDto().getNev()}" style="text-align: left">Név</td>
         <td th:text="${aru.getNemFizetettMennyiseg()}" style="text-align: center">1</td>
-        <td th:text="${aru.getRendelesDto().getTermekDto().getAr() * aru.getNemFizetettMennyiseg()} + ' Ft'"
+        <td th:text="${aru.getFormazottNemFizetettAr()} + ' Ft'"
             style="text-align: right">100 Ft
         </td>
         <td>
@@ -69,14 +69,15 @@
     <tr>
         <td></td>
         <td></td>
-        <td th:text="'VÉGÖSSZEG: ' + ${szamlaDto.getVegosszeg()} / 115 * 100 + ' Ft'" style="text-align: right">100 Ft
+        <td th:text="'VÉGÖSSZEG: ' + (${szamlaDto.getFormazottVegosszeg()})+ ' Ft'"
+            style="text-align: right">1000 Ft
         </td>
         <td></td>
     </tr>
     <tr>
         <td style="font-style: italic">A számla végösszege 15% szervízdíjat tartalmaz.</td>
         <td></td>
-        <td th:text="'SZERVÍZDÍJ: ' + (${szamlaDto.getVegosszeg()} - ${szamlaDto.getVegosszeg()} / 1.15)+ ' Ft'"
+        <td th:text="'SZERVÍZDÍJ: ' + (${szamlaDto.getFormazottSzervizdij()})+ ' Ft'"
             style="text-align: right">100 Ft
         </td>
         <td></td>
@@ -84,7 +85,7 @@
     <tr>
         <td></td>
         <td></td>
-        <td th:text="'FIZETENDŐ ÖSSZEG: ' + ${szamlaDto.getVegosszeg()} + ' Ft'"
+        <td th:text="'FIZETENDŐ ÖSSZEG: ' + ${szamlaDto.getFormazottFizetendoOsszeg()} + ' Ft'"
             style="text-align: right; font-weight: bold; font-size: large">100 Ft
         </td>
         <td></td>
@@ -136,7 +137,7 @@
         th:if="${aru.getFizetettMennyiseg() > 0}">
         <td th:text="${aru.getRendelesDto().getTermekDto().nev}" style="text-align: left">Név</td>
         <td th:text="${aru.getFizetettMennyiseg()}" style="text-align: center">1</td>
-        <td th:text="${aru.getRendelesDto().getTermekDto().getAr() * aru.getFizetettMennyiseg()} + ' Ft'"
+        <td th:text="${aru.getFormazottFizetettAr()} + ' Ft'"
             style="text-align: right">100 Ft
         </td>
         <td>
@@ -152,15 +153,15 @@
     <tr>
         <td></td>
         <td></td>
-        <td th:text="'VÉGÖSSZEG: ' + ${szamlaDto.getFizetettVegosszeg()} / 115 * 100 + ' Ft'" style="text-align: right">
-            100 Ft
+        <td th:text="'VÉGÖSSZEG: ' + (${szamlaDto.getFormazottFizetettVegosszeg()})+ ' Ft'"
+            style="text-align: right">1000 Ft
         </td>
         <td></td>
     </tr>
     <tr>
         <td style="font-style: italic">A számla végösszege 15% szervízdíjat tartalmaz.</td>
         <td></td>
-        <td th:text="'SZERVÍZDÍJ: ' + (${szamlaDto.getFizetettVegosszeg()} - ${szamlaDto.getFizetettVegosszeg()} / 1.15)+ ' Ft'"
+        <td th:text="'SZERVÍZDÍJ: ' + ${szamlaDto.getFormazottFizetettSzervizdij()} + ' Ft'"
             style="text-align: right">100 Ft
         </td>
         <td></td>
@@ -168,7 +169,7 @@
     <tr>
         <td></td>
         <td></td>
-        <td th:text="'FIZETENDŐ ÖSSZEG: ' + ${szamlaDto.getFizetettVegosszeg()} + ' Ft'"
+        <td th:text="'FIZETENDŐ ÖSSZEG: ' + ${szamlaDto.getFormazottFizetettFizetendoOsszeg()} + ' Ft'"
             style="text-align: right; font-weight: bold; font-size: large">100 Ft
         </td>
         <td></td>
