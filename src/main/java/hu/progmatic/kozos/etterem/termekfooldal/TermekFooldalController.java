@@ -8,6 +8,7 @@ import hu.progmatic.kozos.etterem.leltar.TermekService;
 import hu.progmatic.kozos.etterem.leltar.Tipus;
 import hu.progmatic.kozos.etterem.rendeles.CreateRendelesCommand;
 import hu.progmatic.kozos.etterem.rendeles.Rendeles;
+import hu.progmatic.kozos.etterem.rendeles.RendelesLeadasaCommand;
 import hu.progmatic.kozos.etterem.rendeles.RendelesService;
 import hu.progmatic.kozos.felhasznalo.FelhasznaloService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,14 +54,10 @@ public class TermekFooldalController {
   }
   @GetMapping("/etterem/asztal/{asztalId}/rendelesLeadasa")
   public void rendelesLeadasa(@PathVariable Integer asztalId, HttpServletResponse response) throws IOException {
-    String[] italokLeadas = rendelesService.italokLeadas(asztalService.getById(asztalId));
+    RendelesLeadasaCommand cmd = rendelesService.rendelesLeadas(asztalService.getById(asztalId));
     response.setContentType("text/plain");
-    response.getOutputStream().write(italokLeadas[1].getBytes(StandardCharsets.UTF_8));
-    response.addHeader("Content-Disposition", "attachment; filename="+italokLeadas[0]);
-    String[]  etelekLeadas= rendelesService.etelekLeadas(asztalService.getById(asztalId));
-    response.setContentType("text/plain");
-    response.getOutputStream().write(etelekLeadas[1].getBytes(StandardCharsets.UTF_8));
-    response.addHeader("Content-Disposition", "attachment; filename="+etelekLeadas[0]);
+    response.getOutputStream().write(cmd.getFileTartalom().getBytes(StandardCharsets.UTF_8));
+    response.addHeader("Content-Disposition", "attachment; filename="+cmd.getFileNev());
   }
 
   @GetMapping("/etterem/asztal/{asztalSzam}/{asztalFeluletTipus}/tipus/{tipus}")

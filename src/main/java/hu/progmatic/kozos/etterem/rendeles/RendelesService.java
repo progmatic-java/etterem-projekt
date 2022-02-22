@@ -22,111 +22,112 @@ import java.util.Objects;
 @Service
 @Transactional
 public class RendelesService {
-  @Autowired
-  private SzamlaService szamlaService;
-  @Autowired
-  private RendelesRepository rendelesRepository;
-  @Autowired
-  private AsztalService asztalService;
-  @Autowired
-  private TermekService termekService;
-  @Autowired
-  private AsztalRepository asztalRepository;
-  @Autowired
-  private FelhasznaloService felhasznaloService;
+    @Autowired
+    private SzamlaService szamlaService;
+    @Autowired
+    private RendelesRepository rendelesRepository;
+    @Autowired
+    private AsztalService asztalService;
+    @Autowired
+    private TermekService termekService;
+    @Autowired
+    private AsztalRepository asztalRepository;
+    @Autowired
+    private FelhasznaloService felhasznaloService;
 
-  public Rendeles create(@Valid CreateRendelesCommand command) {
-    Asztal asztal = asztalService.getById(command.getAsztalId());
-    Termek termek = termekService.getById(command.getEtteremTermekId());
-    Rendeles rendeles = Rendeles.builder()
-        .asztal(asztal)
-        .termek(termek)
-        .mennyiseg(command.getMennyiseg())
-        .build();
-    asztal.getRendelesek().add(rendeles);
-    szamlaService.createSzamlaForAsztal(asztal.getId());
-    return rendelesRepository.save(rendeles);
-  }
-  public String[] etelekLeadas(Asztal asztal){
-    List<Tipus> etelek= List.of(Tipus.DESSZERT,Tipus.ELOETEL, Tipus.HALETEL, Tipus.LEVES, Tipus.MARHAETEL, Tipus.SERTESETEL);
-    String filnev= asztal.getNev()+" ";
-    String fileTartalom=asztal.getNev()+"\nFelszolgáló: "+felhasznaloService.getById(felhasznaloService.getFelhasznaloId()).getNev()+"\n\n";
-    for(Rendeles rendeles: asztal.getRendelesek()){
-      if(etelek.contains(rendeles.getTermek().getTipus())){
-        filnev+=rendeles.getId();
-        fileTartalom+=rendeles.getTermek().getNev()+" "+rendeles.getMennyiseg();
-        rendeles.setLeadott(true);
-      }
+    public Rendeles create(@Valid CreateRendelesCommand command) {
+        Asztal asztal = asztalService.getById(command.getAsztalId());
+        Termek termek = termekService.getById(command.getEtteremTermekId());
+        Rendeles rendeles = Rendeles.builder()
+                .asztal(asztal)
+                .termek(termek)
+                .mennyiseg(command.getMennyiseg())
+                .nemLeadottMennyiseg(command.getMennyiseg())
+                .build();
+        asztal.getRendelesek().add(rendeles);
+        szamlaService.createSzamlaForAsztal(asztal.getId());
+        return rendelesRepository.save(rendeles);
     }
-    filnev+=".txt";
-    String[] stringek={filnev, fileTartalom};
-    return stringek;
-  }
-  public String[] italokLeadas(Asztal asztal){
-    List<Tipus> italok= List.of(Tipus.KAVE,Tipus.ALKOHOL, Tipus.FORROITAL, Tipus.UDITO, Tipus.KOKTEL, Tipus.ROVIDITAL);
-    String filenev= asztal.getNev()+" ";
-    String fileTartalom=asztal.getNev()+"\nFelszolgáló: "+felhasznaloService.getById(felhasznaloService.getFelhasznaloId()).getNev()+"\n\n";
-    for(Rendeles rendeles: asztal.getRendelesek()){
-      if(italok.contains(rendeles.getTermek().getTipus())){
-        filenev+=rendeles.getId();
-        fileTartalom+=rendeles.getTermek().getNev()+" "+rendeles.getMennyiseg();
-        rendeles.setLeadott(true);
-      }
+
+    public RendelesLeadasaCommand rendelesLeadas(Asztal asztal) {
+        List<Tipus> etelek = List.of(Tipus.DESSZERT, Tipus.ELOETEL, Tipus.HALETEL, Tipus.LEVES, Tipus.MARHAETEL, Tipus.SERTESETEL);
+        List<Tipus> italok = List.of(Tipus.KAVE, Tipus.ALKOHOL, Tipus.FORROITAL, Tipus.UDITO, Tipus.KOKTEL, Tipus.ROVIDITAL);
+        String filnev = asztal.getNev() + " ";
+        String fileTartalom = asztal.getNev() + "\nFelszolgáló: " + felhasznaloService.getById(felhasznaloService.getFelhasznaloId()).getNev() + "\n\n" + "Ételek:\n";
+        for (Rendeles rendeles : asztal.getRendelesek()) {
+            if (etelek.contains(rendeles.getTermek().getTipus()) && rendeles.getNemLeadottMennyiseg() > 0) {
+                filnev += rendeles.getId();
+                fileTartalom += rendeles.getTermek().getNev() + " " + rendeles.getNemLeadottMennyiseg() + "\n";
+                rendeles.setLeadottmENNYISEG(rendeles.getNemLeadottMennyiseg());
+                rendeles.setNemLeadottMennyiseg(0);
+            }
+        }
+        fileTartalom += "\n\n\n" + "Italok:\n";
+        for (Rendeles rendeles : asztal.getRendelesek()) {
+            if (italok.contains(rendeles.getTermek().getTipus()) && rendeles.getNemLeadottMennyiseg() > 0) {
+                filnev += rendeles.getId();
+                fileTartalom += rendeles.getTermek().getNev() + " " + rendeles.getNemLeadottMennyiseg() + "\n";
+                rendeles.setLeadottmENNYISEG(rendeles.getNemLeadottMennyiseg());
+                rendeles.setNemLeadottMennyiseg(0);
+            }
+        }
+
+        filnev += ".txt";
+        RendelesLeadasaCommand.builder().fileNev(filnev).fileTartalom(fileTartalom).build();
+        return RendelesLeadasaCommand.builder().fileNev(filnev).fileTartalom(fileTartalom).build();
     }
-    filenev+=".txt";
-    String[] stringek={filenev, fileTartalom};
-    return stringek;
-  }
 
-  public void mennyisegNovelese(Integer asztalId, String termekNeve) {
-    Asztal asztal = asztalRepository.getById(asztalId);
-    Rendeles aktualisRendeles = asztal.getRendelesek().stream()
-        .filter(rendeles -> rendeles.getTermek().getNev().equals(termekNeve))
-        .findFirst()
-        .orElseThrow();
-    aktualisRendeles.setMennyiseg(aktualisRendeles.getMennyiseg() + 1);
-    szamlaService.createSzamlaForAsztal(asztalId);
-  }
-
-  public void mennyisegNovelese(Integer asztalId, Integer termekId) {
-    Asztal asztal = asztalRepository.getById(asztalId);
-    Rendeles aktualisRendeles = asztal.getRendelesek().stream()
-        .filter(rendeles -> Objects.equals(rendeles.getTermek().getId(), termekId))
-        .findFirst()
-        .orElseThrow();
-    aktualisRendeles.setMennyiseg(aktualisRendeles.getMennyiseg() + 1);
-    szamlaService.createSzamlaForAsztal(asztalId);
-  }
-
-  public void mennyisegCsokkentese(Integer asztalId, String termekNeve) {
-    Asztal asztal = asztalRepository.getById(asztalId);
-    Rendeles aktualisRendeles = asztal.getRendelesek().stream()
-        .filter(rendeles -> rendeles.getTermek().getNev().equals(termekNeve))
-        .findFirst()
-        .orElseThrow();
-    aktualisRendeles.setMennyiseg(aktualisRendeles.getMennyiseg() - 1);
-    if (aktualisRendeles.getMennyiseg() == 0) {
-      szamlaService.szamlaTetelEltavolitasa(asztalId, aktualisRendeles.getId());
-      asztal.getRendelesek().remove(aktualisRendeles);
-      rendelesRepository.delete(aktualisRendeles);
+    public void mennyisegNovelese(Integer asztalId, String termekNeve) {
+        Asztal asztal = asztalRepository.getById(asztalId);
+        Rendeles aktualisRendeles = asztal.getRendelesek().stream()
+                .filter(rendeles -> rendeles.getTermek().getNev().equals(termekNeve))
+                .findFirst()
+                .orElseThrow();
+        aktualisRendeles.setMennyiseg(aktualisRendeles.getMennyiseg() + 1);
+        aktualisRendeles.setNemLeadottMennyiseg(aktualisRendeles.getNemLeadottMennyiseg() + 1);
+        szamlaService.createSzamlaForAsztal(asztalId);
     }
-    szamlaService.createSzamlaForAsztal(asztalId);
-  }
 
-  public boolean rendelesTartalmazzaATermeket(CreateRendelesCommand command) {
-    Asztal asztal = asztalRepository.getById(command.getAsztalId());
-    Termek termek = termekService.getById(command.getEtteremTermekId());
-    return asztal.getRendelesek().stream()
-        .map(rendeles -> rendeles.getTermek().getNev())
-        .toList().contains(termek.getNev());
-  }
+    public void mennyisegNovelese(Integer asztalId, Integer termekId) {
+        Asztal asztal = asztalRepository.getById(asztalId);
+        Rendeles aktualisRendeles = asztal.getRendelesek().stream()
+                .filter(rendeles -> Objects.equals(rendeles.getTermek().getId(), termekId))
+                .findFirst()
+                .orElseThrow();
+        aktualisRendeles.setMennyiseg(aktualisRendeles.getMennyiseg() + 1);
+        aktualisRendeles.setNemLeadottMennyiseg(aktualisRendeles.getNemLeadottMennyiseg() + 1);
+        szamlaService.createSzamlaForAsztal(asztalId);
+    }
 
-  public List<Rendeles> findAllByAsztal(Asztal asztal) {
-    return rendelesRepository.findAllByAsztal(asztal);
-  }
+    public void mennyisegCsokkentese(Integer asztalId, String termekNeve) {
+        Asztal asztal = asztalRepository.getById(asztalId);
+        Rendeles aktualisRendeles = asztal.getRendelesek().stream()
+                .filter(rendeles -> rendeles.getTermek().getNev().equals(termekNeve))
+                .findFirst()
+                .orElseThrow();
+        aktualisRendeles.setMennyiseg(aktualisRendeles.getMennyiseg() - 1);
+        if (aktualisRendeles.getMennyiseg() == 0) {
+            szamlaService.szamlaTetelEltavolitasa(asztalId, aktualisRendeles.getId());
+            asztal.getRendelesek().remove(aktualisRendeles);
+            rendelesRepository.delete(aktualisRendeles);
+        }
+        szamlaService.createSzamlaForAsztal(asztalId);
+    }
 
-  // csak teszthez használjuk
-  public Termek findTermekByNev(String nev) {
-    return termekService.getByName(nev);
-  }
+    public boolean rendelesTartalmazzaATermeket(CreateRendelesCommand command) {
+        Asztal asztal = asztalRepository.getById(command.getAsztalId());
+        Termek termek = termekService.getById(command.getEtteremTermekId());
+        return asztal.getRendelesek().stream()
+                .map(rendeles -> rendeles.getTermek().getNev())
+                .toList().contains(termek.getNev());
+    }
+
+    public List<Rendeles> findAllByAsztal(Asztal asztal) {
+        return rendelesRepository.findAllByAsztal(asztal);
+    }
+
+    // csak teszthez használjuk
+    public Termek findTermekByNev(String nev) {
+        return termekService.getByName(nev);
+    }
 }
