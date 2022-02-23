@@ -111,6 +111,9 @@ public class RendelesService {
             asztal.getRendelesek().remove(aktualisRendeles);
             rendelesRepository.delete(aktualisRendeles);
         }
+        if (asztal.getRendelesek().isEmpty()){
+            asztal.setFelhasznalo("");
+        }
         szamlaService.createSzamlaForAsztal(asztalId);
     }
 
