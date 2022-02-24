@@ -37,11 +37,11 @@ public class LeltarControllerTest {
     @DisplayName("Termék szerkesztése")
     void szerkesztes() throws Exception {
         mockMvc.perform(
-                        MockMvcRequestBuilders.get("/etterem/leltar/14?")
+                        MockMvcRequestBuilders.get("/etterem/leltar/22?")
                 ).andExpect(status().isOk())
                 .andExpect(content().string(containsString("Tatárbeefsteak")));
         mockMvc.perform(
-                        MockMvcRequestBuilders.post("/etterem/leltar/14?")
+                        MockMvcRequestBuilders.post("/etterem/leltar/22?")
                                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                                 .content("nev=Tat%C3%A1rbeefsteak&ar=2400&tipus=ELOETEL")
                 )

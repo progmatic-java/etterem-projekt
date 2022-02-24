@@ -27,6 +27,6 @@ public class Rendeles {
     private Integer nemLeadottMennyiseg;
     @Builder.Default
     private Integer leadottMennyiseg =0;
-
-    private String komment;
+    @Builder.Default
+    private String komment="";
 }

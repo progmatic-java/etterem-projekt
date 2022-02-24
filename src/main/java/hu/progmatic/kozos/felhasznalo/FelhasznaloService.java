@@ -14,6 +14,7 @@ import java.util.Optional;
 @Service
 @Log
 @Transactional
+
 public class FelhasznaloService implements InitializingBean {
 
     private final FelhasznaloRepository felhasznaloRepository;
