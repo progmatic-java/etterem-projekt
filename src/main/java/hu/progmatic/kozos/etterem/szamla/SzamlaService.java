@@ -207,6 +207,7 @@ public class SzamlaService {
     szamlaTetelRepository.deleteAllBySzamla(asztal.getSzamla());
     rendelesRepository.deleteAll(asztal.getRendelesek());
     asztal.getRendelesek().removeAll(asztal.getRendelesek());
+    asztal.setFelhasznalo("");
   }
 
   public String szamlaFileNev(Szamla szamla) {
