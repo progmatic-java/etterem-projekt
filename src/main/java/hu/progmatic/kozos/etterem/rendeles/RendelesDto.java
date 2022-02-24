@@ -13,4 +13,5 @@ public class RendelesDto {
   private Integer id;
   private TermekDto termekDto;
   private Integer mennyiseg;
+  private String comment;
 }

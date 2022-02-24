@@ -248,10 +248,19 @@
                     </td>
                 </tr>
                 <tr th:id="'comment-' + ${item.rendelesId}" style="display: none">
-                    <td colspan="2">
-                            <input type="text" style="width: 100%" placeholder="Üzenet">
-                    </td>
-                    <td colspan="2"><input type="submit" class="btn btn-success" value="ELKÜLD"/></td>
+
+                        <form th:action="@{'/etterem/asztal/{asztalId}/rendeles/{termekNev}/comment/{asztalFeluletTipus}'
+                        (asztalId=${tableViewDto.id}, termekNev=${item.getEtteremTermekNev()}, asztalFeluletTipus=${tableViewDto.getAsztalFeluletTipus()})}"
+                               method="post" th:object="${kommentLetrehozasaCommand}">
+                            <td colspan="2">
+                                <input type="text"
+                                       class="form-control"
+                                       style="width: 100%"
+                                       placeholder="Üzenet"
+                                       th:field="*{uzenet}">
+                            </td>
+                            <td colspan="2"><input type="submit" class="btn btn-success" value="ELKÜLD"/></td>
+                    </form>
                 </tr>
             </div>
             </tbody>

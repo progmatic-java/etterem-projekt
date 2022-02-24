@@ -48,6 +48,13 @@ public class RendelesService {
         szamlaService.createSzamlaForAsztal(asztal.getId());
         return rendelesRepository.save(rendeles);
     }
+    public void komment(Integer asztalId,String termekNev, String komment){
+        Rendeles rendeles= asztalService.getById(asztalId).getRendelesek().stream()
+                .filter(keresettRendeles->keresettRendeles.getTermek().getNev().equals(termekNev))
+                .findFirst()
+                .orElseThrow();
+        rendeles.setKomment(komment);
+    }
 
     public RendelesLeadasaCommand rendelesLeadas(Asztal asztal) {
         List<Tipus> etelek = List.of(Tipus.DESSZERT, Tipus.ELOETEL, Tipus.HALETEL, Tipus.LEVES, Tipus.MARHAETEL, Tipus.SERTESETEL);
@@ -58,6 +65,7 @@ public class RendelesService {
             if (etelek.contains(rendeles.getTermek().getTipus()) && rendeles.getNemLeadottMennyiseg() > 0) {
                 filnev += rendeles.getId();
                 fileTartalom += rendeles.getTermek().getNev() + " " + rendeles.getNemLeadottMennyiseg() + "\n";
+                fileTartalom += "Megjegyzés: " + rendeles.getKomment() + "\n";
                 rendeles.setLeadottMennyiseg(rendeles.getNemLeadottMennyiseg());
                 rendeles.setNemLeadottMennyiseg(0);
             }
@@ -67,6 +75,7 @@ public class RendelesService {
             if (italok.contains(rendeles.getTermek().getTipus()) && rendeles.getNemLeadottMennyiseg() > 0) {
                 filnev += rendeles.getId();
                 fileTartalom += rendeles.getTermek().getNev() + " " + rendeles.getNemLeadottMennyiseg() + "\n";
+                fileTartalom += "Megjegyzés: " + rendeles.getKomment() + "\n";
                 rendeles.setLeadottMennyiseg(rendeles.getNemLeadottMennyiseg());
                 rendeles.setNemLeadottMennyiseg(0);
             }

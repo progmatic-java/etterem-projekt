@@ -92,6 +92,8 @@ public class AsztalService implements InitializingBean {
 
     public TableViewDto getTableViewDto(Integer asztalId, Tipus tipus) {
         Asztal asztal = asztalRepository.getById(asztalId);
+       boolean voltRendelesLeadva= asztal.getRendelesek().stream().anyMatch(rendeles-> rendeles.getLeadottMennyiseg()>0);
+
         List<TableViewDto.RendelesDto> rendelesek = getRendelesek(asztal);
         return TableViewDto.builder()
                 .id(asztal.getId())
