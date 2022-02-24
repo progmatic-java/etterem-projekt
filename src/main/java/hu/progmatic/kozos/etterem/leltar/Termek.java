@@ -19,7 +19,6 @@ public class Termek {
     private Integer id;
     @NotEmpty(message = "Név nem lehet üres!")
     private String nev;
-
     @NotNull(message = "Nagyobbnak kell lennie, mint nulla")
     @Min(0)
     private Integer ar;

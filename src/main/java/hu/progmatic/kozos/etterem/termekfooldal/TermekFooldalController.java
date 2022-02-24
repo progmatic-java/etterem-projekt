@@ -33,8 +33,6 @@ public class TermekFooldalController {
   private RendelesService rendelesService;
   @Autowired
   private TermekService termekService;
-  @Autowired
-  private FelhasznaloService felhasznaloService;
 
   @GetMapping("/etterem/asztal/{asztalSzam}/{asztalFeluletTipus}")
   public String itemMain(
@@ -53,7 +51,10 @@ public class TermekFooldalController {
     return "etterem/termek_fooldal";
   }
   @GetMapping("/etterem/asztal/{asztalId}/rendelesLeadasa")
-  public void rendelesLeadasa(@PathVariable Integer asztalId, HttpServletResponse response) throws IOException {
+  public void rendelesLeadasa(
+      @PathVariable Integer asztalId,
+      HttpServletResponse response
+  ) throws IOException {
     RendelesLeadasaCommand cmd = rendelesService.rendelesLeadas(asztalService.getById(asztalId));
     response.setContentType("text/plain");
     response.getOutputStream().write(cmd.getFileTartalom().getBytes(StandardCharsets.UTF_8));

@@ -34,4 +34,5 @@ public class Asztal {
     private Integer asztalSzam;
     @Builder.Default
     private String felhasznalo=" ";
+    private boolean leadott;
 }

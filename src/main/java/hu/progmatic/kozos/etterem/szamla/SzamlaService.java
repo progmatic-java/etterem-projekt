@@ -15,6 +15,7 @@ import hu.progmatic.kozos.etterem.asztal.AsztalService;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -41,7 +42,6 @@ public class SzamlaService {
     setTetelek(szamla);
     asztal.setSzamla(szamla);
     szamlaRepository.save(szamla);
-
   }
 
   private void setTetelek(Szamla szamla) {
@@ -226,27 +226,179 @@ public class SzamlaService {
     return asztalNev + " " + szamlaid + "-" + split + ".txt";
   }
   public String szamlaFileTartalom(Szamla szamla) {
-    String asztalNev = szamla.getAsztal().getNev();
     List<SzamlaTetel> tetelek = szamla.getTetelek();
-    String felhasznalo = felhasznaloService.getById(felhasznaloService.getFelhasznaloId()).getNev();
-    String szamlaString = asztalNev + "\nFelszolgáló: "+felhasznalo+"\n\n";
-    int vegosszeg = 0;
-    for (SzamlaTetel tetel : tetelek) {
-      if (szamla.isSplit() && tetel.getFizetettMennyiseg() > 0) {
-        vegosszeg = getFizetettVegosszeg(szamla);
-        szamlaString += tetel.getRendeles().getTermek().getNev() + " "
-                + tetel.getFizetettMennyiseg() + " "
-                + tetel.getRendeles().getTermek().getAr() + "\n";
-      } else if (!szamla.isSplit()) {
-        vegosszeg = getVegosszeg(szamla);
-        szamlaString += tetel.getRendeles().getTermek().getNev() + " "
-                + tetel.getNemFizetettMennyiseg() + " "
-                + tetel.getRendeles().getTermek().getAr() + "\n";
-      }
+    String szamlaString = "";
+    szamlaString += szamlaFejlec(
+        szamla.getAsztal().getNev(),
+        felhasznaloService.getById(felhasznaloService.getFelhasznaloId()).getNev()
+    );
+    if (szamla.isSplit()) {
+      szamlaString += splitSzamlaTorzs(tetelek);
+      szamlaString += splitSzamlaLab(buildSzamlaDto(szamla.getAsztal().getId()));
+    } else {
+      szamlaString += szamlaTorzs(tetelek);
+      szamlaString += szamlaLab(buildSzamlaDto(szamla.getAsztal().getId()));
     }
-    int servizDij = vegosszeg / 115 * 15;
-    szamlaString += "\nSzerviz díj: " + servizDij +
-            "\nVégösszeg: " + vegosszeg;
     return szamlaString;
+  }
+
+  private String szamlaFejlec(String asztalNev, String felszolgaloNev) {
+    String rajz = "";
+    felszolgaloNev = "Felszolgáló:" + felszolgaloNev;
+    int felszolgaloNevKezdoIndex = (35 - felszolgaloNev.length()) / 2;
+    for (int sor = 0; sor < 4; sor++) {
+      for (int oszlop = 0; oszlop < 35; oszlop++) {
+        if ((sor == 0 && oszlop == 0) || (sor == 0 && oszlop == 34) ||
+            (sor == 3 && oszlop == 0) || (sor == 3 && oszlop == 34)) {
+          rajz += "+";
+        } else if ((sor == 1 && oszlop == 0) || (sor == 1 && oszlop == 34) ||
+                   (sor == 2 && oszlop == 0) || (sor == 2 && oszlop == 34)) {
+          rajz += "|";
+        } else if (sor == 0 || sor == 3) {
+          rajz += "-";
+        } else if (sor == 1 && oszlop == 13) {
+          rajz += asztalNev;
+          oszlop += asztalNev.length() - 1;
+        } else if (sor == 2 && oszlop == felszolgaloNevKezdoIndex) {
+          rajz += felszolgaloNev;
+          oszlop += felszolgaloNev.length() - 1;
+        }
+        else {
+          rajz += " ";
+        }
+      }
+      rajz += "\n";
+    }
+    return rajz;
+  }
+
+  private String splitSzamlaTorzs(List<SzamlaTetel> tetelek) {
+    List<SzamlaTetel> fizetettTetelek = tetelek.stream()
+        .filter(tetel -> tetel.getFizetettMennyiseg() > 0)
+        .toList();
+    String rajz = "";
+    int tetelIndex = 0;
+    int sorokSzama = fizetettTetelek.size() + 2;
+    for (int sor = 0; sor < sorokSzama; sor++) {
+      for (int oszlop = 0; oszlop < 35; oszlop++) {
+        if ((sor == sorokSzama - 1 && oszlop == 0) || (sor == sorokSzama - 1 && oszlop == 34)) {
+          rajz += "+";
+        } else if ((sor != sorokSzama - 1 && oszlop == 0) || (sor != sorokSzama - 1 && oszlop == 34)) {
+          rajz += "|";
+        } else if (sor == sorokSzama - 1) {
+          rajz += "-";
+        } else if (sor == 0 && oszlop == 1) {
+          rajz += "    Tétel         Menny.    Ár   ";
+          oszlop += 32;
+        } else if (sor != sorokSzama - 1 && oszlop == 2) {
+          rajz += fizetettTetelek.get(tetelIndex).getRendeles().getTermek().getNev();
+          oszlop += tetelek.get(tetelIndex).getRendeles().getTermek().getNev().length() - 1;
+        } else if (sor != sorokSzama - 1 && oszlop == 21) {
+          rajz += tetelek.get(tetelIndex).getFizetettMennyiseg();
+          oszlop += tetelek.get(tetelIndex).getFizetettMennyiseg().toString().length() - 1;
+        } else if (sor != sorokSzama - 1 && oszlop == 28) {
+          rajz += tetelek.get(tetelIndex).getRendeles().getTermek().getAr();
+          oszlop += tetelek.get(tetelIndex).getRendeles().getTermek().getAr().toString().length() - 1;
+          tetelIndex++;
+        } else {
+          rajz += " ";
+        }
+      }
+      rajz += "\n";
+    }
+    return rajz;
+  }
+
+  private String szamlaTorzs(List<SzamlaTetel> tetelek) {
+    List<SzamlaTetel> nemFizetettTetelek = tetelek.stream()
+        .filter(tetel -> tetel.getFizetettMennyiseg() == 0 && tetel.getRendeles().getMennyiseg() > 0)
+        .toList();
+    String rajz = "";
+    int tetelIndex = 0;
+    int sorokSzama = nemFizetettTetelek.size() + 2;
+    for (int sor = 0; sor < sorokSzama; sor++) {
+      for (int oszlop = 0; oszlop < 35; oszlop++) {
+        if ((sor == sorokSzama - 1 && oszlop == 0) || (sor == sorokSzama - 1 && oszlop == 34)) {
+          rajz += "+";
+        } else if ((sor != sorokSzama - 1 && oszlop == 0) || (sor != sorokSzama - 1 && oszlop == 34)) {
+          rajz += "|";
+        } else if (sor == sorokSzama - 1) {
+          rajz += "-";
+        } else if (sor == 0 && oszlop == 1) {
+          rajz += "    Tétel         Menny.    Ár   ";
+          oszlop += 32;
+        } else if (sor != sorokSzama - 1 && oszlop == 2) {
+          rajz += nemFizetettTetelek.get(tetelIndex).getRendeles().getTermek().getNev();
+          oszlop += tetelek.get(tetelIndex).getRendeles().getTermek().getNev().length() - 1;
+        } else if (sor != sorokSzama - 1 && oszlop == 21) {
+          rajz += tetelek.get(tetelIndex).getNemFizetettMennyiseg();
+          oszlop += tetelek.get(tetelIndex).getNemFizetettMennyiseg().toString().length() - 1;
+        } else if (sor != sorokSzama - 1 && oszlop == 28) {
+          rajz += tetelek.get(tetelIndex).getRendeles().getTermek().getAr();
+          oszlop += tetelek.get(tetelIndex).getRendeles().getTermek().getAr().toString().length() - 1;
+          tetelIndex++;
+        } else {
+          rajz += " ";
+        }
+      }
+      rajz += "\n";
+    }
+    return rajz;
+  }
+
+  private String splitSzamlaLab(SzamlaDto dto) {
+    String rajz = "";
+    for (int sor = 0; sor < 4; sor++) {
+      for (int oszlop = 0; oszlop < 35; oszlop++) {
+        if ((sor == 3 && oszlop == 0) || (sor == 3 && oszlop == 34)) {
+          rajz += "+";
+        } else if ((sor != 3 && oszlop == 34) || (sor != 3 && oszlop == 0)) {
+          rajz += "|";
+        } else if (sor == 3) {
+          rajz += "-";
+        } else if (sor == 0 && oszlop == 2) {
+          rajz += "Végösszeg: " + dto.getFormazottFizetettVegosszeg() + " Ft";
+          oszlop += 14 + dto.getFormazottFizetettVegosszeg().length() - 1;
+        } else if (sor == 1 && oszlop == 2) {
+          rajz += "Szervízdíj: " + dto.getFormazottFizetettSzervizdij() + " Ft";
+          oszlop += 15 + dto.getFormazottFizetettSzervizdij().length() - 1;
+        } else if (sor == 2 && oszlop == 2) {
+          rajz += "Fizetendő összeg: " + dto.getFormazottFizetettFizetendoOsszeg() + " Ft";
+          oszlop += 21 + dto.getFormazottFizetettFizetendoOsszeg().length() - 1;
+        } else {
+          rajz += " ";
+        }
+      }
+      rajz += "\n";
+    }
+    return rajz;
+  }
+
+  private String szamlaLab(SzamlaDto dto) {
+    String rajz = "";
+    for (int sor = 0; sor < 4; sor++) {
+      for (int oszlop = 0; oszlop < 35; oszlop++) {
+        if ((sor == 3 && oszlop == 0) || (sor == 3 && oszlop == 34)) {
+          rajz += "+";
+        } else if ((sor != 3 && oszlop == 34) || (sor != 3 && oszlop == 0)) {
+          rajz += "|";
+        } else if (sor == 3) {
+          rajz += "-";
+        } else if (sor == 0 && oszlop == 2) {
+          rajz += "Végösszeg: " + dto.getFormazottVegosszeg() + " Ft";
+          oszlop += 14 + dto.getFormazottVegosszeg().length() - 1;
+        } else if (sor == 1 && oszlop == 2) {
+          rajz += "Szervízdíj: " + dto.getFormazottSzervizdij() + " Ft";
+          oszlop += 15 + dto.getFormazottSzervizdij().length() - 1;
+        } else if (sor == 2 && oszlop == 2) {
+          rajz += "Fizetendő összeg: " + dto.getFormazottFizetendoOsszeg() + " Ft";
+          oszlop += 21 + dto.getFormazottFizetendoOsszeg().length() - 1;
+        } else {
+          rajz += " ";
+        }
+      }
+      rajz += "\n";
+    }
+    return rajz;
   }
 }

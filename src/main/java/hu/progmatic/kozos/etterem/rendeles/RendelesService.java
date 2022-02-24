@@ -3,6 +3,7 @@ package hu.progmatic.kozos.etterem.rendeles;
 import hu.progmatic.kozos.etterem.asztal.Asztal;
 import hu.progmatic.kozos.etterem.asztal.AsztalRepository;
 import hu.progmatic.kozos.etterem.asztal.AsztalService;
+import hu.progmatic.kozos.etterem.asztal.TableViewDto;
 import hu.progmatic.kozos.etterem.leltar.Termek;
 import hu.progmatic.kozos.etterem.leltar.TermekService;
 import hu.progmatic.kozos.etterem.leltar.Tipus;

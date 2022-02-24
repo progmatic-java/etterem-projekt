@@ -27,6 +27,7 @@ public class TableViewDto implements Serializable {
   private String visszaGombLink;
   private Integer asztalSzam;
   private String felszolgalo;
+  private boolean leadott;
 
   @Builder
   @Data
