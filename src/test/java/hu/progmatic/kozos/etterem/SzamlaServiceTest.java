@@ -10,12 +10,14 @@ import hu.progmatic.kozos.etterem.szamla.*;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.test.context.support.WithUserDetails;
 
 import java.util.List;
 import java.util.NoSuchElementException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@WithUserDetails("admin")
 @SpringBootTest
 class SzamlaServiceTest {
   private SzamlaDto tesztSzamlaDto;
