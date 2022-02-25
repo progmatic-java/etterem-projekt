@@ -1,5 +1,8 @@
 package hu.progmatic.kozos.etterem;
 
+import hu.progmatic.kozos.etterem.leltar.Termek;
+import hu.progmatic.kozos.etterem.leltar.TermekService;
+import hu.progmatic.kozos.etterem.leltar.Tipus;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +15,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import static org.hamcrest.Matchers.containsString;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -23,6 +27,8 @@ public class LeltarControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
+    @Autowired
+    private TermekService termekService;
 
     @Test
     @DisplayName("Leltár oldal megjelenik")
@@ -53,10 +59,16 @@ public class LeltarControllerTest {
     @Test
     @DisplayName("Termék törlése")
     void törlés() throws Exception {
+        Termek teszTermek = termekService.create(Termek.builder()
+                .ar(1)
+                .nev("Teszt termek")
+                .tipus(Tipus.LEVES)
+                .build());
         mockMvc.perform(
-                        MockMvcRequestBuilders.post("/etterem/leltar/delete/20")
+                        MockMvcRequestBuilders.post("/etterem/leltar/delete/"+teszTermek.getId())
                 ).andExpect(status().isOk())
                 .andExpect(content().string(containsString("Húsleves gazdagon")));
+        assertNull(termekService.getByName("Teszt termek"));
     }
 
     @Test

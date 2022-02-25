@@ -1,6 +1,8 @@
 package hu.progmatic.kozos.etterem;
 
 import hu.progmatic.kozos.etterem.asztal.AsztalService;
+import hu.progmatic.kozos.etterem.leltar.TermekService;
+import hu.progmatic.kozos.etterem.leltar.Tipus;
 import hu.progmatic.kozos.etterem.szamla.SzamlaService;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
@@ -10,6 +12,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
@@ -20,13 +23,15 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WithMockUser("admin")
+@WithUserDetails("admin")
 @SpringBootTest
 @AutoConfigureMockMvc
 class AsztalControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
+    @Autowired
+    private TermekService termekService;
 
     @Test
     @DisplayName("Asztal főoldal megjelenik")
@@ -58,10 +63,11 @@ class AsztalControllerTest {
     @Test
     @DisplayName("Számla oldal megjelenik")
     void szamla() throws Exception {
+        int tesztId=termekService.findAllByTipus(Tipus.LEVES).stream().findFirst().get().getId();
         mockMvc.perform(
                         post("/etterem/asztal/6/ETEL/tipus/LEVES")
                                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                                .content("etteremTermekId=10&mennyiseg=1")
+                                .content("etteremTermekId="+tesztId+"&mennyiseg=1")
                 ).andDo(print())
                 .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
                 .andExpect(MockMvcResultMatchers.redirectedUrl("/etterem/asztal/6/ETEL/tipus/LEVES"));
