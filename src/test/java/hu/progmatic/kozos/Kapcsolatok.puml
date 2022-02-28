@@ -1,0 +1,68 @@
+@startuml
+'https://plantuml.com/mindmap-diagram
+
+title Étterem-Project
+
+entity Asztal {
+    +Integer id
+    +String nev
+    +Szamla szamla
+    +List<Rendeles> rendelesek
+    +Integer asztalSzam
+    +String felhasznalo
+    }
+
+entity Szamla {
+    +Integer id
+    +Asztal asztal
+    +List<SzamlaTetel> tetelek
+    +Boolean split
+}
+
+entity Rendeles {
+    +Integer id
+    +Termek termek
+    +Integer mennyiseg
+    +Asztal asztal
+    +Integer nemLeadottMennyiseg
+    +Integer leadottMennyiseg
+    +String komment
+}
+
+entity Termek {
+    +Integer id
+    +String nev
+    +Integer ar
+    +Tipus tipus
+}
+
+class SzamlaTetel {
+    +Integer id
+    +Szamla szamla
+    +Rendeles rendeles
+    +Integer fizetettMennyiseg
+    +Integer nemFizetettMennyiseg
+}
+
+enum Tipus {
+    +LEVES
+    +ELOETEL
+    +SERTESETEL
+    +HALETEL
+    +MARHAETEL
+    +DESSZERT
+    +ALKOHOL
+    +ROVIDITAL
+    +KOKTEL
+    +UDITO
+    +FORROITAL
+    +KAVE
+}
+
+Szamla::tetelek -> SzamlaTetel::szamla
+Asztal::szamla -> Szamla::asztal
+Asztal::rendelesek -down-> Rendeles::asztal
+Termek -left-> Rendeles::termek
+SzamlaTetel::rendeles -> Rendeles
+
+@enduml
