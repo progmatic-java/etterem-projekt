@@ -18,7 +18,3 @@
 * asztaltérkép dinamikussá tétele
 * készletgazdálkodás
 
-## Alkalmazás
-* http://164.92.204.195
-* belépéskor a jelszó megegyezik a felhasználónévvel ;)
-* üzenet/komment funkció megjelenése: a termék nevére kattintva a termék rendeléshez adása után
